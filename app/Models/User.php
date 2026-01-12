@@ -45,4 +45,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Relação com horários do aluno (pivot horario_user).
+     */
+    public function horarios()
+    {
+        return $this->belongsToMany(Horario::class, 'horario_user')
+            ->withTimestamps()
+            ->withPivot(['aprovado']);
+    }
 }

@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Professor\DashboardController as ProfessorDashboardController;
 use App\Http\Controllers\Aluno\DashboardController as AlunoDashboardController;
+use App\Http\Controllers\Professor\HorarioController;
+use App\Http\Controllers\Professor\RegraController;
+use App\Http\Controllers\Professor\ValorController;
+use App\Http\Controllers\Professor\ConfigController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +62,19 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
     // Route::resource('alunos', AlunoController::class);
     // Route::resource('treinos', TreinoController::class);
     // Route::get('relatorios', [RelatorioController::class, 'index'])->name('relatorios');
+
+    // Horários (CRUD básico)
+    Route::resource('horarios', HorarioController::class);
+
+    // Regras e Aceites (CRUD básico)
+    Route::resource('regras', RegraController::class);
+
+    // Valores (vezes por semana x preço)
+    Route::resource('valores', ValorController::class);
+
+    // Configurações (edição única)
+    Route::get('config', [ConfigController::class, 'edit'])->name('config.edit');
+    Route::put('config', [ConfigController::class, 'update'])->name('config.update');
 });
 
 /*
