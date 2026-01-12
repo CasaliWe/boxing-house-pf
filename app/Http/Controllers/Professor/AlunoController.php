@@ -13,7 +13,9 @@ class AlunoController extends Controller
     public function index(Request $request)
     {
         $status = $request->query('status'); // opcional: ativo, inativo, pendente
-        $query = User::where('role', 'aluno');
+        $query = User::where('role', 'aluno')->with(['horarios' => function($q){
+            $q->orderBy('dia_semana')->orderBy('hora_inicio');
+        }]);
         if (in_array($status, ['ativo','inativo','pendente'])) {
             $query->where('status', $status);
         }
