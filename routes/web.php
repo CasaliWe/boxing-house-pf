@@ -9,6 +9,7 @@ use App\Http\Controllers\Professor\RegraController;
 use App\Http\Controllers\Professor\ValorController;
 use App\Http\Controllers\Professor\ConfigController;
 use App\Http\Controllers\Professor\AprovacaoController;
+use App\Http\Controllers\Professor\AlunoController;
 use App\Http\Controllers\CadastroController;
 
 /*
@@ -91,6 +92,11 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
     Route::get('aprovacoes', [AprovacaoController::class, 'index'])->name('aprovacoes.index');
     Route::post('aprovacoes/{user}/aprovar', [AprovacaoController::class, 'aprovar'])
         ->name('aprovacoes.aprovar');
+
+    // Alunos (listar, alterar senha, deletar)
+    Route::get('alunos', [AlunoController::class, 'index'])->name('alunos.index');
+    Route::post('alunos/{user}/senha', [AlunoController::class, 'alterarSenha'])->name('alunos.senha');
+    Route::delete('alunos/{user}', [AlunoController::class, 'destroy'])->name('alunos.destroy');
 });
 
 /*
