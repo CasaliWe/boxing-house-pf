@@ -43,6 +43,9 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'vencimento_at' => 'date',
+            'saude_problema' => 'boolean',
+            'restricao_medica' => 'boolean',
         ];
     }
 

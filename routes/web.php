@@ -8,6 +8,8 @@ use App\Http\Controllers\Professor\HorarioController;
 use App\Http\Controllers\Professor\RegraController;
 use App\Http\Controllers\Professor\ValorController;
 use App\Http\Controllers\Professor\ConfigController;
+use App\Http\Controllers\Professor\AprovacaoController;
+use App\Http\Controllers\CadastroController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +44,15 @@ Route::get('/', function () {
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
+
+    // Fluxo público de cadastro (3 etapas)
+    Route::get('/cadastro', [CadastroController::class, 'step1'])->name('cadastro.step1');
+    Route::post('/cadastro', [CadastroController::class, 'postStep1'])->name('cadastro.step1.post');
+    Route::get('/cadastro/etapa-2', [CadastroController::class, 'step2'])->name('cadastro.step2');
+    Route::post('/cadastro/etapa-2', [CadastroController::class, 'postStep2'])->name('cadastro.step2.post');
+    Route::get('/cadastro/etapa-3', [CadastroController::class, 'step3'])->name('cadastro.step3');
+    Route::post('/cadastro/etapa-3', [CadastroController::class, 'postStep3'])->name('cadastro.step3.post');
+    Route::get('/cadastro/final', [CadastroController::class, 'final'])->name('cadastro.final');
 });
 
 // Logout (apenas usuários autenticados)
@@ -75,6 +86,11 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
     // Configurações (edição única)
     Route::get('config', [ConfigController::class, 'edit'])->name('config.edit');
     Route::put('config', [ConfigController::class, 'update'])->name('config.update');
+
+    // Aprovações (listar pendentes e aprovar)
+    Route::get('aprovacoes', [AprovacaoController::class, 'index'])->name('aprovacoes.index');
+    Route::post('aprovacoes/{user}/aprovar', [AprovacaoController::class, 'aprovar'])
+        ->name('aprovacoes.aprovar');
 });
 
 /*
