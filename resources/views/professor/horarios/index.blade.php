@@ -35,7 +35,7 @@
                             </div>
                             <div class="text-right">
                                 <div class="text-gray-300 text-sm">Alunos</div>
-                                <div class="text-blue-400 text-2xl font-bold">{{ $horario->alunos_aprovados_count }} / {{ \App\Models\Horario::LIMITE_ALUNOS }}</div>
+                                <div class="text-blue-400 text-2xl font-bold">{{ $horario->alunos->count() }} / {{ \App\Models\Horario::LIMITE_ALUNOS }}</div>
                             </div>
                         </div>
 
