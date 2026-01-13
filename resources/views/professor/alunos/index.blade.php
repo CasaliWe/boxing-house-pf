@@ -60,6 +60,7 @@
                                         <div class="text-white">{{ $u->contato_emergencia_nome ?: '-' }} | {{ $u->contato_emergencia_whatsapp ?: '-' }}</div>
                                     </div>
                                     <div>
+                                        <div class="text-red-400 text-sm hidden" data-limit-warning></div>
                                         <div class="text-gray-400 text-sm">Nascimento</div>
                                         <div class="text-white">{{ $u->data_nascimento ? \Illuminate\Support\Carbon::parse($u->data_nascimento)->format('d/m/Y') : '-' }}</div>
                                     </div>
@@ -110,6 +111,43 @@
                                         </ul>
                                     @endif
                                 </div>
+
+                                <div class="mt-6">
+                                    <div class="text-gray-400 text-sm mb-2">Editar horários</div>
+                                    <form method="POST" action="{{ route('professor.alunos.horarios', $u) }}" class="space-y-4" data-max="{{ (int)($u->plano_vezes ?? 0) }}">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            @php
+                                                $selecionados = $u->horarios->pluck('id')->all();
+                                            @endphp
+                                            @foreach($horarios as $h)
+                                                @php
+                                                    $temVaga = $h->vagas_disponiveis > 0;
+                                                    $jaSelecionado = in_array($h->id, $selecionados);
+                                                @endphp
+                                                <label class="flex items-center gap-2 bg-gray-800 border border-gray-700 rounded p-2">
+                                                    <input type="checkbox" name="horarios[]" value="{{ $h->id }}" class="rounded"
+                                                        {{ $jaSelecionado ? 'checked' : '' }}
+                                                        {{ !$temVaga && !$jaSelecionado ? 'disabled' : '' }}
+                                                        data-initial-disabled="{{ (!$temVaga && !$jaSelecionado) ? '1' : '0' }}">
+                                                    <span class="text-gray-200">
+                                                        {{ $h->dia_semana_label }} - {{ \Illuminate\Support\Carbon::parse($h->hora_inicio)->format('H:i') }}
+                                                        <span class="ml-2 text-xs px-2 py-0.5 rounded {{ $temVaga ? 'bg-green-700 text-white' : 'bg-red-700 text-white' }}">
+                                                            {{ $temVaga ? ($h->vagas_disponiveis.' vaga(s)') : 'Sem vagas' }}
+                                                        </span>
+                                                    </span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                        <div class="text-red-400 text-sm hidden" data-limit-warning></div>
+                                        <div class="text-xs text-gray-400" data-counter></div>
+                                        <div class="text-xs text-gray-400">Dica: respeite o plano do aluno ({{ $u->plano_vezes ?: '-' }}x/semana).</div>
+                                        <div>
+                                            <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">Salvar horários</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </td>
@@ -150,13 +188,13 @@
     </div>
 </div>
 <div id="studentModal" class="fixed inset-0 z-50 hidden">
-    <div class="absolute inset-0 bg-black/70"></div>
-    <div class="relative max-w-3xl mx-auto mt-16 bg-gray-900 border border-gray-700 rounded-xl p-6 text-gray-200">
-        <div class="flex justify-between items-center mb-4">
+    <div id="studentModalOverlay" class="absolute inset-0 bg-black/70"></div>
+    <div class="relative w-full max-w-3xl mx-auto mt-16 bg-gray-900 border border-gray-700 rounded-xl text-gray-200 shadow-lg flex flex-col">
+        <div class="sticky top-0 flex justify-between items-center px-6 py-4 border-b border-gray-700 bg-gray-900 rounded-t-xl">
             <h2 class="text-xl font-semibold">Detalhes do Aluno</h2>
             <button id="closeStudentModal" class="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded">Fechar</button>
         </div>
-        <div id="studentModalContent" class="space-y-2"></div>
+        <div id="studentModalContent" class="px-6 py-4 space-y-4 max-h-[70vh] overflow-y-auto"></div>
     </div>
 </div>
 <script>
@@ -164,6 +202,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const modal = document.getElementById('studentModal');
     const content = document.getElementById('studentModalContent');
     const closeBtn = document.getElementById('closeStudentModal');
+    const overlay = document.getElementById('studentModalOverlay');
     document.querySelectorAll('[data-detail-id]').forEach(btn => {
         btn.addEventListener('click', () => {
             const id = btn.getAttribute('data-detail-id');
@@ -171,9 +210,56 @@ document.addEventListener('DOMContentLoaded', function(){
             if(!tpl) return;
             content.innerHTML = tpl.innerHTML;
             modal.classList.remove('hidden');
+
+            // Limitar seleção de horários pelo plano do aluno
+            const form = content.querySelector('form[data-max]');
+            if (form) {
+                const max = parseInt(form.dataset.max, 10);
+                const warn = form.querySelector('[data-limit-warning]');
+                const counter = form.querySelector('[data-counter]');
+                const boxes = Array.from(form.querySelectorAll('input[name="horarios[]"]'));
+                const showWarn = (msg) => {
+                    if (warn) { warn.textContent = msg; warn.classList.remove('hidden'); }
+                };
+                const hideWarn = () => {
+                    if (warn) { warn.classList.add('hidden'); }
+                };
+                const updateState = () => {
+                    const checkedCount = boxes.filter(b => b.checked).length;
+                    if (counter) {
+                        if (Number.isFinite(max) && max > 0) {
+                            counter.textContent = `Selecionados: ${checkedCount} de ${max}`;
+                        } else {
+                            counter.textContent = '';
+                        }
+                    }
+                    hideWarn();
+                    if (Number.isFinite(max) && max > 0) {
+                        const limitReached = checkedCount >= max;
+                        boxes.forEach(b => {
+                            if (!b.checked) {
+                                const initiallyDisabled = b.dataset.initialDisabled === '1';
+                                b.disabled = limitReached ? true : (initiallyDisabled ? true : false);
+                            }
+                        });
+                    }
+                };
+                boxes.forEach(box => {
+                    box.addEventListener('change', () => {
+                        const checkedCount = boxes.filter(b => b.checked).length;
+                        if (Number.isFinite(max) && max > 0 && checkedCount > max) {
+                            box.checked = false;
+                            showWarn(`Você só pode selecionar ${max} horário(s) conforme o plano.`);
+                        }
+                        updateState();
+                    });
+                });
+                updateState();
+            }
         });
     });
     closeBtn.addEventListener('click', ()=> modal.classList.add('hidden'));
+    overlay.addEventListener('click', ()=> modal.classList.add('hidden'));
 });
 </script>
 @endsection

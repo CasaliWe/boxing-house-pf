@@ -96,6 +96,7 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
     // Alunos (listar, alterar senha, deletar)
     Route::get('alunos', [AlunoController::class, 'index'])->name('alunos.index');
     Route::post('alunos/{user}/senha', [AlunoController::class, 'alterarSenha'])->name('alunos.senha');
+    Route::put('alunos/{user}/horarios', [AlunoController::class, 'atualizarHorarios'])->name('alunos.horarios');
     Route::delete('alunos/{user}', [AlunoController::class, 'destroy'])->name('alunos.destroy');
 });
 

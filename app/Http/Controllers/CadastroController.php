@@ -59,6 +59,7 @@ class CadastroController extends Controller
         $dados = $request->validate([
             'plano_vezes' => ['required', 'integer', 'between:1,5'],
             'horarios' => ['required', 'array'],
+            'horarios.*' => ['integer', 'exists:horarios,id'],
         ], [
             'plano_vezes.required' => 'Selecione um plano (vezes por semana).',
             'horarios.required' => 'Selecione os horários desejados.',
@@ -69,6 +70,17 @@ class CadastroController extends Controller
         $selecionados = $dados['horarios'];
         if (count($selecionados) !== $quant) {
             return back()->withErrors(['horarios' => 'Selecione exatamente ' . $quant . ' horário(s).'])->withInput();
+        }
+
+        // Impedir seleção de horários FULL (sem vagas aprovadas)
+        $semVaga = [];
+        foreach (\App\Models\Horario::whereIn('id', $selecionados)->get() as $h) {
+            if ($h->vagas_disponiveis <= 0) {
+                $semVaga[] = $h->dia_semana_label.' '.\Illuminate\Support\Carbon::parse($h->hora_inicio)->format('H:i');
+            }
+        }
+        if (!empty($semVaga)) {
+            return back()->withErrors(['horarios' => 'Os seguintes horários estão FULL e não podem ser selecionados: '.implode(', ', $semVaga)])->withInput();
         }
 
         session(['cadastro' => array_merge(session('cadastro', []), [

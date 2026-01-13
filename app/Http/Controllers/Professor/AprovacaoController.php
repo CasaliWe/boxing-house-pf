@@ -64,9 +64,11 @@ class AprovacaoController extends Controller
         }
 
         // Tentar enviar e-mail com credenciais
+        $emailFalhou = false;
         try {
             Mail::to($user->email)->send(new CredenciaisAlunoMail($user, $plain));
         } catch (\Throwable $e) {
+            $emailFalhou = true;
             Log::error('Falha ao enviar e-mail de credenciais: '.$e->getMessage());
         }
 
@@ -78,6 +80,10 @@ class AprovacaoController extends Controller
             $msg .= ' Sem vagas em: '.implode(', ', $lotados).'.';
         }
 
-        return redirect()->route('professor.aprovacoes.index')->with('success', $msg);
+        $redirect = redirect()->route('professor.aprovacoes.index')->with('success', $msg);
+        if ($emailFalhou) {
+            $redirect->with('warning', 'Aluno aprovado, porém o e-mail de credenciais não pôde ser enviado. Verifique as configurações de e-mail.');
+        }
+        return $redirect;
     }
 }

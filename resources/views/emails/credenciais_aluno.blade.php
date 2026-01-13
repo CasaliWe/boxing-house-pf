@@ -1,10 +1,4 @@
 <div style="font-family: Arial, sans-serif; color:#111;">
-    <h2>Bem-vindo(a), {{ $user->name }}!</h2>
-    <p>Seu cadastro foi aprovado na <strong>Boxing House PF</strong>.</p>
-    <p>Acesse o sistema pelo link: <a href="{{ config('app.url') }}">{{ config('app.url') }}</a></p>
-    <p>
-        <strong>Login:</strong> {{ $user->email }}<br>
-        <strong>Senha inicial:</strong> {{ $senha }}
     <!-- Email profissional - Boxing House PF -->
     <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:#f3f4f6;padding:24px 0;font-family: Arial, Helvetica, sans-serif;">
         <tr>

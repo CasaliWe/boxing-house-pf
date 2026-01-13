@@ -33,17 +33,28 @@
                 <label class="block text-sm font-medium text-gray-300 mb-2">Selecione os horários (de acordo com o plano)</label>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     @foreach($horarios as $h)
-                        <label class="border border-gray-600 rounded-lg p-4 bg-gray-800/40 flex items-center gap-3 cursor-pointer hover:border-blue-500">
-                            <input type="checkbox" name="horarios[]" value="{{ $h->id }}" {{ in_array($h->id, old('horarios', $data['horarios'] ?? [])) ? 'checked' : '' }} class="text-blue-500">
+                        @php
+                            $temVaga = $h->vagas_disponiveis > 0;
+                        @endphp
+                        <label class="border border-gray-600 rounded-lg p-4 bg-gray-800/40 flex items-center gap-3 {{ $temVaga ? 'cursor-pointer hover:border-blue-500' : 'cursor-not-allowed opacity-70' }}">
+                            <input type="checkbox" name="horarios[]" value="{{ $h->id }}"
+                                   {{ in_array($h->id, old('horarios', $data['horarios'] ?? [])) ? 'checked' : '' }}
+                                   {{ $temVaga ? '' : 'disabled' }}
+                                   class="text-blue-500">
                             <div>
-                                <div class="text-white font-semibold">{{ $h->dia_semana_label }}</div>
+                                <div class="text-white font-semibold flex items-center gap-2">
+                                    <span>{{ $h->dia_semana_label }}</span>
+                                    <span class="text-xs px-2 py-0.5 rounded {{ $temVaga ? 'bg-green-700 text-white' : 'bg-red-700 text-white' }}">
+                                        {{ $temVaga ? ($h->vagas_disponiveis.' vaga(s)') : 'FULL' }}
+                                    </span>
+                                </div>
                                 <div class="text-gray-300">{{ \Illuminate\Support\Carbon::parse($h->hora_inicio)->format('H:i') }} - {{ \Illuminate\Support\Carbon::parse($h->hora_fim)->format('H:i') }}</div>
                             </div>
                         </label>
                     @endforeach
                 </div>
                 @error('horarios')<div class="text-red-400 text-sm mt-2">{{ $message }}</div>@enderror
-                <p class="text-xs text-gray-400 mt-2">Obs.: Mostramos todos os horários disponíveis no sistema, mesmo turmas cheias; escolha conforme seu plano.</p>
+                <p class="text-xs text-gray-400 mt-2">Obs.: Horários marcados como FULL estão lotados e não podem ser selecionados.</p>
             </div>
 
             <div class="flex justify-between">
