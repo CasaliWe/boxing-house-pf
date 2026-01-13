@@ -5,6 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <!-- SEO -->
+    <meta name="description" content="Boxing House PF - Sistema de academia de boxe: gestão de alunos, treinos, horários e sequências.">
+    <meta name="keywords" content="boxe, academia, treinos, boxing house, professor, aluno">
+    <meta name="author" content="Boxing House PF">
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    <!-- Open Graph / WhatsApp thumb -->
+    <meta property="og:site_name" content="Boxing House PF">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ config('app.name', 'Boxing House PF') }}">
+    <meta property="og:description" content="Gerencie seus treinos e horários na Boxing House PF.">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ asset('favicon.png') }}">
+    <meta property="og:image:alt" content="Boxing House PF">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ config('app.name', 'Boxing House PF') }}">
+    <meta name="twitter:description" content="Gerencie seus treinos e horários na Boxing House PF.">
+    <meta name="twitter:image" content="{{ asset('favicon.png') }}">
+
+    <!-- PWA -->
+    <meta name="theme-color" content="#0ea5e9">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <title>{{ config('app.name', 'Boxing House PF') }} - @yield('title', 'Dashboard')</title>
 
     <!-- Fonts -->
@@ -109,6 +138,15 @@
                 overlay.addEventListener('click', function() {
                     sidebar.classList.add('-translate-x-full');
                     overlay.classList.add('hidden');
+                });
+            }
+
+            // PWA: registrar service worker
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('{{ asset('sw.js') }}').catch(function(err){
+                        console.error('SW registration failed', err);
+                    });
                 });
             }
         });
