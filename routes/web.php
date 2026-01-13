@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Professor\DashboardController as ProfessorDashboardController;
 use App\Http\Controllers\Aluno\DashboardController as AlunoDashboardController;
+use App\Http\Controllers\Aluno\RegrasController as AlunoRegrasController;
+use App\Http\Controllers\Aluno\PerfilController as AlunoPerfilController;
+use App\Http\Controllers\Aluno\MeusHorariosController as AlunoMeusHorariosController;
 use App\Http\Controllers\Professor\HorarioController;
 use App\Http\Controllers\Professor\RegraController;
 use App\Http\Controllers\Professor\ValorController;
@@ -109,8 +112,14 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
 Route::middleware(['auth', 'role:aluno'])->prefix('aluno')->name('aluno.')->group(function () {
     Route::get('/dashboard', [AlunoDashboardController::class, 'index'])->name('dashboard');
     
-    // Futuras rotas do aluno
-    // Route::get('treinos', [TreinoController::class, 'meusTreeinos'])->name('treinos');
-    // Route::get('perfil', [PerfilController::class, 'edit'])->name('perfil');
-    // Route::get('historico', [HistoricoController::class, 'index'])->name('historico');
+    // Regras do CT
+    Route::get('regras', [AlunoRegrasController::class, 'index'])->name('regras');
+
+    // Meu Perfil
+    Route::get('perfil', [AlunoPerfilController::class, 'edit'])->name('perfil');
+    Route::put('perfil', [AlunoPerfilController::class, 'update'])->name('perfil.update');
+
+    // Meus Horários
+    Route::get('horarios', [AlunoMeusHorariosController::class, 'index'])->name('horarios');
+    Route::put('horarios', [AlunoMeusHorariosController::class, 'update'])->name('horarios.update');
 });
