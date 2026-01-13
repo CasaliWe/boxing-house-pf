@@ -13,6 +13,8 @@ use App\Http\Controllers\Professor\ValorController;
 use App\Http\Controllers\Professor\ConfigController;
 use App\Http\Controllers\Professor\AprovacaoController;
 use App\Http\Controllers\Professor\AlunoController;
+use App\Http\Controllers\Professor\TreinoController;
+use App\Http\Controllers\Professor\AulaSequenciaController;
 use App\Http\Controllers\CadastroController;
 
 /*
@@ -101,6 +103,14 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
     Route::post('alunos/{user}/senha', [AlunoController::class, 'alterarSenha'])->name('alunos.senha');
     Route::put('alunos/{user}/horarios', [AlunoController::class, 'atualizarHorarios'])->name('alunos.horarios');
     Route::delete('alunos/{user}', [AlunoController::class, 'destroy'])->name('alunos.destroy');
+
+    // Treinos (CRUD básico com foto e presença de alunos)
+    Route::resource('treinos', TreinoController::class);
+
+    // Sequência de Aulas (CRUD)
+    Route::resource('aulas-sequencia', AulaSequenciaController::class)->parameters([
+        'aulas-sequencia' => 'sequencia'
+    ]);
 });
 
 /*
@@ -122,4 +132,7 @@ Route::middleware(['auth', 'role:aluno'])->prefix('aluno')->name('aluno.')->grou
     // Meus Horários
     Route::get('horarios', [AlunoMeusHorariosController::class, 'index'])->name('horarios');
     Route::put('horarios', [AlunoMeusHorariosController::class, 'update'])->name('horarios.update');
+
+    // Meus Treinos
+    Route::get('treinos', [\App\Http\Controllers\Aluno\TreinosController::class, 'index'])->name('treinos');
 });

@@ -77,11 +77,20 @@
             </div>
 
             <div class="px-4 mb-2">
-                <a href="#" class="flex items-center px-6 py-4 text-gray-300 hover:text-white rounded-lg transition-all duration-300 nav-hover hover:bg-gradient-blue">
+                <a href="{{ route('professor.treinos.index') }}" class="flex items-center px-6 py-4 text-gray-300 hover:text-white rounded-lg transition-all duration-300 nav-hover {{ request()->routeIs('professor.treinos.*') ? 'bg-gradient-blue text-white' : 'hover:bg-gradient-blue' }}">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                     </svg>
                     Treinos
+                </a>
+            </div>
+
+            <div class="px-4 mb-2">
+                <a href="{{ route('professor.aulas-sequencia.index') }}" class="flex items-center px-6 py-4 text-gray-300 hover:text-white rounded-lg transition-all duration-300 nav-hover {{ request()->routeIs('professor.aulas-sequencia.*') ? 'bg-gradient-blue text-white' : 'hover:bg-gradient-blue' }}">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                    Sequência de Aulas
                 </a>
             </div>
 
@@ -129,6 +138,15 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v11a2 2 0 002 2z" />
                     </svg>
                     Meus Horários
+                </a>
+            </div>
+
+            <div class="px-4 mb-2">
+                <a href="{{ route('aluno.treinos') }}" class="flex items-center px-6 py-4 text-gray-300 hover:text-white rounded-lg transition-all duration-300 nav-hover {{ request()->routeIs('aluno.treinos') ? 'bg-gradient-blue text-white' : 'hover:bg-gradient-blue' }}">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                    Meus Treinos
                 </a>
             </div>
         @endif

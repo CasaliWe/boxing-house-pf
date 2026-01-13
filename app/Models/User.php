@@ -58,4 +58,12 @@ class User extends Authenticatable
             ->withTimestamps()
             ->withPivot(['aprovado']);
     }
+    
+    /**
+     * Treinos onde o aluno esteve presente.
+     */
+    public function treinos()
+    {
+        return $this->belongsToMany(\App\Models\Treino::class, 'treino_user')->withTimestamps();
+    }
 }
