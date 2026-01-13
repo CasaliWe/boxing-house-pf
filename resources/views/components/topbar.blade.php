@@ -7,7 +7,7 @@
     </button>
 
     <div class="flex items-center space-x-4 ml-auto">
-        <div class="text-gray-300 text-sm">
+        <div class="ml-8 text-gray-300 text-sm">
             <span class="font-medium">{{ auth()->user()->name }}</span>
             <span class="text-blue-400 ml-2">({{ ucfirst(auth()->user()->role) }})</span>
         </div>

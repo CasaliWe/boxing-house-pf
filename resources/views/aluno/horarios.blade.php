@@ -5,9 +5,6 @@
 @section('content')
 <div class="max-w-4xl mx-auto p-6">
     <h1 class="text-2xl font-semibold text-blue-400 mb-4">🗓️ Meus Horários</h1>
-    @if(session('success'))
-        <div class="mb-4 px-4 py-3 bg-green-700 text-white rounded">{{ session('success') }}</div>
-    @endif
     @error('horarios')
         <div class="mb-4 px-4 py-3 bg-red-700 text-white rounded">{{ $message }}</div>
     @enderror
