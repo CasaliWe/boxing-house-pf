@@ -10,56 +10,57 @@
         <p class="text-gray-400">Seu portal de treinamento na Boxing House PF</p>
     </div>
 
-    <!-- Stats Cards -->
+    <!-- Cards principais -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Próximo Treino -->
         <div class="bg-gradient-card border border-gray-600 rounded-xl p-6 text-center">
-            <div class="text-blue-400 text-xl font-bold">Em breve</div>
-            <div class="text-gray-300 text-sm mt-2">Próximo Treino</div>
+            <div class="text-gray-300 text-sm mb-2">Próximo treino</div>
+            @if($proximoTreino)
+                <div class="text-blue-400 text-xl font-bold">{{ $proximoTreino['dia_label'] }}</div>
+                <div class="text-white text-2xl font-semibold mt-1">{{ $proximoTreino['hora'] }}</div>
+                <div class="text-gray-400 text-xs mt-1">{{ $proximoTreino['date']->format('d/m/Y') }}</div>
+            @else
+                <div class="text-gray-300">Sem horários definidos</div>
+            @endif
         </div>
-        
+
+        <!-- Total de Aulas -->
         <div class="bg-gradient-card border border-gray-600 rounded-xl p-6 text-center">
-            <div class="text-green-400 text-xl font-bold">Em breve</div>
-            <div class="text-gray-300 text-sm mt-2">Treinos Este Mês</div>
+            <div class="text-gray-300 text-sm mb-2">Total de aulas</div>
+            <div class="text-green-400 text-4xl font-bold">{{ $totalAulas }}</div>
+            <div class="text-gray-400 text-xs mt-1">Sequenciais e especiais somadas</div>
         </div>
-        
-        <div class="bg-gradient-card border border-gray-600 rounded-xl p-6 text-center">
-            <div class="text-yellow-400 text-xl font-bold">Em breve</div>
-            <div class="text-gray-300 text-sm mt-2">Seu Nível</div>
+
+        <!-- O que já aprendi -->
+        <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
+            <div class="text-gray-300 text-sm mb-3 text-center">O que já aprendi</div>
+            @if(empty($aprendizados))
+                <div class="text-center text-gray-300">Sem registros ainda</div>
+            @else
+                <div class="space-y-2 max-h-40 overflow-auto">
+                    @foreach($aprendizados as $item)
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="text-xs text-gray-400">Aula {{ $item['numero'] }}</div>
+                            <div class="text-gray-200 text-sm flex-1 text-right">{{ $item['descricao'] }}</div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="bg-gradient-card border border-gray-600 rounded-xl p-8">
-        <div class="text-center">
-            <div class="text-6xl mb-4">🚧</div>
-            <h3 class="text-2xl font-bold text-blue-400 mb-4">Sistema em Desenvolvimento</h3>
-            <p class="text-gray-300 mb-8">Novas funcionalidades serão adicionadas em breve!</p>
-            
-            <!-- Future Features -->
-            <div class="bg-gray-800 bg-opacity-50 rounded-lg p-6 max-w-md mx-auto">
-                <h4 class="text-lg font-semibold text-blue-400 mb-4">O que você poderá fazer:</h4>
-                <ul class="space-y-2 text-left text-gray-300">
-                    <li class="flex items-center">
-                        <span class="text-blue-400 mr-2">•</span>
-                        🥊 Visualizar seus treinos agendados
-                    </li>
-                    <li class="flex items-center">
-                        <span class="text-blue-400 mr-2">•</span>
-                        📊 Acompanhar seu progresso
-                    </li>
-                    <li class="flex items-center">
-                        <span class="text-blue-400 mr-2">•</span>
-                        📅 Agendar novas aulas
-                    </li>
-                    <li class="flex items-center">
-                        <span class="text-blue-400 mr-2">•</span>
-                        💪 Histórico de treinamentos
-                    </li>
-                    <li class="flex items-center">
-                        <span class="text-blue-400 mr-2">•</span>
-                        👤 Gerenciar seu perfil
-                    </li>
-                </ul>
+    <!-- Ações rápidas -->
+    <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h3 class="text-xl font-bold text-blue-400">Ações rápidas</h3>
+                <p class="text-gray-400 text-sm">Acesse suas principais páginas com um clique</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="{{ route('aluno.treinos') }}" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white">Ver Meus Treinos</a>
+                <a href="{{ route('aluno.perfil') }}" class="px-4 py-2 rounded-lg border border-gray-600 text-gray-200 hover:bg-gray-700">Meu Perfil</a>
+                <a href="{{ route('aluno.horarios') }}" class="px-4 py-2 rounded-lg border border-gray-600 text-gray-200 hover:bg-gray-700">Meus Horários</a>
+                <a href="{{ route('aluno.regras') }}" class="px-4 py-2 rounded-lg border border-gray-600 text-gray-200 hover:bg-gray-700">Regras do CT</a>
             </div>
         </div>
     </div>
