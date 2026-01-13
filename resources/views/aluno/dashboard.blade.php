@@ -33,15 +33,18 @@
 
         <!-- O que já aprendi -->
         <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
-            <div class="text-gray-300 text-sm mb-3 text-center">O que já aprendi</div>
+            <div class="flex items-center justify-between mb-3">
+                <div class="text-gray-300 text-sm">O que já aprendi</div>
+                <a href="{{ route('aluno.treinos') }}" class="text-xs text-blue-400 hover:underline">ver todos</a>
+            </div>
             @if(empty($aprendizados))
                 <div class="text-center text-gray-300">Sem registros ainda</div>
             @else
-                <div class="space-y-2 max-h-40 overflow-auto">
+                <div class="max-h-40 overflow-auto divide-y divide-gray-700 rounded border border-gray-700">
                     @foreach($aprendizados as $item)
-                        <div class="flex items-start justify-between gap-3">
-                            <div class="text-xs text-gray-400">Aula {{ $item['numero'] }}</div>
-                            <div class="text-gray-200 text-sm flex-1 text-right">{{ $item['descricao'] }}</div>
+                        <div class="flex items-center gap-3 p-3">
+                            <span class="px-2 py-1 text-xs rounded bg-green-700 text-green-100">Aula {{ $item['numero'] }}</span>
+                            <span class="text-gray-200 text-sm">{{ $item['descricao'] }}</span>
                         </div>
                     @endforeach
                 </div>
