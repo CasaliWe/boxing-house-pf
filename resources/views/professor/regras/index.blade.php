@@ -4,12 +4,12 @@
 
 @section('content')
 <div class="space-y-8">
-    <div class="flex items-center justify-between flex-col gap-4 sm:flex-row">
-        <div>
-            <h1 class="text-3xl font-bold text-blue-400">📜 Regras e Aceites</h1>
-            <p class="text-gray-400">Gerencie as regras da academia e os termos de aceite apresentados aos alunos.</p>
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="w-full sm:w-auto">
+            <h1 class="text-2xl md:text-3xl font-bold text-blue-400">📜 Regras e Aceites</h1>
+            <p class="text-gray-400 text-sm md:text-base">Gerencie as regras da academia e os termos de aceite apresentados aos alunos.</p>
         </div>
-        <a href="{{ route('professor.regras.create') }}" class="bg-gradient-blue text-white px-5 py-3 rounded-lg font-medium hover:opacity-95 transition">+ Nova Regra/Aceite</a>
+        <a href="{{ route('professor.regras.create') }}" class="bg-gradient-blue text-white px-5 py-3 rounded-lg font-medium hover:opacity-95 transition w-full sm:w-auto text-center">+ Nova Regra/Aceite</a>
     </div>
 
     <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">

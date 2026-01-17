@@ -25,7 +25,7 @@
 
                 <div>
                     <label for="whatsapp" class="block text-sm font-medium text-gray-300 mb-2">WhatsApp da Academia</label>
-                    <input type="text" id="whatsapp" name="whatsapp" value="{{ old('whatsapp', $config->whatsapp) }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex.: (11) 99999-9999 ou link wa.me">
+                    <input type="text" id="whatsapp" name="whatsapp" value="{{ old('whatsapp', $config->whatsapp) }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="(54) 9 91538488">
                     @error('whatsapp')
                         <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
                     @enderror
@@ -55,4 +55,25 @@
         </form>
     </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    function onlyDigits(str){ return (str||'').replace(/\D+/g,''); }
+    function formatWhatsapp(raw){
+        const d = onlyDigits(raw);
+        const dd = d.slice(0,2);
+        const nine = d.slice(2,3);
+        const rest = d.slice(3,11);
+        let out = '';
+        if(dd){ out += '('+dd+')'; }
+        if(nine){ out += ' '+nine; }
+        if(rest){ out += ' '+rest; }
+        return out.trim();
+    }
+    const wa = document.getElementById('whatsapp');
+    if(wa){
+        wa.addEventListener('input', function(){ wa.value = formatWhatsapp(wa.value); });
+        wa.addEventListener('blur', function(){ wa.value = formatWhatsapp(wa.value); });
+    }
+});
+</script>
 @endsection

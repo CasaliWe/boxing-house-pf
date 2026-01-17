@@ -77,6 +77,15 @@
             transform: translateX(4px);
         }
         
+        /* Oculta a scrollbar da sidebar mantendo a rolagem funcional */
+        #sidebar nav {
+            -ms-overflow-style: none; /* IE e Edge */
+            scrollbar-width: none;    /* Firefox */
+        }
+        #sidebar nav::-webkit-scrollbar { /* Chrome, Safari, Opera */
+            display: none;
+        }
+        
         /* Garantir que o mobile menu funcione corretamente */
         @media (max-width: 767px) {
             #sidebar {
