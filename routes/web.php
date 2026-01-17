@@ -15,7 +15,7 @@ use App\Http\Controllers\Professor\AprovacaoController;
 use App\Http\Controllers\Professor\AlunoController;
 use App\Http\Controllers\Professor\TreinoController;
 use App\Http\Controllers\Professor\AulaSequenciaController;
-use App\Http\Controllers\CadastroController;
+use App\Http\Controllers\Publico\CadastroController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,11 +74,6 @@ Route::post('/logout', [LoginController::class, 'logout'])
 
 Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('professor.')->group(function () {
     Route::get('/dashboard', [ProfessorDashboardController::class, 'index'])->name('dashboard');
-    
-    // Futuras rotas do professor
-    // Route::resource('alunos', AlunoController::class);
-    // Route::resource('treinos', TreinoController::class);
-    // Route::get('relatorios', [RelatorioController::class, 'index'])->name('relatorios');
 
     // Horários (CRUD básico)
     Route::resource('horarios', HorarioController::class);

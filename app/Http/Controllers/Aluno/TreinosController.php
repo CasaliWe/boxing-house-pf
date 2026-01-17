@@ -32,7 +32,7 @@ class TreinosController extends Controller
 
         $proximaSequencia = AulaSequencia::where('numero', $proximaNumero)->where('ativo', true)->first();
 
-        return view('aluno.treinos', [
+        return view('aluno.treinos.index', [
             'treinos' => $treinosNumerados,
             'proximaNumero' => $proximaNumero,
             'proximaSequencia' => $proximaSequencia,

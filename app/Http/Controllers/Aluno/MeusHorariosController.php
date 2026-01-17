@@ -16,7 +16,7 @@ class MeusHorariosController extends Controller
         }]);
         $horarios = Horario::orderBy('dia_semana')->orderBy('hora_inicio')->get();
 
-        return view('aluno.horarios', compact('user', 'horarios'));
+        return view('aluno.horarios.index', compact('user', 'horarios'));
     }
 
     public function update(Request $request)

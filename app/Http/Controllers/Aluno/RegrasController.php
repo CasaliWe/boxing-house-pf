@@ -14,6 +14,6 @@ class RegrasController extends Controller
             ->orderByRaw('COALESCE(ordem, 99999) ASC')
             ->get();
 
-        return view('aluno.regras', compact('regras'));
+        return view('aluno.regras.index', compact('regras'));
     }
 }

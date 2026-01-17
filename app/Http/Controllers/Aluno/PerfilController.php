@@ -11,7 +11,7 @@ class PerfilController extends Controller
     public function edit()
     {
         $user = auth()->user();
-        return view('aluno.perfil', compact('user'));
+        return view('aluno.perfil.edit', compact('user'));
     }
 
     public function update(Request $request)

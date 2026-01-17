@@ -55,45 +55,45 @@
             </div>
         </form>
     </div>
-</div>
-<script>
-    document.addEventListener('DOMContentLoaded', function(){
-        const form = document.querySelector('form[data-max]');
-        if (form) {
-            const max = parseInt(form.dataset.max, 10);
-            const warn = form.querySelector('[data-limit-warning]');
-            const counter = form.querySelector('[data-counter]');
-            const boxes = Array.from(form.querySelectorAll('input[name="horarios[]"]'));
-            const showWarn = (msg) => { if (warn) { warn.textContent = msg; warn.classList.remove('hidden'); } };
-            const hideWarn = () => { if (warn) { warn.classList.add('hidden'); } };
-            const updateState = () => {
-                const checkedCount = boxes.filter(b => b.checked).length;
-                if (counter) {
-                    if (Number.isFinite(max) && max > 0) counter.textContent = `Selecionados: ${checkedCount} de ${max}`; else counter.textContent = '';
-                }
-                hideWarn();
-                if (Number.isFinite(max) && max > 0) {
-                    const limitReached = checkedCount >= max;
-                    boxes.forEach(b => {
-                        if (!b.checked) {
-                            const initiallyDisabled = b.dataset.initialDisabled === '1';
-                            b.disabled = limitReached ? true : (initiallyDisabled ? true : false);
-                        }
-                    });
-                }
-            };
-            boxes.forEach(box => {
-                box.addEventListener('change', () => {
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            const form = document.querySelector('form[data-max]');
+            if (form) {
+                const max = parseInt(form.dataset.max, 10);
+                const warn = form.querySelector('[data-limit-warning]');
+                const counter = form.querySelector('[data-counter]');
+                const boxes = Array.from(form.querySelectorAll('input[name="horarios[]"]'));
+                const showWarn = (msg) => { if (warn) { warn.textContent = msg; warn.classList.remove('hidden'); } };
+                const hideWarn = () => { if (warn) { warn.classList.add('hidden'); } };
+                const updateState = () => {
                     const checkedCount = boxes.filter(b => b.checked).length;
-                    if (Number.isFinite(max) && max > 0 && checkedCount > max) {
-                        box.checked = false;
-                        showWarn(`Você só pode selecionar ${max} horário(s) conforme o plano.`);
+                    if (counter) {
+                        if (Number.isFinite(max) && max > 0) counter.textContent = `Selecionados: ${checkedCount} de ${max}`; else counter.textContent = '';
                     }
-                    updateState();
+                    hideWarn();
+                    if (Number.isFinite(max) && max > 0) {
+                        const limitReached = checkedCount >= max;
+                        boxes.forEach(b => {
+                            if (!b.checked) {
+                                const initiallyDisabled = b.dataset.initialDisabled === '1';
+                                b.disabled = limitReached ? true : (initiallyDisabled ? true : false);
+                            }
+                        });
+                    }
+                };
+                boxes.forEach(box => {
+                    box.addEventListener('change', () => {
+                        const checkedCount = boxes.filter(b => b.checked).length;
+                        if (Number.isFinite(max) && max > 0 && checkedCount > max) {
+                            box.checked = false;
+                            showWarn(`Você só pode selecionar ${max} horário(s) conforme o plano.`);
+                        }
+                        updateState();
+                    });
                 });
-            });
-            updateState();
-        }
-    });
-</script>
+                updateState();
+            }
+        });
+    </script>
 @endsection

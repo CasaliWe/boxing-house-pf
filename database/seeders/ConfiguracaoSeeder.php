@@ -13,10 +13,10 @@ class ConfiguracaoSeeder extends Seeder
     public function run(): void
     {
         Configuracao::firstOrCreate(['id' => 1], [
-            'pix' => '',
-            'whatsapp' => '',
+            'pix' => '04190191035',
+            'whatsapp' => '54991538488',
             'maps_src' => '',
-            'email' => '',
+            'email' => 'wesleicasali18@gmail.com',
         ]);
     }
 }
