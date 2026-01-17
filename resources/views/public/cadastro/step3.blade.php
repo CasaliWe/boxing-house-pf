@@ -29,9 +29,30 @@
 
             <div class="flex justify-between">
                 <a href="{{ route('cadastro.step2') }}" class="px-5 py-3 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700">Voltar</a>
-                <button type="submit" class="px-5 py-3 rounded-md bg-blue-600 hover:bg-blue-700 text-white">Concluir</button>
+                <button id="btnConcluir3" type="submit" class="px-5 py-3 rounded-md bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2">
+                    <span class="btn-spin hidden w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin"></span>
+                    <span class="btn-text">Concluir</span>
+                </button>
             </div>
         </form>
     </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    const form = document.querySelector('form[action="{{ route('cadastro.step3.post') }}"]');
+    if(form){
+        form.addEventListener('submit', function(){
+            const btn = form.querySelector('#btnConcluir3');
+            if(btn){
+                btn.disabled = true;
+                btn.classList.add('opacity-70','cursor-not-allowed');
+                const txt = btn.querySelector('.btn-text');
+                const spn = btn.querySelector('.btn-spin');
+                if(txt) txt.textContent = 'Carregando...';
+                if(spn) spn.classList.remove('hidden');
+            }
+        });
+    }
+});
+</script>
 @endsection

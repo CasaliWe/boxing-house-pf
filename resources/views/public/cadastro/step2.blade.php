@@ -17,11 +17,21 @@
                 <label class="block text-sm font-medium text-gray-300 mb-2">Plano (vezes por semana)</label>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     @foreach($valores as $v)
+                        @php
+                            $aulasMes = max(($v->vezes_semana ?? 0) * 4, 1);
+                            $porAula = ($v->valor ?? 0) / $aulasMes;
+                        @endphp
                         <label class="border border-gray-600 rounded-lg p-4 bg-gray-800/40 flex items-center gap-3 cursor-pointer hover:border-blue-500">
-                            <input type="radio" name="plano_vezes" value="{{ $v->vezes_semana }}" {{ old('plano_vezes', $data['plano_vezes'] ?? '') == $v->vezes_semana ? 'checked' : '' }} class="text-blue-500">
+                            <input type="radio"
+                                   name="plano_vezes"
+                                   value="{{ $v->vezes_semana }}"
+                                   data-vezes="{{ $v->vezes_semana }}"
+                                   {{ old('plano_vezes', $data['plano_vezes'] ?? '') == $v->vezes_semana ? 'checked' : '' }}
+                                   class="text-blue-500">
                             <div>
                                 <div class="text-white font-semibold">{{ $v->vezes_label }}</div>
                                 <div class="text-gray-300">Valor: R$ {{ number_format($v->valor, 2, ',', '.') }}</div>
+                                <div class="text-gray-400 text-xs mt-1">Por aula: R$ {{ number_format($porAula, 2, ',', '.') }}</div>
                             </div>
                         </label>
                     @endforeach
@@ -59,9 +69,57 @@
 
             <div class="flex justify-between">
                 <a href="{{ route('cadastro.step1') }}" class="px-5 py-3 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700">Voltar</a>
-                <button type="submit" class="px-5 py-3 rounded-md bg-blue-600 hover:bg-blue-700 text-white">Avançar</button>
+                <button id="btnAvancar2" type="submit" class="px-5 py-3 rounded-md bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2">
+                    <span class="btn-spin hidden w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin"></span>
+                    <span class="btn-text">Avançar</span>
+                </button>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    const radios = Array.from(document.querySelectorAll('input[name="plano_vezes"]'));
+    const checks = Array.from(document.querySelectorAll('input[type="checkbox"][name="horarios[]"]'));
+
+    function enforceLimit(){
+        const sel = radios.find(r=>r.checked);
+        const limite = sel ? parseInt(sel.dataset.vezes||'0') : 0;
+        const marcados = checks.filter(c=>c.checked);
+        const disponiveis = checks.filter(c=>!c.checked && !c.disabled);
+        // quando atingiu o limite, desabilita os demais não marcados (marcando como desabilitado temporário)
+        if(limite && marcados.length >= limite){
+            disponiveis.forEach(c=>{ c.disabled = true; c.dataset.tempDisabled = '1'; c.closest('label')?.classList.add('opacity-70','cursor-not-allowed'); });
+        } else {
+            // reabilita apenas os que foram desabilitados por limite (tempDisabled)
+            checks.forEach(c=>{
+                const label = c.closest('label');
+                if(!label) return;
+                const isTemp = c.dataset.tempDisabled === '1';
+                if(isTemp && !c.checked){ c.disabled = false; delete c.dataset.tempDisabled; label.classList.remove('opacity-70','cursor-not-allowed'); label.classList.add('cursor-pointer'); }
+            });
+        }
+    }
+
+    radios.forEach(r=>{ r.addEventListener('change', ()=>{ enforceLimit(); }); });
+    checks.forEach(c=>{ c.addEventListener('change', ()=>{ enforceLimit(); }); });
+    enforceLimit();
+
+    const form = document.querySelector('form[action="{{ route('cadastro.step2.post') }}"]');
+    if(form){
+        form.addEventListener('submit', function(){
+            const btn = form.querySelector('#btnAvancar2');
+            if(btn){
+                btn.disabled = true;
+                btn.classList.add('opacity-70','cursor-not-allowed');
+                const txt = btn.querySelector('.btn-text');
+                const spn = btn.querySelector('.btn-spin');
+                if(txt) txt.textContent = 'Carregando...';
+                if(spn) spn.classList.remove('hidden');
+            }
+        });
+    }
+});
+</script>
 @endsection

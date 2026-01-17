@@ -29,12 +29,12 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-300 mb-2">Idade</label>
-                    <input type="number" name="idade" min="1" max="120" value="{{ old('idade', $data['idade'] ?? '') }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white">
+                    <input id="inpIdade" type="text" name="idade" inputmode="numeric" pattern="[0-9]*" value="{{ old('idade', $data['idade'] ?? '') }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white" placeholder="Ex.: 28">
                     @error('idade')<div class="text-red-400 text-sm mt-2">{{ $message }}</div>@enderror
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-300 mb-2">Peso (kg)</label>
-                    <input type="number" name="peso" step="0.1" value="{{ old('peso', $data['peso'] ?? '') }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white">
+                    <input id="inpPeso" type="text" name="peso" inputmode="decimal" value="{{ old('peso', $data['peso'] ?? '') }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white" placeholder="Ex.: 72,5">
                     @error('peso')<div class="text-red-400 text-sm mt-2">{{ $message }}</div>@enderror
                 </div>
                 <div>
@@ -47,12 +47,12 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-300 mb-2">WhatsApp</label>
-                    <input type="text" name="whatsapp" value="{{ old('whatsapp', $data['whatsapp'] ?? '') }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white" required>
+                    <input id="inpWhatsapp" type="text" name="whatsapp" value="{{ old('whatsapp', $data['whatsapp'] ?? '') }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white" placeholder="(54) 9 91538488" required>
                     @error('whatsapp')<div class="text-red-400 text-sm mt-2">{{ $message }}</div>@enderror
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-300 mb-2">Instagram (opcional)</label>
-                    <input type="text" name="instagram" value="{{ old('instagram', $data['instagram'] ?? '') }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white">
+                    <input id="inpInstagram" type="text" name="instagram" value="{{ old('instagram', $data['instagram'] ?? '') }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white" placeholder="@seuusuário">
                     @error('instagram')<div class="text-red-400 text-sm mt-2">{{ $message }}</div>@enderror
                 </div>
             </div>
@@ -71,7 +71,7 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-300 mb-2">Contato de Emergência - WhatsApp</label>
-                    <input type="text" name="contato_emergencia_whatsapp" value="{{ old('contato_emergencia_whatsapp', $data['contato_emergencia_whatsapp'] ?? '') }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white" required>
+                    <input id="inpWhatsappEmerg" type="text" name="contato_emergencia_whatsapp" value="{{ old('contato_emergencia_whatsapp', $data['contato_emergencia_whatsapp'] ?? '') }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white" placeholder="(54) 9 91538488" required>
                     @error('contato_emergencia_whatsapp')<div class="text-red-400 text-sm mt-2">{{ $message }}</div>@enderror
                 </div>
             </div>
@@ -108,15 +108,79 @@
         if(s) sWrap.style.display = s.checked ? 'block' : 'none';
         if(r) rWrap.style.display = r.checked ? 'block' : 'none';
     }
+
+    function onlyDigits(str){ return (str||'').replace(/\D+/g,''); }
+    function formatWhatsapp(raw){
+        const d = onlyDigits(raw);
+        const dd = d.slice(0,2);
+        const nine = d.slice(2,3);
+        const rest = d.slice(3,11);
+        let out = '';
+        if(dd){ out += '('+dd+')'; }
+        if(nine){ out += ' '+nine; }
+        if(rest){ out += ' '+rest; }
+        return out.trim();
+    }
+    function formatIdade(raw){
+        return onlyDigits(raw).slice(0,3); // até 3 dígitos
+    }
+    function formatPeso(raw){
+        // usa vírgula como separador; máximo 3 inteiros + 1-2 decimais
+        const cleaned = raw.replace(/[^0-9,\.]/g,'').replace(/\./g,',');
+        const parts = cleaned.split(',');
+        let int = onlyDigits(parts[0]).slice(0,3);
+        let dec = parts[1] ? onlyDigits(parts[1]).slice(0,2) : '';
+        return dec ? int+','+dec : int;
+    }
+    function ensureInstagramAt(raw){
+        raw = (raw||'').trim();
+        if(!raw) return '';
+        if(raw.charAt(0) !== '@') raw = '@'+raw.replace(/^@+/,'');
+        return raw.replace(/\s+/g,'');
+    }
+
     document.addEventListener('DOMContentLoaded', function(){
         const s = document.getElementById('chkSaude');
         const r = document.getElementById('chkRestricao');
         if(s){ s.addEventListener('change', toggleAreas); }
         if(r){ r.addEventListener('change', toggleAreas); }
         toggleAreas();
+
+        const inpWa = document.getElementById('inpWhatsapp');
+        const inpWaE = document.getElementById('inpWhatsappEmerg');
+        const inpId = document.getElementById('inpIdade');
+        const inpPe = document.getElementById('inpPeso');
+        const inpIg = document.getElementById('inpInstagram');
+
+        function bindWhats(el){ if(!el) return; el.addEventListener('input', ()=>{ el.value = formatWhatsapp(el.value); }); }
+        bindWhats(inpWa); bindWhats(inpWaE);
+        if(inpId){ inpId.addEventListener('input', ()=>{ inpId.value = formatIdade(inpId.value); }); }
+        if(inpPe){ inpPe.addEventListener('input', ()=>{ inpPe.value = formatPeso(inpPe.value); }); }
+        if(inpIg){
+            inpIg.addEventListener('input', ()=>{ inpIg.value = ensureInstagramAt(inpIg.value); });
+            inpIg.addEventListener('blur', ()=>{ inpIg.value = ensureInstagramAt(inpIg.value); });
+        }
+
+        const form = document.querySelector('form[action="{{ route('cadastro.step1.post') }}"]');
+        if(form){
+            form.addEventListener('submit', function(){
+                const btn = form.querySelector('#btnAvancar');
+                if(btn){
+                    btn.disabled = true;
+                    btn.classList.add('opacity-70','cursor-not-allowed');
+                    const txt = btn.querySelector('.btn-text');
+                    const spn = btn.querySelector('.btn-spin');
+                    if(txt) txt.textContent = 'Carregando...';
+                    if(spn) spn.classList.remove('hidden');
+                }
+            });
+        }
     });
     </script>
-                <button type="submit" class="px-5 py-3 rounded-md bg-blue-600 hover:bg-blue-700 text-white">Avançar</button>
+                <button id="btnAvancar" type="submit" class="px-5 py-3 rounded-md bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2">
+                    <span class="btn-spin hidden w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin"></span>
+                    <span class="btn-text">Avançar</span>
+                </button>
             </div>
         </form>
     </div>

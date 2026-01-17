@@ -151,7 +151,7 @@ class CadastroController extends Controller
 
         // Limpa sessão e exibe confirmação
         session()->forget('cadastro');
-        return redirect()->route('cadastro.final')->with('success', 'Cadastro enviado! Aguarde o pagamento via PIX e envie o comprovante pelo WhatsApp.');
+        return redirect()->route('cadastro.final')->with('success', 'Cadastro enviado! Aguardando o pagamento via PIX. Envie o comprovante pelo WhatsApp.');
     }
 
     public function final()
