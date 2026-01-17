@@ -14,12 +14,12 @@ class UserSeeder extends Seeder
     {
         // Usuário Professor (Master/Admin)
         \App\Models\User::updateOrCreate(
-            ['email' => 'professor@boxinghousepf.com'],
+            ['email' => 'professor@gmail.com'],
             [
                 'name' => 'Professor Boxing House',
-                'email' => 'professor@boxinghousepf.com',
+                'email' => 'professor@gmail.com',
                 'email_verified_at' => now(),
-                'password' => bcrypt('boxinghouse123'), // Altere esta senha!
+                'password' => bcrypt('bmxxxx123'), // Altere esta senha!
                 'role' => 'professor',
             ]
         );
@@ -29,15 +29,15 @@ class UserSeeder extends Seeder
             ['email' => 'aluno@teste.com'],
             [
                 'name' => 'Aluno Teste',
-                'email' => 'aluno@teste.com',
+                'email' => 'aluno@gmail.com',
                 'email_verified_at' => now(),
-                'password' => bcrypt('123456'), // Apenas para testes
+                'password' => bcrypt('bmxxxx123'), // Apenas para testes
                 'role' => 'aluno',
             ]
         );
 
         $this->command->info('Usuários criados com sucesso!');
-        $this->command->info('Professor: professor@boxinghousepf.com / boxinghouse123');
-        $this->command->info('Aluno (teste): aluno@teste.com / 123456');
+        $this->command->info('Professor: professor@gmail.com / bmxxxx123');
+        $this->command->info('Aluno (teste): aluno@gmail.com / bmxxxx123');
     }
 }

@@ -71,7 +71,7 @@ class AlunoController extends Controller
 
     /**
      * Atualiza os horários vinculados ao aluno.
-     * Respeita o limite de vagas de cada horário.
+     * Não aprova aqui; apenas sincroniza seleção (aprovado=false).
      */
     public function atualizarHorarios(Request $request, User $user)
     {
@@ -92,47 +92,13 @@ class AlunoController extends Controller
             return back()->withErrors(['horarios' => 'Você só pode selecionar '.$max.' horário(s) conforme o plano.'])->withInput();
         }
 
-        // Manter os já vinculados mesmo se lotados; permitir remoção
-        $atuais = $user->horarios()->get()->keyBy('id');
+        // Sincroniza exatamente os IDs selecionados, marcando aprovado=false.
+        $syncData = $selecionados->mapWithKeys(function ($id) {
+            return [$id => ['aprovado' => false]];
+        })->toArray();
 
-        // Vamos montar um array para sync com flag de aprovado
-        $syncData = [];
-
-        // Primeiro, para cada horário selecionado, aprovar se tiver vaga
-        foreach (Horario::whereIn('id', $selecionados)->get() as $h) {
-            // Se já estava vinculado, mantém aprovação atual
-            $aprovadoAtual = $atuais->has($h->id) ? (bool)($atuais[$h->id]->pivot->aprovado) : false;
-
-            // Conta ocupação atual (apenas aprovados), desconsiderando este usuário se já estava aprovado
-            $ocupadas = $h->alunos()->wherePivot('aprovado', true)
-                ->when($atuais->has($h->id) && $aprovadoAtual, function($q) use ($user){
-                    $q->where('users.id', '!=', $user->id);
-                })
-                ->count();
-
-            $aprovado = $ocupadas < Horario::LIMITE_ALUNOS;
-            $syncData[$h->id] = ['aprovado' => $aprovado];
-        }
-
-        // Executa sync: remove não selecionados e atualiza/insere selecionados
         $user->horarios()->sync($syncData);
 
-        // Mensagem amigável indicando horários sem vaga
-        $semVaga = [];
-        foreach ($syncData as $hid => $pivot) {
-            if (!$pivot['aprovado']) {
-                $h = $atuais->get($hid) ?: Horario::find($hid);
-                if ($h) {
-                    $semVaga[] = $h->dia_semana_label.' '.\Illuminate\Support\Carbon::parse($h->hora_inicio)->format('H:i');
-                }
-            }
-        }
-
-        $msg = 'Horários do aluno atualizados.';
-        if (!empty($semVaga)) {
-            $msg .= ' Sem vagas em: '.implode(', ', $semVaga).'.';
-        }
-
-        return back()->with('success', $msg);
+        return back()->with('success', 'Horários do aluno atualizados.');
     }
 }
