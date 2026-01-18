@@ -57,6 +57,131 @@
             </div>
         </form>
     </div>
+
+    <!-- Fotos do Centro de Treinamento -->
+    <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
+            <div>
+                <h2 class="text-xl font-semibold text-blue-400 mb-2">📸 Fotos do Centro de Treinamento</h2>
+                <p class="text-gray-400 text-sm">Gerencie as fotos que aparecerão na landing page da academia.</p>
+            </div>
+            <button onclick="abrirModalFoto()" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Adicionar Foto
+            </button>
+        </div>
+
+        @if($fotosCentro->isEmpty())
+            <div class="text-center py-12 border-2 border-dashed border-gray-600 rounded-lg">
+                <div class="text-6xl mb-4">📷</div>
+                <h3 class="text-xl font-semibold text-gray-400 mb-2">Nenhuma foto adicionada</h3>
+                <p class="text-gray-500 mb-4">Adicione fotos do seu centro de treinamento para exibir na landing page.</p>
+                <button onclick="abrirModalFoto()" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+                    Adicionar Primeira Foto
+                </button>
+            </div>
+        @else
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                @foreach($fotosCentro as $foto)
+                    <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-colors">
+                        <div class="aspect-video overflow-hidden">
+                            <img src="{{ asset('storage/'.$foto->caminho_arquivo) }}" alt="{{ $foto->nome_original }}" 
+                                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="text-white font-medium text-sm truncate">{{ $foto->nome_original }}</h4>
+                                    @if($foto->descricao)
+                                        <p class="text-gray-400 text-xs mt-1">{{ $foto->descricao }}</p>
+                                    @endif
+                                    <span class="text-xs text-gray-500 mt-1">Ordem: {{ $foto->ordem }}</span>
+                                </div>
+                                <button onclick="confirmarExclusaoFoto({{ $foto->id }}, '{{ addslashes($foto->nome_original) }}')" 
+                                        class="px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs transition-colors flex-shrink-0">
+                                    Excluir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+</div>
+
+<!-- Modal Adicionar Foto -->
+<div id="modalFoto" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" style="display:none">
+    <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold text-white">Adicionar Foto</h3>
+            <button onclick="fecharModalFoto()" class="text-gray-400 hover:text-white p-1">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <form id="formFoto" method="POST" action="{{ route('professor.config.fotos.store') }}" enctype="multipart/form-data">
+            @csrf
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-gray-300 text-sm font-medium mb-2">📸 Selecionar Foto</label>
+                    <input type="file" id="foto" name="foto" accept="image/*" required 
+                           class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <p class="text-xs text-gray-400 mt-1">Formatos aceitos: JPG, PNG, GIF. Máximo: 5MB</p>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-300 text-sm font-medium mb-2">📝 Descrição (opcional)</label>
+                    <input type="text" id="descricao" name="descricao" 
+                           class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           placeholder="Ex: Área de treino principal">
+                </div>
+            </div>
+            
+            <div class="flex gap-3 mt-6">
+                <button id="btnSalvarFoto" type="submit" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex-1">
+                    <span class="btn-spin inline-block align-middle w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin mr-2" style="display:none"></span>
+                    <span class="btn-text">Adicionar Foto</span>
+                </button>
+                <button type="button" onclick="fecharModalFoto()" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                    Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de Confirmação de Exclusão de Foto -->
+<div id="modalExclusaoFoto" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" style="display:none">
+    <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md">
+        <div class="flex items-center gap-3 mb-4">
+            <div class="text-red-500 text-2xl">⚠️</div>
+            <h3 class="text-xl font-semibold text-white">Confirmar Exclusão</h3>
+        </div>
+        
+        <p class="text-gray-300 mb-6">
+            Tem certeza que deseja excluir a foto "<span id="nomeFotoExclusao" class="font-semibold text-white"></span>"?
+            <br><span class="text-sm text-red-400">Esta ação não pode ser desfeita.</span>
+        </p>
+        
+        <div class="flex gap-3">
+            <form id="formExclusaoFoto" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors">
+                    Sim, Excluir
+                </button>
+            </form>
+            <button onclick="fecharModalExclusaoFoto()" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                Cancelar
+            </button>
+        </div>
+    </div>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
@@ -91,6 +216,54 @@ document.addEventListener('DOMContentLoaded', function(){
             if(spn) spn.style.display = 'inline-block';
         }, { once: true });
     }
+
+    // Loading no formulário de foto
+    const btnFoto = document.getElementById('btnSalvarFoto');
+    const formFoto = btnFoto ? btnFoto.closest('form') : null;
+    if(formFoto && btnFoto){
+        formFoto.addEventListener('submit', function(){
+            btnFoto.disabled = true;
+            btnFoto.classList.add('opacity-70','cursor-not-allowed');
+            const txt = btnFoto.querySelector('.btn-text');
+            const spn = btnFoto.querySelector('.btn-spin');
+            if(txt) txt.textContent = 'Enviando...';
+            if(spn) spn.style.display = 'inline-block';
+        }, { once: true });
+    }
+
+    // Fechar modais com ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            fecharModalFoto();
+            fecharModalExclusaoFoto();
+        }
+    });
 });
+
+// Funções dos modais de foto
+function abrirModalFoto() {
+    document.getElementById('modalFoto').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    document.getElementById('foto').focus();
+}
+
+function fecharModalFoto() {
+    document.getElementById('modalFoto').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    // Limpar formulário
+    document.getElementById('formFoto').reset();
+}
+
+function confirmarExclusaoFoto(id, nome) {
+    document.getElementById('nomeFotoExclusao').textContent = nome;
+    document.getElementById('formExclusaoFoto').action = `/professor/config/fotos/${id}`;
+    document.getElementById('modalExclusaoFoto').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function fecharModalExclusaoFoto() {
+    document.getElementById('modalExclusaoFoto').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
 </script>
 @endsection

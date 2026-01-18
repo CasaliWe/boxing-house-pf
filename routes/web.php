@@ -88,6 +88,8 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
     // Configurações (edição única)
     Route::get('config', [ConfigController::class, 'edit'])->name('config.edit');
     Route::put('config', [ConfigController::class, 'update'])->name('config.update');
+    Route::post('config/fotos', [ConfigController::class, 'adicionarFoto'])->name('config.fotos.store');
+    Route::delete('config/fotos/{foto}', [ConfigController::class, 'excluirFoto'])->name('config.fotos.destroy');
 
     // Aprovações (listar pendentes e aprovar)
     Route::get('aprovacoes', [AprovacaoController::class, 'index'])->name('aprovacoes.index');
