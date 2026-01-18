@@ -43,6 +43,28 @@
 
     <div class="flex items-center justify-end gap-3">
         <a href="{{ route('professor.horarios.index') }}" class="px-4 py-2 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700">Cancelar</a>
-        <button type="submit" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white">Salvar</button>
+        <button id="btnSalvarHorario" type="submit" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white">
+            <span class="btn-spin inline-block align-middle w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin mr-2" style="display:none"></span>
+            <span class="btn-text">{{ isset($horario) ? 'Atualizar' : 'Salvar' }}</span>
+        </button>
     </div>
+
+    <script>
+    // Loading ao salvar/atualizar horário
+    document.addEventListener('DOMContentLoaded', function(){
+        const btn = document.getElementById('btnSalvarHorario');
+        let form = btn;
+        while(form && form.tagName !== 'FORM'){ form = form.parentElement; }
+        if(form && btn){
+            form.addEventListener('submit', function(){
+                btn.disabled = true;
+                btn.classList.add('opacity-70','cursor-not-allowed');
+                const txt = btn.querySelector('.btn-text');
+                const spn = btn.querySelector('.btn-spin');
+                if(txt) txt.textContent = '{{ isset($horario) ? 'Atualizando...' : 'Salvando...' }}';
+                if(spn) spn.style.display = 'inline-block';
+            }, { once: true });
+        }
+    });
+    </script>
 </div>

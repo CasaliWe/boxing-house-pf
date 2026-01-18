@@ -18,6 +18,28 @@
 
     <div class="flex items-center justify-end gap-3">
         <a href="{{ route('professor.valores.index') }}" class="px-4 py-2 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700">Cancelar</a>
-        <button type="submit" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white">Salvar</button>
+        <button id="btnSalvarValor" type="submit" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white">
+            <span class="btn-spin inline-block align-middle w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin mr-2" style="display:none"></span>
+            <span class="btn-text">{{ isset($valor) ? 'Atualizar' : 'Salvar' }}</span>
+        </button>
     </div>
+
+    <script>
+    // Loading ao salvar/atualizar valor
+    document.addEventListener('DOMContentLoaded', function(){
+        const btn = document.getElementById('btnSalvarValor');
+        let form = btn;
+        while(form && form.tagName !== 'FORM'){ form = form.parentElement; }
+        if(form && btn){
+            form.addEventListener('submit', function(){
+                btn.disabled = true;
+                btn.classList.add('opacity-70','cursor-not-allowed');
+                const txt = btn.querySelector('.btn-text');
+                const spn = btn.querySelector('.btn-spin');
+                if(txt) txt.textContent = '{{ isset($valor) ? "Atualizando..." : "Salvando..." }}';
+                if(spn) spn.style.display = 'inline-block';
+            }, { once: true });
+        }
+    });
+    </script>
 </div>

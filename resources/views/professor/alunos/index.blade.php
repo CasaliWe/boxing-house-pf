@@ -33,49 +33,59 @@
                             'vencida' => 'bg-red-700 text-white',
                             default => 'bg-gray-600 text-white',
                         };
+                        $padraoCount = $u->treinos()->where('especial', false)->count();
+                        $proximaNumero = $padraoCount + 1;
                     @endphp
                     <div class="border border-gray-600 rounded-lg p-5 bg-gray-800/40 flex flex-col gap-4">
-                        <div class="flex items-start justify-between gap-3">
-                            <div class="min-w-0">
-                                <div class="text-white font-semibold break-words whitespace-normal">{{ $u->name }}</div>
-                                <div class="text-gray-400 text-sm break-words whitespace-normal">{{ $u->email }}</div>
-                            </div>
-                            <div class="text-right text-sm flex-shrink-0">
-                                <div class="text-gray-400">Plano</div>
-                                <div class="text-blue-400 font-bold">{{ $u->plano_vezes ? $u->plano_vezes.'x/semana' : '-' }}</div>
-                                <div class="mt-1 text-gray-400">Vencimento</div>
-                                <div class="inline-block mt-1 px-2 py-0.5 rounded text-xs {{ $badgeClass }}">
-                                    {{ $u->vencimento_at ? \Illuminate\Support\Carbon::parse($u->vencimento_at)->format('d/m') : '-' }}
+                        <!-- Cabeçalho do aluno -->
+                        <div class="border-b border-gray-700 pb-3">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="min-w-0">
+                                    <h3 class="text-white font-semibold text-lg break-words">{{ $u->name }}</h3>
+                                    <p class="text-gray-400 text-sm break-words">{{ $u->email }}</p>
+                                </div>
+                                <div class="text-right flex-shrink-0">
+                                    <span class="inline-block px-3 py-1 text-sm rounded-full bg-green-700 text-white font-medium">Aula {{ $proximaNumero }}</span>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Informações do plano -->
                         <div class="grid grid-cols-2 gap-4 text-sm">
                             <div>
-                                <div class="text-gray-400">WhatsApp</div>
-                                <div class="text-gray-200 break-words">{{ $u->whatsapp ?: '-' }}</div>
+                                <span class="text-gray-400 block">Plano</span>
+                                <span class="text-blue-400 font-semibold">{{ $u->plano_vezes ? ($u->plano_vezes . 'x/semana') : '-' }}</span>
                             </div>
-                            <div>
-                                <div class="text-gray-400">Instagram</div>
-                                <div class="text-gray-200 break-words">{{ $u->instagram ?: '-' }}</div>
+                            <div class="text-right">
+                                <span class="text-gray-400 block">Vencimento</span>
+                                <span class="inline-block px-2 py-1 rounded text-xs {{ $badgeClass }}">{{ $u->vencimento_at ? \Illuminate\Support\Carbon::parse($u->vencimento_at)->format('d/m') : '-' }}</span>
                             </div>
                         </div>
 
-                        <div>
-                            <div class="text-gray-400 text-sm mb-1">Horários selecionados</div>
-                            @if($u->horarios->isEmpty())
-                                <div class="text-gray-400 text-sm">Nenhum</div>
-                            @else
-                                <ul class="space-y-1">
+                        <!-- Contatos -->
+                        <div class="grid grid-cols-1 gap-2 text-sm">
+                            <div class="flex items-center gap-2">
+                                <span class="text-gray-400 w-24">WhatsApp</span>
+                                <span class="text-gray-200 break-words">{{ $u->whatsapp ?: '-' }}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-gray-400 w-24">Instagram</span>
+                                <span class="text-gray-200 break-words">{{ $u->instagram ?: '-' }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Horários -->
+                        <div class="text-sm">
+                            <span class="text-gray-400 block mb-1">Horários</span>
+                            <div class="text-gray-200">
+                                @if($u->horarios->isEmpty())
+                                    <span class="text-gray-400 italic">Nenhum horário selecionado</span>
+                                @else
                                     @foreach($u->horarios as $h)
-                                        @php $temVaga = $h->vagas_disponiveis > 0; @endphp
-                                        <li class="flex items-center justify-between gap-2 text-gray-200">
-                                            <span class="whitespace-nowrap">{{ $h->dia_semana_label }} - {{ \Illuminate\Support\Carbon::parse($h->hora_inicio)->format('H:i') }}</span>
-                                            <span class="text-xs px-2 py-0.5 rounded {{ $temVaga ? 'bg-green-700 text-white' : 'bg-red-700 text-white' }}">{{ $temVaga ? 'Vaga' : 'FULL' }}</span>
-                                        </li>
+                                        <div class="bg-gray-700/50 rounded px-2 py-1 mb-1 inline-block mr-2">{{ $h->dia_semana_label }} - {{ \Illuminate\Support\Carbon::parse($h->hora_inicio)->format('H:i') }}</div>
                                     @endforeach
-                                </ul>
-                            @endif
+                                @endif
+                            </div>
                         </div>
 
                         <div class="flex flex-col gap-2">
@@ -226,7 +236,10 @@
             <p id="limiteInfo" class="text-xs text-gray-400 mt-2">Selecione até <span id="limiteNum">0</span> horário(s).</p>
             <div class="mt-6 flex items-center justify-end gap-2">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700" onclick="fecharModalHorarios()">Cancelar</button>
-                <button type="submit" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white">Atualizar</button>
+                <button id="btnAtualizarHorarios" type="submit" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white">
+                    <span class="btn-spin inline-block align-middle w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin mr-2" style="display:none"></span>
+                    <span class="btn-text">Atualizar</span>
+                </button>
             </div>
         </form>
     </div>
@@ -312,7 +325,7 @@ function abrirModalSenha(btn){
                     <h2 class="text-xl font-semibold text-white">Atualizar Senha</h2>
                     <button class="text-gray-300 hover:text-white" data-close>✕</button>
                 </div>
-                <form id="formSenha" method="POST" class="space-y-4" onsubmit="btnLoading(this)">
+                <form id="formSenha" method="POST" class="space-y-4">                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="_method" value="POST">
                     <div class="space-y-2">
@@ -326,7 +339,7 @@ function abrirModalSenha(btn){
                     <div class="flex items-center justify-end gap-2">
                         <button type="button" class="px-4 py-2 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700" data-close>Cancelar</button>
                         <button type="submit" class="px-4 py-2 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white">
-                            <span class="btn-spin hidden w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin"></span>
+                            <span class="btn-spin inline-block align-middle w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin mr-2" style="display:none"></span>
                             <span class="btn-text">Atualizar</span>
                         </button>
                     </div>
@@ -338,6 +351,17 @@ function abrirModalSenha(btn){
     }
     const form = modal.querySelector('#formSenha');
     form.action = `${baseAction}/${userId}/senha`;
+    form.onsubmit = function(e) {
+        const btn = form.querySelector('button[type="submit"]');
+        if (btn) {
+            btn.disabled = true;
+            btn.classList.add('opacity-70','cursor-not-allowed');
+            const txt = btn.querySelector('.btn-text');
+            const spn = btn.querySelector('.btn-spin');
+            if (txt) txt.textContent = 'Atualizando...';
+            if (spn) spn.style.display = 'inline-block';
+        }
+    };
     modal.classList.remove('hidden');
 }
 // Validação de submissão do modal: bloqueia envios inválidos
@@ -365,6 +389,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (info) {
             info.classList.remove('text-red-400');
             info.classList.add('text-gray-400');
+        }
+        // Add loading to submit button
+        const btn = document.getElementById('btnAtualizarHorarios');
+        if (btn) {
+            btn.disabled = true;
+            btn.classList.add('opacity-70','cursor-not-allowed');
+            const txt = btn.querySelector('.btn-text');
+            const spn = btn.querySelector('.btn-spin');
+            if (txt) txt.textContent = 'Atualizando...';
+            if (spn) spn.style.display = 'inline-block';
         }
     });
 });

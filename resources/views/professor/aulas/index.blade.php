@@ -50,10 +50,10 @@
         </table>
     </div>
 
-<!-- Overlay de vídeo (apenas vídeo, sem fundo visível) -->
-<div id="modalVideoSequencia" class="fixed inset-0 z-50 hidden">
-    <div class="w-full h-full flex items-center justify-center" data-close>
-        <video id="videoSequencia" controls class="block max-h-[92vh] max-w-[92vw] bg-black rounded" onclick="event.stopPropagation();"></video>
+<!-- Overlay de vídeo (com fundo preto sutil) -->
+<div id="modalVideoSequencia" class="fixed inset-0 z-50 hidden bg-black/70">
+    <div class="absolute inset-0 flex items-center justify-center" onclick="closeVideoModal()">
+        <video id="videoSequencia" controls class="block max-h-[90vh] max-w-[90vw] bg-black rounded" onclick="event.stopPropagation();"></video>
     </div>
 </div>
 <script>
@@ -62,7 +62,12 @@ function abrirModalVideo(src){
     const v = document.getElementById('videoSequencia');
     v.src = src;
     modal.classList.remove('hidden');
-    modal.addEventListener('click', function(e){ if(e.target.hasAttribute('data-close')){ v.pause(); modal.classList.add('hidden'); } });
+}
+function closeVideoModal() {
+    const modal = document.getElementById('modalVideoSequencia');
+    const v = document.getElementById('videoSequencia');
+    v.pause();
+    modal.classList.add('hidden');
 }
 </script>
 

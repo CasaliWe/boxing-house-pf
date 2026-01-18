@@ -42,8 +42,9 @@
                 @endif
             </div>
             <div class="flex flex-wrap items-center gap-3">
-                <a href="{{ route('professor.horarios.index') }}" class="px-4 py-2 rounded-lg border border-gray-600 text-gray-200 hover:bg-gray-700">Gerenciar Horários</a>
+                <a href="{{ route('professor.horarios.create') }}" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white">Registrar Horário</a>
                 <a href="{{ route('professor.treinos.create') }}" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white">Registrar Treino</a>
+                <a href="{{ route('professor.horarios.index') }}" class="px-4 py-2 rounded-lg border border-gray-600 text-gray-200 hover:bg-gray-700">Gerenciar Horários</a>
             </div>
         </div>
 
@@ -85,26 +86,30 @@
         </div>
     </div>
 
-    <!-- Modal aluno -->
-    <div id="alunoModal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
-        <div class="bg-gray-900 border border-gray-700 rounded-xl w-full max-w-lg p-6">
-            <div class="flex items-center justify-between">
-                <h3 id="alunoModalTitle" class="text-xl font-bold text-blue-400">Aluno</h3>
-                <button class="text-gray-300 hover:text-white" onclick="closeAlunoModal()">✖</button>
-            </div>
-            <div class="mt-4 space-y-3">
-                <div class="flex items-center justify-between">
-                    <div class="text-sm text-gray-400">Próxima aula</div>
-                    <div id="alunoModalAula" class="px-2 py-1 text-xs rounded bg-green-700 text-green-100">Aula X</div>
+    <!-- Modal aluno (centrado, com fundo preto) -->
+    <div id="alunoModal" class="fixed inset-0 z-50 hidden bg-black/60">
+        <div class="absolute inset-0 flex items-center justify-center p-4" onclick="closeAlunoModal()">
+            <div class="bg-gray-900 border border-gray-700 rounded-xl shadow-lg w-full max-w-2xl" onclick="event.stopPropagation();">
+                <div class="flex items-center justify-between p-6 pb-4">
+                    <h3 id="alunoModalTitle" class="text-xl font-bold text-white">Aluno</h3>
+                    <button class="text-gray-300 hover:text-white" onclick="closeAlunoModal()">✕</button>
                 </div>
-                <div>
-                    <div class="text-sm text-gray-400">Sequência desta aula</div>
-                    <div id="alunoModalSeq" class="text-gray-200">...</div>
+                <div class="px-6 pb-6">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="text-sm text-gray-400">Próxima aula</div>
+                            <div id="alunoModalAula" class="px-2 py-1 text-xs rounded bg-green-700 text-green-100">Aula X</div>
+                        </div>
+                        <div>
+                            <div class="text-sm text-gray-400 mb-1">Sequência desta aula</div>
+                            <div id="alunoModalSeq" class="text-gray-200 whitespace-pre-line">...</div>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end gap-2">
+                        <a href="{{ route('professor.treinos.create') }}" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white">Registrar Presença</a>
+                        <button class="px-4 py-2 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700" onclick="closeAlunoModal()">Fechar</button>
+                    </div>
                 </div>
-            </div>
-            <div class="mt-6 flex justify-end gap-2">
-                <a href="{{ route('professor.treinos.create') }}" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white">Registrar Presença</a>
-                <button class="px-4 py-2 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700" onclick="closeAlunoModal()">Fechar</button>
             </div>
         </div>
     </div>
@@ -116,12 +121,10 @@
             document.getElementById('alunoModalSeq').textContent = data.seq;
             const m = document.getElementById('alunoModal');
             m.classList.remove('hidden');
-            m.classList.add('flex');
         }
         function closeAlunoModal() {
             const m = document.getElementById('alunoModal');
             m.classList.add('hidden');
-            m.classList.remove('flex');
         }
     </script>
 </div>

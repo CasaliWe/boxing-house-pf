@@ -50,7 +50,10 @@
             </div>
 
             <div class="flex items-center justify-end gap-3">
-                <button type="submit" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white">Salvar</button>
+                <button id="btnSalvarConfig" type="submit" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white">
+                    <span class="btn-spin inline-block align-middle w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin mr-2" style="display:none"></span>
+                    <span class="btn-text">Salvar</span>
+                </button>
             </div>
         </form>
     </div>
@@ -73,6 +76,20 @@ document.addEventListener('DOMContentLoaded', function(){
     if(wa){
         wa.addEventListener('input', function(){ wa.value = formatWhatsapp(wa.value); });
         wa.addEventListener('blur', function(){ wa.value = formatWhatsapp(wa.value); });
+    }
+    
+    // Loading no formulário de config
+    const btn = document.getElementById('btnSalvarConfig');
+    const form = btn ? btn.closest('form') : null;
+    if(form && btn){
+        form.addEventListener('submit', function(){
+            btn.disabled = true;
+            btn.classList.add('opacity-70','cursor-not-allowed');
+            const txt = btn.querySelector('.btn-text');
+            const spn = btn.querySelector('.btn-spin');
+            if(txt) txt.textContent = 'Salvando...';
+            if(spn) spn.style.display = 'inline-block';
+        }, { once: true });
     }
 });
 </script>

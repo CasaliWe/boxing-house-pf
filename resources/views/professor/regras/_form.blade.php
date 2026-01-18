@@ -32,7 +32,29 @@
 
         <div class="flex items-center gap-3">
             <a href="{{ route('professor.regras.index') }}" class="px-4 py-2 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700">Cancelar</a>
-            <button type="submit" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white">Salvar</button>
+            <button id="btnSalvarRegra" type="submit" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white">
+                <span class="btn-spin inline-block align-middle w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin mr-2" style="display:none"></span>
+                <span class="btn-text">{{ isset($regra) ? 'Atualizar' : 'Salvar' }}</span>
+            </button>
         </div>
+
+        <script>
+        // Loading ao salvar/atualizar regra
+        document.addEventListener('DOMContentLoaded', function(){
+            const btn = document.getElementById('btnSalvarRegra');
+            let form = btn;
+            while(form && form.tagName !== 'FORM'){ form = form.parentElement; }
+            if(form && btn){
+                form.addEventListener('submit', function(){
+                    btn.disabled = true;
+                    btn.classList.add('opacity-70','cursor-not-allowed');
+                    const txt = btn.querySelector('.btn-text');
+                    const spn = btn.querySelector('.btn-spin');
+                    if(txt) txt.textContent = '{{ isset($regra) ? 'Atualizando...' : 'Salvando...' }}';
+                    if(spn) spn.style.display = 'inline-block';
+                }, { once: true });
+            }
+        });
+        </script>
     </div>
 </div>
