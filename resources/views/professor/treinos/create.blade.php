@@ -4,10 +4,10 @@
 
 @section('content')
 <div class="space-y-8">
-    <div class="flex items-center justify-between">
-        <div>
-            <h1 class="text-3xl font-bold text-blue-400">🥊 Novo Treino</h1>
-            <p class="text-gray-400">Preencha os dados e marque os alunos presentes.</p>
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="w-full sm:w-auto">
+            <h1 class="text-2xl md:text-3xl font-bold text-blue-400">🥊 Novo Treino</h1>
+            <p class="text-gray-400 text-sm md:text-base">Preencha os dados e marque os alunos presentes.</p>
         </div>
     </div>
 

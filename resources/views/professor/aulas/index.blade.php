@@ -4,41 +4,41 @@
 
 @section('content')
 <div class="space-y-8">
-    <div class="flex items-center justify-between flex-col gap-4 sm:flex-row">
-        <div>
-            <h1 class="text-3xl font-bold text-blue-400">📚 Sequência de Aulas</h1>
-            <p class="text-gray-400">Defina o conteúdo programático das aulas por número.</p>
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="w-full sm:w-auto">
+            <h1 class="text-2xl md:text-3xl font-bold text-blue-400">📚 Sequência de Aulas</h1>
+            <p class="text-gray-400 text-sm md:text-base">Defina o conteúdo programático das aulas por número.</p>
         </div>
-        <a href="{{ route('professor.aulas-sequencia.create') }}" class="bg-gradient-blue text-white px-5 py-3 rounded-lg font-medium hover:opacity-95 transition">+ Nova Sequência</a>
+        <a href="{{ route('professor.aulas-sequencia.create') }}" class="bg-gradient-blue text-white px-5 py-3 rounded-lg font-medium w-full sm:w-auto text-center transition duration-150 hover:opacity-95 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500">+ Nova Sequência</a>
     </div>
 
-    @if(session('success'))
-        <div class="p-3 rounded-lg border border-green-600 bg-green-800/30 text-green-100">{{ session('success') }}</div>
-    @endif
-
-    <div class="bg-gradient-card border border-gray-600 rounded-xl overflow-x-auto">
-        <table class="min-w-[720px]">
+    <div class="bg-gradient-card border border-gray-600 rounded-xl p-6 overflow-x-auto">
+        <table class="w-full table-auto md:table-fixed">
             <thead class="bg-gray-800/60">
                 <tr>
-                    <th class="text-left px-4 py-3 text-gray-300">Aula</th>
-                    <th class="text-left px-4 py-3 text-gray-300">Descrição</th>
-                    <th class="text-left px-4 py-3 text-gray-300">Ativo</th>
-                    <th class="text-left px-4 py-3 text-gray-300">Ações</th>
+                    <th class="text-left px-3 md:px-4 py-3 text-gray-300 md:w-20">Aula</th>
+                    <th class="text-left px-3 md:px-4 py-3 text-gray-300">Descrição</th>
+                    <th class="text-left px-3 md:px-4 py-3 text-gray-300 md:w-24">Ativo</th>
+                    <th class="text-left px-3 md:px-4 py-3 text-gray-300 md:w-64">Ações</th>
                 </tr>
             </thead>
             <tbody>
             @forelse($sequencias as $seq)
                 <tr class="border-t border-gray-700">
-                    <td class="px-4 py-3 text-white">{{ $seq->numero }}</td>
-                    <td class="px-4 py-3 text-gray-200 break-words">{{ $seq->descricao }}</td>
-                    <td class="px-4 py-3">{!! $seq->ativo ? '<span class="px-2 py-1 text-xs rounded bg-green-700 text-green-100">Sim</span>' : '<span class="px-2 py-1 text-xs rounded bg-gray-600 text-gray-100">Não</span>' !!}</td>
-                    <td class="px-4 py-3 whitespace-nowrap">
-                        <div class="flex items-center gap-2">
-                            <a href="{{ route('professor.aulas-sequencia.edit', $seq) }}" class="px-3 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-sm">Editar</a>
+                    <td class="px-3 md:px-4 py-3 text-white align-top md:w-20">{{ $seq->numero }}</td>
+                    <td class="px-3 md:px-4 py-3 text-gray-200 break-words whitespace-normal align-top">{{ $seq->descricao }}</td>
+                    <td class="px-3 md:px-4 py-3 align-top md:w-24">{!! $seq->ativo ? '<span class="px-2 py-1 text-xs rounded bg-green-700 text-green-100">Sim</span>' : '<span class="px-2 py-1 text-xs rounded bg-gray-600 text-gray-100">Não</span>' !!}</td>
+                    <td class="px-3 md:px-4 py-3 align-top md:w-64">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            @if($seq->video_path)
+                                <button type="button" class="px-3 py-2 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700 text-sm text-center transition duration-150 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                                        onclick="abrirModalVideo('{{ asset('storage/'.$seq->video_path) }}')">Vídeo</button>
+                            @endif
+                            <a href="{{ route('professor.aulas-sequencia.edit', $seq) }}" class="px-3 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-sm text-center transition duration-150 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500">Editar</a>
                             <form method="POST" action="{{ route('professor.aulas-sequencia.destroy', $seq) }}" onsubmit="return confirm('Excluir esta sequência?')" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button class="px-3 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white text-sm">Excluir</button>
+                                <button class="px-3 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white text-sm text-center transition duration-150 active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-500">Excluir</button>
                             </form>
                         </div>
                     </td>
@@ -49,6 +49,22 @@
             </tbody>
         </table>
     </div>
+
+<!-- Overlay de vídeo (apenas vídeo, sem fundo visível) -->
+<div id="modalVideoSequencia" class="fixed inset-0 z-50 hidden">
+    <div class="w-full h-full flex items-center justify-center" data-close>
+        <video id="videoSequencia" controls class="block max-h-[92vh] max-w-[92vw] bg-black rounded" onclick="event.stopPropagation();"></video>
+    </div>
+</div>
+<script>
+function abrirModalVideo(src){
+    const modal = document.getElementById('modalVideoSequencia');
+    const v = document.getElementById('videoSequencia');
+    v.src = src;
+    modal.classList.remove('hidden');
+    modal.addEventListener('click', function(e){ if(e.target.hasAttribute('data-close')){ v.pause(); modal.classList.add('hidden'); } });
+}
+</script>
 
     <div>{{ $sequencias->links() }}</div>
 </div>

@@ -12,6 +12,7 @@ class AulaSequencia extends Model
     protected $fillable = [
         'numero',
         'descricao',
+        'video_path',
         'ativo',
     ];
 

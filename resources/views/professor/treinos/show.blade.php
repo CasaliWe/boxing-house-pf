@@ -4,12 +4,12 @@
 
 @section('content')
 <div class="space-y-8">
-    <div class="flex items-center justify-between">
-        <div>
-            <h1 class="text-3xl font-bold text-blue-400">🥊 Detalhes do Treino</h1>
-            <p class="text-gray-400">Informações completas e lista de presentes.</p>
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="w-full sm:w-auto">
+            <h1 class="text-2xl md:text-3xl font-bold text-blue-400">🥊 Detalhes do Treino</h1>
+            <p class="text-gray-400 text-sm md:text-base">Informações completas e lista de presentes.</p>
         </div>
-        <a href="{{ route('professor.treinos.index') }}" class="px-4 py-2 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700">Voltar</a>
+        <a href="{{ route('professor.treinos.index') }}" class="px-4 py-2 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700 w-full sm:w-auto text-center">Voltar</a>
     </div>
 
     <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Professor;
 use App\Http\Controllers\Controller;
 use App\Models\AulaSequencia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AulaSequenciaController extends Controller
 {
@@ -33,12 +34,18 @@ class AulaSequenciaController extends Controller
         $dados = $request->validate([
             'numero' => ['required', 'integer', 'min:1', 'unique:aula_sequencias,numero'],
             'descricao' => ['required', 'string'],
+            'video' => ['nullable', 'file', 'mimetypes:video/*'],
             'ativo' => ['nullable', 'boolean'],
         ]);
+        $videoPath = null;
+        if ($request->hasFile('video')) {
+            $videoPath = $request->file('video')->store('sequencias', 'public');
+        }
 
         AulaSequencia::create([
             'numero' => $dados['numero'],
             'descricao' => $dados['descricao'],
+            'video_path' => $videoPath,
             'ativo' => (bool)($dados['ativo'] ?? true),
         ]);
 
@@ -62,14 +69,23 @@ class AulaSequenciaController extends Controller
         $dados = $request->validate([
             'numero' => ['required', 'integer', 'min:1', 'unique:aula_sequencias,numero,' . $sequencia->id],
             'descricao' => ['required', 'string'],
+            'video' => ['nullable', 'file', 'mimetypes:video/*'],
             'ativo' => ['nullable', 'boolean'],
         ]);
-
-        $sequencia->update([
+        $update = [
             'numero' => $dados['numero'],
             'descricao' => $dados['descricao'],
             'ativo' => (bool)($dados['ativo'] ?? true),
-        ]);
+        ];
+
+        if ($request->hasFile('video')) {
+            if ($sequencia->video_path && Storage::disk('public')->exists($sequencia->video_path)) {
+                Storage::disk('public')->delete($sequencia->video_path);
+            }
+            $update['video_path'] = $request->file('video')->store('sequencias', 'public');
+        }
+
+        $sequencia->update($update);
 
         return redirect()->route('professor.aulas-sequencia.index')
             ->with('success', 'Sequência atualizada com sucesso.');
