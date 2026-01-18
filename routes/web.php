@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Professor\DashboardController as ProfessorDashboardController;
 use App\Http\Controllers\Aluno\DashboardController as AlunoDashboardController;
 use App\Http\Controllers\Aluno\RegrasController as AlunoRegrasController;
 use App\Http\Controllers\Aluno\PerfilController as AlunoPerfilController;
 use App\Http\Controllers\Aluno\MeusHorariosController as AlunoMeusHorariosController;
-use App\Http\Controllers\Aluno\AnotacoesController as AlunoAnotacoesController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Professor\HorarioController;
 use App\Http\Controllers\Professor\RegraController;
 use App\Http\Controllers\Professor\ValorController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Professor\AlunoController;
 use App\Http\Controllers\Professor\TreinoController;
 use App\Http\Controllers\Professor\AulaSequenciaController;
 use App\Http\Controllers\Publico\CadastroController;
+use App\Http\Controllers\Aluno\AnotacoesController as AlunoAnotacoesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,17 +30,16 @@ use App\Http\Controllers\Publico\CadastroController;
 |
 */
 
-// Rota raiz - Landing page (futura implementação)
+// Rota raiz - Redireciona para dashboard se logado, senão mostra landing page
 Route::get('/', function () {
-    // Se estiver autenticado, redireciona para dashboard apropriado
-    if (auth()->check()) {
-        return auth()->user()->role === 'professor' 
+    if (Auth::check()) {
+        $user = Auth::user();
+        return $user->role === 'professor' 
             ? redirect()->route('professor.dashboard')
             : redirect()->route('aluno.dashboard');
     }
     
-    // Por enquanto redireciona para login, depois será a landing page
-    return redirect()->route('login');
+    return app(LandingController::class)->index();
 })->name('home');
 
 /*
