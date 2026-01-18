@@ -238,9 +238,6 @@
                            class="form-input" 
                            required 
                            placeholder="Sua senha">
-                    @error('password')
-                        <div class="form-error">{{ $message }}</div>
-                    @enderror
                 </div>
 
                 <div class="form-checkbox">
