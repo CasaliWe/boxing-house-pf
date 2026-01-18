@@ -66,4 +66,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(\App\Models\Treino::class, 'treino_user')->withTimestamps();
     }
+
+    /**
+     * Anotações do aluno.
+     */
+    public function anotacoes()
+    {
+        return $this->hasMany(\App\Models\Anotacao::class);
+    }
 }

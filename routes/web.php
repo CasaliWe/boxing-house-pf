@@ -7,6 +7,7 @@ use App\Http\Controllers\Aluno\DashboardController as AlunoDashboardController;
 use App\Http\Controllers\Aluno\RegrasController as AlunoRegrasController;
 use App\Http\Controllers\Aluno\PerfilController as AlunoPerfilController;
 use App\Http\Controllers\Aluno\MeusHorariosController as AlunoMeusHorariosController;
+use App\Http\Controllers\Aluno\AnotacoesController as AlunoAnotacoesController;
 use App\Http\Controllers\Professor\HorarioController;
 use App\Http\Controllers\Professor\RegraController;
 use App\Http\Controllers\Professor\ValorController;
@@ -130,4 +131,10 @@ Route::middleware(['auth', 'role:aluno'])->prefix('aluno')->name('aluno.')->grou
 
     // Meus Treinos
     Route::get('treinos', [\App\Http\Controllers\Aluno\TreinosController::class, 'index'])->name('treinos');
+
+    // Minhas Anotações
+    Route::get('anotacoes', [AlunoAnotacoesController::class, 'index'])->name('anotacoes.index');
+    Route::post('anotacoes', [AlunoAnotacoesController::class, 'store'])->name('anotacoes.store');
+    Route::put('anotacoes/{anotacao}', [AlunoAnotacoesController::class, 'update'])->name('anotacoes.update');
+    Route::delete('anotacoes/{anotacao}', [AlunoAnotacoesController::class, 'destroy'])->name('anotacoes.destroy');
 });
