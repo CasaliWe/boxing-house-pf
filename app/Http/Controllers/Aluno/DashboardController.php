@@ -67,6 +67,7 @@ class DashboardController extends Controller
                     $aprendizados[] = [
                         'numero' => $contadorPadrao,
                         'descricao' => $seq?->descricao ?? 'Sequência não configurada',
+                        'video_path' => $seq?->video_path,
                     ];
                 }
             }

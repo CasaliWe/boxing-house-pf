@@ -18,10 +18,18 @@ class TreinosController extends Controller
         // Ordena por data ascendente para numeração linear
         $treinos = $user->treinos()->orderBy('data')->get();
 
-        // Mapeia com número da aula
+        // Mapeia com número da aula e dados de vídeo
         $treinosNumerados = $treinos->values()->map(function ($treino, $idx) {
             $numeroAula = $idx + 1;
             $treino->numero_aula = $treino->especial ? null : $numeroAula;
+            
+            // Se não for especial, buscar sequência com vídeo
+            if (!$treino->especial) {
+                $sequencia = AulaSequencia::where('numero', $numeroAula)->where('ativo', true)->first();
+                $treino->sequencia = $sequencia;
+                $treino->video_path = $sequencia?->video_path;
+            }
+            
             return $treino;
         });
 

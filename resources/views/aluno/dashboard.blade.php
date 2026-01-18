@@ -3,6 +3,16 @@
 @section('title', 'Dashboard Aluno')
 
 @section('content')
+<style>
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+</style>
+
 <div class="space-y-8">
     <!-- Header -->
     <div class="text-center">
@@ -40,11 +50,19 @@
             @if(empty($aprendizados))
                 <div class="text-center text-gray-300">Sem registros ainda</div>
             @else
-                <div class="max-h-40 overflow-auto divide-y divide-gray-700 rounded border border-gray-700">
+                <div class="max-h-40 overflow-y-scroll divide-y divide-gray-700 rounded border border-gray-700 scrollbar-hide">
                     @foreach($aprendizados as $item)
-                        <div class="flex items-center gap-3 p-3">
-                            <span class="px-2 py-1 text-xs rounded bg-green-700 text-green-100">Aula {{ $item['numero'] }}</span>
-                            <span class="text-gray-200 text-sm">{{ $item['descricao'] }}</span>
+                        <div class="flex items-center justify-between gap-3 p-3">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2 py-1 text-xs rounded bg-green-700 text-green-100">Aula {{ $item['numero'] }}</span>
+                                <span class="text-gray-200 text-sm">{{ $item['descricao'] }}</span>
+                            </div>
+                            @if($item['video_path'])
+                                <button type="button" class="px-2 py-1 rounded text-xs bg-blue-600 hover:bg-blue-700 text-white transition duration-150"
+                                        onclick="abrirModalVideo('{{ asset('storage/'.$item['video_path']) }}')">
+                                    Vídeo
+                                </button>
+                            @endif
                         </div>
                     @endforeach
                 </div>
@@ -68,4 +86,26 @@
         </div>
     </div>
 </div>
+
+<!-- Modal de vídeo das sequências -->
+<div id="modalVideoSequencia" class="fixed inset-0 z-50 hidden bg-black/70">
+    <div class="absolute inset-0 flex items-center justify-center" onclick="closeVideoModal()">
+        <video id="videoSequencia" controls class="block max-h-[90vh] max-w-[90vw] bg-black rounded" onclick="event.stopPropagation();"></video>
+    </div>
+</div>
+
+<script>
+function abrirModalVideo(src){
+    const modal = document.getElementById('modalVideoSequencia');
+    const v = document.getElementById('videoSequencia');
+    v.src = src;
+    modal.classList.remove('hidden');
+}
+function closeVideoModal() {
+    const modal = document.getElementById('modalVideoSequencia');
+    const v = document.getElementById('videoSequencia');
+    v.pause();
+    modal.classList.add('hidden');
+}
+</script>
 @endsection
