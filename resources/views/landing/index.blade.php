@@ -1,23 +1,13 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boxing House PF - Academia de Boxe</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .bg-gradient-hero {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-        }
-        .bg-gradient-section {
-            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
-        }
-        .scroll-smooth {
-            scroll-behavior: smooth;
-        }
-    </style>
-</head>
-<body class="bg-gray-900 text-white scroll-smooth">
+@extends('layouts.landing')
+
+@section('title', 'Boxing House PF - Academia de Boxe em Passo Fundo | Treinamento Personal')
+@section('description', 'Academia de boxe em Passo Fundo com treinamento personal. Turmas fechadas com máximo 3 alunos, aulas de 1h10min. Equipamentos específicos para seu desenvolvimento no boxe.')
+@section('keywords', 'academia boxe passo fundo, treinamento personal boxe, boxing house pf, aulas boxe, treino boxe rs, academia passo fundo')
+
+@section('og_title', 'Boxing House PF - Academia de Boxe em Passo Fundo')
+@section('og_description', 'Treinamento personal de boxe com turmas fechadas de até 3 alunos. Equipamentos específicos e aulas de 1h10min em Passo Fundo/RS.')
+
+@section('content')
 
     <!-- Header/Navegação -->
     <header class="fixed w-full top-0 z-50 bg-gray-900/95 backdrop-blur-sm border-b border-gray-700">
@@ -30,17 +20,24 @@
                     <a href="#horarios" class="text-gray-300 hover:text-blue-400 transition-colors">Horários</a>
                     <a href="#galeria" class="text-gray-300 hover:text-blue-400 transition-colors">Galeria</a>
                     <a href="#valores" class="text-gray-300 hover:text-blue-400 transition-colors">Valores</a>
+                    <a href="#localizacao" class="text-gray-300 hover:text-blue-400 transition-colors">Localização</a>
                     <a href="#contato" class="text-gray-300 hover:text-blue-400 transition-colors">Contato</a>
                 </nav>
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 md:gap-4">
                     @if($config && $config->whatsapp)
                         <a href="https://wa.me/55{{ preg_replace('/\D/', '', $config->whatsapp) }}" target="_blank" 
-                           class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                            WhatsApp
+                           class="bg-green-600 hover:bg-green-700 px-3 py-2 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-colors flex items-center gap-1 md:gap-2">
+                            <svg class="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                            </svg>
+                            <span class="hidden sm:inline">WhatsApp</span>
                         </a>
                     @endif
-                    <a href="{{ route('login') }}" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                        Entrar
+                    <a href="{{ route('login') }}" class="bg-blue-700 hover:bg-blue-800 px-3 py-2 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-colors flex items-center gap-1 md:gap-2">
+                        <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                        <span class="hidden sm:inline">Área Aluno</span>
                     </a>
                 </div>
             </div>
@@ -48,29 +45,32 @@
     </header>
 
     <!-- Hero Section -->
-    <section id="home" class="min-h-screen bg-gradient-hero flex items-center relative overflow-hidden">
+    <section id="home" class="min-h-screen hero-bg flex items-center relative overflow-hidden">
         <div class="absolute inset-0 bg-black/20"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center">
-                <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                    Desperte o <span class="text-yellow-400">Campeão</span><br>
-                    que há em Você
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight text-white">
+                    Treinamento Personal<br>
+                    Máx 3 Alunos por Turma
                 </h1>
                 <p class="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-                    Academia de boxe profissional em Passo Fundo. Treine com os melhores equipamentos e técnicas para alcançar seus objetivos.
+                    Turmas fechadas com máximo 3 alunos focando no mais personal possível. Aulas de 1 hora e 10 minutos com treinamento profissional em Passo Fundo.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4">
                     @if($config && $config->whatsapp)
                         <a href="https://wa.me/55{{ preg_replace('/\D/', '', $config->whatsapp) }}?text=Olá! Gostaria de saber mais sobre a Boxing House PF" 
                            target="_blank" 
-                           class="bg-green-600 hover:bg-green-700 px-8 py-4 rounded-lg text-lg font-semibold transition-colors flex items-center gap-2 shadow-lg">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                           class="bg-green-600 hover:bg-green-700 px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold transition-colors flex items-center gap-2 sm:gap-3 shadow-lg w-full sm:w-auto justify-center">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
                             </svg>
                             Fale Conosco
                         </a>
                     @endif
-                    <a href="#sobre" class="border-2 border-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-gray-900 transition-colors">
+                    <a href="#sobre" class="border-2 border-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold hover:bg-white hover:text-gray-900 transition-colors flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
                         Saiba Mais
                     </a>
                 </div>
@@ -127,22 +127,30 @@
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Nosso Centro de Treinamento</h2>
                 <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-                    Conheça nossas instalações modernas e equipamentos de primeira linha.
+                    CT caseiro com equipamentos específicos que ajudam no desenvolvimento técnico e físico dos nossos alunos.
                 </p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 @foreach($fotosCentro->take(6) as $foto)
-                    <div class="group relative overflow-hidden rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300">
+                    <div class="group relative overflow-hidden rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 cursor-pointer" 
+                         onclick="openPhotoModal('{{ asset('storage/'.$foto->caminho_arquivo) }}', '{{ $foto->descricao ?: 'Foto do centro de treinamento' }}')">
                         <img src="{{ asset('storage/'.$foto->caminho_arquivo) }}" 
                              alt="{{ $foto->descricao ?: 'Foto do centro de treinamento' }}" 
                              class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                             @if($foto->descricao)
-                                <div class="absolute bottom-4 left-4 right-4">
-                                    <p class="text-white font-semibold">{{ $foto->descricao }}</p>
+                                <div class="p-4 w-full">
+                                    <p class="text-white font-semibold text-center">{{ $foto->descricao }}</p>
                                 </div>
                             @endif
+                        </div>
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div class="bg-white/20 rounded-full p-3">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -182,8 +190,12 @@
                             </div>
                             <div class="flex flex-wrap gap-2">
                                 @foreach($horariosDay as $horario)
+                                    @php
+                                        $inicio = \Carbon\Carbon::parse($horario->hora_inicio);
+                                        $fim = $inicio->copy()->addMinutes(70); // 1h10min
+                                    @endphp
                                     <span class="px-3 py-1 bg-blue-600 text-white rounded-full text-sm">
-                                        {{ \Carbon\Carbon::parse($horario->hora_inicio)->format('H:i') }}
+                                        {{ $inicio->format('H:i') }} até {{ $fim->format('H:i') }} horas
                                     </span>
                                 @endforeach
                             </div>
@@ -239,7 +251,10 @@
                         @if($config && $config->whatsapp)
                             <a href="https://wa.me/55{{ preg_replace('/\D/', '', $config->whatsapp) }}?text=Olá! Gostaria de saber mais sobre o plano {{ $valor->vezes_semana }}x por semana" 
                                target="_blank"
-                               class="w-full bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-semibold transition-colors inline-block">
+                               class="w-full bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-semibold transition-colors inline-flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                                </svg>
                                 Contratar Plano
                             </a>
                         @endif
@@ -250,7 +265,57 @@
     </section>
     @endif
 
-    <!-- Mapa e Contato -->
+    <!-- Localização -->
+    @if($config && $config->maps_src)
+    <section id="localizacao" class="py-20 bg-gradient-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Nossa Localização</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Localização estratégica em Passo Fundo, com fácil acesso e ambiente ideal para o seu desenvolvimento no boxe.
+                </p>
+            </div>
+            
+            <div class="bg-gray-900 border border-gray-600 rounded-xl overflow-hidden shadow-2xl">
+                <iframe src="{{ $config->maps_src }}" 
+                        width="100%" 
+                        height="500" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade"
+                        class="w-full">
+                </iframe>
+            </div>
+            
+            <div class="mt-8 text-center">
+                <div class="inline-flex items-center gap-2 bg-gray-900 border border-gray-600 rounded-lg px-6 py-4">
+                    <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    <div class="text-left">
+                        <p class="text-white font-semibold">Boxing House PF</p>
+                        <p class="text-gray-300">
+                            @if($config && ($config->bairro || $config->cidade))
+                                {{ $config->bairro ? $config->bairro.' - ' : '' }}{{ $config->cidade ?: 'Passo Fundo' }}, RS
+                                @if($config->rua && $config->numero)
+                                     • {{ $config->rua }}, {{ $config->numero }}
+                                @elseif($config->rua)
+                                     • {{ $config->rua }}
+                                @endif
+                            @else
+                                Centro - Passo Fundo, RS • Rua Exemplo, 123
+                            @endif
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    @endif
+
+    <!-- Contato -->
     <section id="contato" class="py-20 bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -260,7 +325,7 @@
                 </p>
             </div>
             
-            <div class="grid lg:grid-cols-2 gap-12">
+            <div class="max-w-4xl mx-auto">
                 <!-- Informações de Contato -->
                 <div class="space-y-8">
                     <div class="bg-gradient-section border border-gray-600 rounded-xl p-8">
@@ -302,6 +367,25 @@
                             @endif
                             
                             <div class="flex items-center gap-4">
+                                <div class="bg-purple-600 p-3 rounded-full">
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">Instagram</p>
+                                    @if($config && $config->instagram)
+                                        <a href="https://instagram.com/{{ ltrim($config->instagram, '@') }}" target="_blank" 
+                                           class="text-white font-semibold hover:text-purple-400 transition-colors">
+                                            {{ $config->instagram }}
+                                        </a>
+                                    @else
+                                        <span class="text-gray-500">Não informado</span>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-4">
                                 <div class="bg-red-600 p-3 rounded-full">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
@@ -310,7 +394,18 @@
                                 </div>
                                 <div>
                                     <p class="text-gray-400">Localização</p>
-                                    <p class="text-white font-semibold">Passo Fundo, RS</p>
+                                    <p class="text-white font-semibold">
+                                        @if($config && ($config->bairro || $config->cidade))
+                                            {{ $config->bairro ? $config->bairro.' - ' : '' }}{{ $config->cidade ?: 'Passo Fundo' }}, RS
+                                            @if($config->rua && $config->numero)
+                                                <br>{{ $config->rua }}, {{ $config->numero }}
+                                            @elseif($config->rua)
+                                                <br>{{ $config->rua }}
+                                            @endif
+                                        @else
+                                            Centro - Passo Fundo, RS<br>Rua Exemplo, 123
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -319,28 +414,16 @@
                             <div class="mt-8">
                                 <a href="https://wa.me/55{{ preg_replace('/\D/', '', $config->whatsapp) }}?text=Olá! Gostaria de conhecer a Boxing House PF" 
                                    target="_blank"
-                                   class="w-full bg-green-600 hover:bg-green-700 px-6 py-4 rounded-lg font-semibold transition-colors inline-block text-center text-lg">
+                                   class="w-full bg-green-600 hover:bg-green-700 px-6 py-4 rounded-lg font-semibold transition-colors inline-flex items-center justify-center gap-2 text-lg">
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                                    </svg>
                                     Fale Conosco no WhatsApp
                                 </a>
                             </div>
                         @endif
                     </div>
                 </div>
-                
-                <!-- Mapa -->
-                @if($config && $config->maps_src)
-                    <div class="bg-gradient-section border border-gray-600 rounded-xl overflow-hidden">
-                        <iframe src="{{ $config->maps_src }}" 
-                                width="100%" 
-                                height="450" 
-                                style="border:0;" 
-                                allowfullscreen="" 
-                                loading="lazy" 
-                                referrerpolicy="no-referrer-when-downgrade"
-                                class="w-full h-96 lg:h-full">
-                        </iframe>
-                    </div>
-                @endif
             </div>
         </div>
     </section>
@@ -354,12 +437,15 @@
                 Agende uma aula experimental!
             </p>
             
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
                 @if($config && $config->whatsapp)
                     <a href="https://wa.me/55{{ preg_replace('/\D/', '', $config->whatsapp) }}?text=Olá! Gostaria de agendar uma aula experimental" 
                        target="_blank"
-                       class="bg-green-600 hover:bg-green-700 px-8 py-4 rounded-lg text-lg font-semibold transition-colors inline-flex items-center justify-center gap-2">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                       class="bg-green-600 hover:bg-green-700 px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold transition-colors inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-auto">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
                         </svg>
                         Agendar Aula Experimental
@@ -367,7 +453,10 @@
                 @endif
                 
                 <a href="{{ route('login') }}" 
-                   class="border-2 border-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-gray-900 transition-colors">
+                   class="border-2 border-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold hover:bg-white hover:text-gray-900 transition-colors inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-auto">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
                     Área do Aluno
                 </a>
             </div>
@@ -398,8 +487,53 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- Modal para Fotos -->
+    <div id="photoModal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4" onclick="closePhotoModal()">
+        <div class="relative max-w-4xl max-h-full" onclick="event.stopPropagation()">
+            <img id="modalPhoto" src="" alt="" class="max-w-full max-h-full object-contain rounded-lg">
+            <div class="absolute top-4 right-4">
+                <button onclick="closePhotoModal()" class="bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="modalDescription" class="absolute bottom-0 left-0 right-0 bg-black/70 text-white p-4 rounded-b-lg">
+                <p class="text-center font-semibold"></p>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
     <script>
+        // Modal de fotos
+        function openPhotoModal(src, description) {
+            const modal = document.getElementById('photoModal');
+            const modalPhoto = document.getElementById('modalPhoto');
+            const modalDescription = document.getElementById('modalDescription');
+            
+            modalPhoto.src = src;
+            modalPhoto.alt = description;
+            modalDescription.querySelector('p').textContent = description;
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closePhotoModal() {
+            const modal = document.getElementById('photoModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Fechar modal com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePhotoModal();
+            }
+        });
+        
         // Smooth scrolling para navegação
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -430,5 +564,4 @@
             }
         });
     </script>
-</body>
-</html>
+@endsection

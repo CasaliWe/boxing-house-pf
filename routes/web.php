@@ -8,7 +8,7 @@ use App\Http\Controllers\Aluno\DashboardController as AlunoDashboardController;
 use App\Http\Controllers\Aluno\RegrasController as AlunoRegrasController;
 use App\Http\Controllers\Aluno\PerfilController as AlunoPerfilController;
 use App\Http\Controllers\Aluno\MeusHorariosController as AlunoMeusHorariosController;
-use App\Http\Controllers\LandingController;
+use App\Http\Controllers\Publico\LandingController;
 use App\Http\Controllers\Professor\HorarioController;
 use App\Http\Controllers\Professor\RegraController;
 use App\Http\Controllers\Professor\ValorController;
@@ -18,7 +18,9 @@ use App\Http\Controllers\Professor\AlunoController;
 use App\Http\Controllers\Professor\TreinoController;
 use App\Http\Controllers\Professor\AulaSequenciaController;
 use App\Http\Controllers\Publico\CadastroController;
+use App\Http\Controllers\Publico\LandingController as PublicoLandingController;
 use App\Http\Controllers\Aluno\AnotacoesController as AlunoAnotacoesController;
+use App\Http\Controllers\Aluno\TreinosController as AlunoTreinosController;
 
 /*
 |--------------------------------------------------------------------------

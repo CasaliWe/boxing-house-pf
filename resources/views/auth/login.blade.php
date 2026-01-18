@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <!-- SEO -->
+    <meta name="description" content="Acesse sua conta na Boxing House PF - Sistema de academia de boxe.">
+    <meta name="keywords" content="boxing house pf, login, academia boxe, acesso aluno">
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    <!-- Favicon e PWA -->
+    <meta name="theme-color" content="#0ea5e9">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <title>Login - Boxing House PF</title>
 
     <!-- Fonts -->

@@ -14,6 +14,11 @@ class Configuracao extends Model
     protected $fillable = [
         'pix',
         'whatsapp',
+        'instagram',
+        'cidade',
+        'bairro',
+        'rua',
+        'numero',
         'maps_src',
         'email',
     ];

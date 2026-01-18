@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Publico;
 
+use App\Http\Controllers\Controller;
 use App\Models\Configuracao;
 use App\Models\FotoCentro;
 use App\Models\ValorPlano;

@@ -49,6 +49,48 @@
                 @enderror
             </div>
 
+            <div>
+                <label for="instagram" class="block text-sm font-medium text-gray-300 mb-2">Instagram (@usuário)</label>
+                <input type="text" id="instagram" name="instagram" value="{{ old('instagram', $config->instagram) }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex.: @boxinghousepf">
+                @error('instagram')
+                    <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="cidade" class="block text-sm font-medium text-gray-300 mb-2">Cidade</label>
+                    <input type="text" id="cidade" name="cidade" value="{{ old('cidade', $config->cidade) }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex.: Passo Fundo">
+                    @error('cidade')
+                        <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div>
+                    <label for="bairro" class="block text-sm font-medium text-gray-300 mb-2">Bairro</label>
+                    <input type="text" id="bairro" name="bairro" value="{{ old('bairro', $config->bairro) }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex.: Centro">
+                    @error('bairro')
+                        <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="md:col-span-2">
+                    <label for="rua" class="block text-sm font-medium text-gray-300 mb-2">Rua/Avenida</label>
+                    <input type="text" id="rua" name="rua" value="{{ old('rua', $config->rua) }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex.: Rua Teixeira Soares">
+                    @error('rua')
+                        <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div>
+                    <label for="numero" class="block text-sm font-medium text-gray-300 mb-2">Número</label>
+                    <input type="text" id="numero" name="numero" value="{{ old('numero', $config->numero) }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex.: 123">
+                    @error('numero')
+                        <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
             <div class="flex items-center justify-end gap-3">
                 <button id="btnSalvarConfig" type="submit" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white">
                     <span class="btn-spin inline-block align-middle w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin mr-2" style="display:none"></span>

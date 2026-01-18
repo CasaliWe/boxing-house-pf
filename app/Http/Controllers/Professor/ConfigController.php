@@ -38,6 +38,11 @@ class ConfigController extends Controller
         $dados = $request->validate([
             'pix' => ['nullable', 'string', 'max:255'],
             'whatsapp' => ['nullable', 'string', 'max:255'],
+            'instagram' => ['nullable', 'string', 'max:255'],
+            'cidade' => ['nullable', 'string', 'max:255'],
+            'bairro' => ['nullable', 'string', 'max:255'],
+            'rua' => ['nullable', 'string', 'max:255'],
+            'numero' => ['nullable', 'string', 'max:255'],
             'maps_src' => ['nullable', 'string'],
             'email' => ['nullable', 'email'],
         ], [
@@ -47,6 +52,11 @@ class ConfigController extends Controller
         $config = Configuracao::firstOrCreate(['id' => 1], [
             'pix' => '',
             'whatsapp' => '',
+            'instagram' => '',
+            'cidade' => '',
+            'bairro' => '',
+            'rua' => '',
+            'numero' => '',
             'maps_src' => '',
             'email' => '',
         ]);
