@@ -71,7 +71,7 @@ class AlunoController extends Controller
 
     /**
      * Atualiza os horários vinculados ao aluno.
-     * Não aprova aqui; apenas sincroniza seleção (aprovado=false).
+     * Aprova automaticamente quando há vagas disponíveis.
      */
     public function atualizarHorarios(Request $request, User $user)
     {
@@ -92,13 +92,37 @@ class AlunoController extends Controller
             return back()->withErrors(['horarios' => 'Você só pode selecionar '.$max.' horário(s) conforme o plano.'])->withInput();
         }
 
-        // Sincroniza exatamente os IDs selecionados, marcando aprovado=false.
-        $syncData = $selecionados->mapWithKeys(function ($id) {
-            return [$id => ['aprovado' => false]];
-        })->toArray();
+        // Aprovação conforme vagas (similar à lógica do aluno)
+        $atuais = $user->horarios()->get()->keyBy('id');
+        $syncData = [];
+        foreach (Horario::whereIn('id', $selecionados)->get() as $h) {
+            $aprovadoAtual = $atuais->has($h->id) ? (bool)($atuais[$h->id]->pivot->aprovado) : false;
+            $ocupadas = $h->alunos()->wherePivot('aprovado', true)
+                ->when($atuais->has($h->id) && $aprovadoAtual, function($q) use ($user){
+                    $q->where('users.id', '!=', $user->id);
+                })
+                ->count();
+            $syncData[$h->id] = ['aprovado' => $ocupadas < Horario::LIMITE_ALUNOS];
+        }
 
         $user->horarios()->sync($syncData);
 
-        return back()->with('success', 'Horários do aluno atualizados.');
+        // Mensagem com possível lista sem vagas
+        $semVaga = [];
+        foreach ($syncData as $hid => $pivot) {
+            if (!$pivot['aprovado']) {
+                $h = $atuais->get($hid) ?: Horario::find($hid);
+                if ($h) {
+                    $semVaga[] = $h->dia_semana_label.' '.Carbon::parse($h->hora_inicio)->format('H:i');
+                }
+            }
+        }
+
+        $msg = 'Horários do aluno atualizados.';
+        if (!empty($semVaga)) {
+            $msg .= ' Sem vagas em: '.implode(', ', $semVaga).'.';
+        }
+
+        return back()->with('success', $msg);
     }
 }
