@@ -30,24 +30,11 @@
                                 @endif
                                 <div>
                                     <h3 class="text-xl font-semibold text-white">{{ $avaliacao->user->name }}</h3>
-                                    <p class="text-gray-400">{{ $avaliacao->user->email }}</p>
+                                    <p class="text-gray-400 text-sm">{{ $avaliacao->user->email }}</p>
                                     <p class="text-gray-400 text-sm">
                                         Enviado em {{ $avaliacao->created_at->format('d/m/Y H:i') }}
                                     </p>
                                 </div>
-                            </div>
-                            
-                            <!-- Status Badge -->
-                            <div>
-                                @if($avaliacao->ativo)
-                                    <span class="bg-green-900/50 border border-green-500 text-green-400 px-3 py-1 rounded-full text-sm font-semibold">
-                                        ✓ Aprovada
-                                    </span>
-                                @else
-                                    <span class="bg-yellow-900/50 border border-yellow-500 text-yellow-400 px-3 py-1 rounded-full text-sm font-semibold">
-                                        ⏳ Pendente
-                                    </span>
-                                @endif
                             </div>
                         </div>
 

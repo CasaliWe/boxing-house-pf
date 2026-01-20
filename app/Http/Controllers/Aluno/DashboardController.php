@@ -76,6 +76,7 @@ class DashboardController extends Controller
                 'proximoTreino' => $proximo,
                 'totalAulas' => $totalAulas,
                 'aprendizados' => $aprendizados,
+                'vencimentoMensalidade' => $user->vencimento_at,
             ]);
 
         } catch (\Exception $e) {

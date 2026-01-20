@@ -21,24 +21,53 @@
     </div>
 
     <!-- Cards principais -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- Próximo Treino -->
-        <div class="bg-gradient-card border border-gray-600 rounded-xl p-6 text-center">
-            <div class="text-gray-300 text-sm mb-2">Próximo treino</div>
+        <div class="bg-gradient-card border border-gray-600 rounded-xl p-8 text-center">
+            <div class="text-gray-300 text-base mb-4">Próximo treino</div>
             @if($proximoTreino)
-                <div class="text-blue-400 text-xl font-bold">{{ $proximoTreino['dia_label'] }}</div>
-                <div class="text-white text-2xl font-semibold mt-1">{{ $proximoTreino['hora'] }}</div>
-                <div class="text-gray-400 text-xs mt-1">{{ $proximoTreino['date']->format('d/m/Y') }}</div>
+                <div class="text-blue-400 text-3xl font-bold">{{ $proximoTreino['dia_label'] }}</div>
+                <div class="text-white text-4xl font-semibold mt-2">{{ $proximoTreino['hora'] }}</div>
+                <div class="text-gray-400 text-sm mt-2">{{ $proximoTreino['date']->format('d/m/Y') }}</div>
             @else
-                <div class="text-gray-300">Sem horários definidos</div>
+                <div class="text-gray-300 text-lg">Sem horários definidos</div>
             @endif
         </div>
 
         <!-- Total de Aulas -->
-        <div class="bg-gradient-card border border-gray-600 rounded-xl p-6 text-center">
-            <div class="text-gray-300 text-sm mb-2">Total de aulas</div>
-            <div class="text-green-400 text-4xl font-bold">{{ $totalAulas }}</div>
-            <div class="text-gray-400 text-xs mt-1">Sequenciais e especiais somadas</div>
+        <div class="bg-gradient-card border border-gray-600 rounded-xl p-8 text-center">
+            <div class="text-gray-300 text-base mb-4">Total de aulas</div>
+            <div class="text-green-400 text-5xl font-bold">{{ $totalAulas }}</div>
+            <div class="text-gray-400 text-sm mt-2">Sequenciais e especiais somadas</div>
+        </div>
+
+        <!-- Vencimento Mensalidade -->
+        <div class="bg-gradient-card border border-gray-600 rounded-xl p-8 text-center">
+            <div class="text-gray-300 text-base mb-4">Vencimento</div>
+            @if($vencimentoMensalidade)
+                @php
+                    $vencimento = \Illuminate\Support\Carbon::parse($vencimentoMensalidade);
+                    $hoje = \Illuminate\Support\Carbon::today();
+                    $diasRestantes = $hoje->diffInDays($vencimento, false);
+                    
+                    if ($hoje->gt($vencimento)) {
+                        $corTexto = 'text-red-400';
+                        $status = 'VENCIDA';
+                    } elseif ($diasRestantes <= 2) {
+                        $corTexto = 'text-yellow-400';
+                        $status = 'VENCE HOJE';
+                        if ($diasRestantes == 1) $status = 'VENCE AMANHÃ';
+                        if ($diasRestantes == 2) $status = 'VENCE EM 2 DIAS';
+                    } else {
+                        $corTexto = 'text-green-400';
+                        $status = 'OK';
+                    }
+                @endphp
+                <div class="{{ $corTexto }} text-3xl font-bold">{{ $vencimento->format('d/m/Y') }}</div>
+                <div class="{{ $corTexto }} text-lg font-semibold mt-2">{{ $status }}</div>
+            @else
+                <div class="text-gray-300 text-lg">Não definido</div>
+            @endif
         </div>
 
         <!-- O que já aprendi -->
