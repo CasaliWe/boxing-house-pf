@@ -18,6 +18,7 @@
                     <a href="#home" class="text-gray-300 hover:text-blue-400 transition-colors">Início</a>
                     <a href="#sobre" class="text-gray-300 hover:text-blue-400 transition-colors">Sobre</a>
                     <a href="#horarios" class="text-gray-300 hover:text-blue-400 transition-colors">Horários</a>
+                    <a href="#avaliacoes" class="text-gray-300 hover:text-blue-400 transition-colors">Avaliações</a>
                     <a href="#galeria" class="text-gray-300 hover:text-blue-400 transition-colors">Galeria</a>
                     <a href="#valores" class="text-gray-300 hover:text-blue-400 transition-colors">Valores</a>
                     <a href="#localizacao" class="text-gray-300 hover:text-blue-400 transition-colors">Localização</a>
@@ -315,6 +316,78 @@
         </div>
     </section>
 
+    <!-- Avaliações dos Alunos -->
+    @if($avaliacoes->isNotEmpty())
+    <section id="avaliacoes" class="py-20 bg-gradient-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">O que Nossos Alunos Dizem</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Depoimentos reais de quem treina conosco e vive a experiência Boxing House PF.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @foreach($avaliacoes as $avaliacao)
+                    <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 hover:scale-105 transition-transform duration-300">
+                        <!-- Header com foto e nome -->
+                        <div class="flex items-center gap-4 mb-4">
+                            @if($avaliacao->foto_avaliacao)
+                                <img src="{{ asset('storage/' . $avaliacao->foto_avaliacao) }}" 
+                                     alt="Foto de {{ $avaliacao->user->name }}" 
+                                     class="w-12 h-12 rounded-full object-cover border-2 border-blue-400">
+                            @else
+                                <div class="w-12 h-12 rounded-full bg-gradient-blue flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                    </svg>
+                                </div>
+                            @endif
+                            <div>
+                                <h3 class="text-white font-semibold">{{ $avaliacao->user->name }}</h3>
+                                <p class="text-gray-400 text-sm">Aluno</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Comentário -->
+                        <div class="relative">
+                            <!-- Aspas decorativas -->
+                            <div class="absolute -top-2 -left-2 text-4xl text-blue-400/30 font-serif">"</div>
+                            <p class="text-gray-300 italic pl-6 pr-4 relative z-10">
+                                {{ $avaliacao->comentario }}
+                            </p>
+                            <div class="absolute -bottom-2 -right-2 text-4xl text-blue-400/30 font-serif rotate-180">"</div>
+                        </div>
+                        
+                        <!-- Data da avaliação -->
+                        <div class="mt-4 pt-4 border-t border-gray-700">
+                            <p class="text-gray-400 text-xs">
+                                {{ $avaliacao->created_at->format('M Y') }}
+                            </p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            
+            <!-- Call to action -->
+            <div class="text-center mt-12">
+                <div class="bg-gray-900 border border-gray-600 rounded-xl p-8 max-w-2xl mx-auto">
+                    <h3 class="text-2xl font-bold text-blue-400 mb-4">Quer compartilhar sua experiência?</h3>
+                    <p class="text-gray-300 mb-6">
+                        Se você já é nosso aluno, faça login na sua área e deixe sua avaliação!
+                    </p>
+                    <a href="{{ route('login') }}" class="inline-flex items-center gap-2 bg-gradient-blue hover:from-blue-700 hover:to-purple-700 px-6 py-3 rounded-lg font-semibold transition-all duration-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                        Acessar Área do Aluno
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    @endif
+
     <!-- Galeria de Fotos -->
     @if($fotosCentro->isNotEmpty())
     <section id="galeria" class="py-20 bg-gradient-section">
@@ -464,19 +537,34 @@
     <section id="sistema" class="py-20 bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Sistema do Aluno</h2>
-                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-                    Acompanhe sua evolução, aulas participadas e mais — tudo em um só lugar.
-                </p>
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">
+                    {{ $sistemaAluno->titulo ?? 'Sistema do Aluno' }}
+                </h2>
+                @if($sistemaAluno && $sistemaAluno->descricao)
+                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                        {{ $sistemaAluno->descricao }}
+                    </p>
+                @else
+                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                        Acompanhe sua evolução, aulas participadas e mais — tudo em um só lugar.
+                    </p>
+                @endif
             </div>
 
-            <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <div class="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Resumo -->
                 <div class="bg-gradient-section border border-gray-600 rounded-xl p-8">
                     <h3 class="text-2xl font-semibold text-blue-400 mb-4">Resumo</h3>
                     <ul class="space-y-3 text-gray-300">
-                        <li>• Evolução real no seu ritmo</li>
-                        <li>• Registro de aulas participadas</li>
-                        <li>• Acesso simples pela área do aluno</li>
+                        @if($sistemaAluno && $sistemaAluno->resumo_items)
+                            @foreach($sistemaAluno->resumo_items as $item)
+                                <li>• {{ $item }}</li>
+                            @endforeach
+                        @else
+                            <li>• Evolução real no seu ritmo</li>
+                            <li>• Registro de aulas participadas</li>
+                            <li>• Acesso simples pela área do aluno</li>
+                        @endif
                     </ul>
                     <div class="mt-6">
                         <a href="{{ route('login') }}" class="inline-flex items-center gap-2 border-2 border-white px-5 py-3 rounded-lg font-semibold hover:bg-white hover:text-gray-900 transition-colors">
@@ -487,12 +575,45 @@
                         </a>
                     </div>
                 </div>
+
+                <!-- Detalhes -->
                 <div class="bg-gray-900 border border-gray-600 rounded-xl p-8">
                     <h3 class="text-2xl font-semibold text-blue-400 mb-4">Detalhes</h3>
                     <p class="text-gray-300">
-                        Visualize sua participação nas aulas e o progresso ao longo do tempo. Tenha clareza sobre sua evolução técnica e física, com foco no que importa.
+                        @if($sistemaAluno && $sistemaAluno->detalhes)
+                            {{ $sistemaAluno->detalhes }}
+                        @else
+                            Visualize sua participação nas aulas e o progresso ao longo do tempo. Tenha clareza sobre sua evolução técnica e física, com foco no que importa.
+                        @endif
                     </p>
                 </div>
+
+                <!-- Imagens do Sistema -->
+                @if($sistemaAluno && $sistemaAluno->imagens && count($sistemaAluno->imagens) > 0)
+                    <div class="bg-gradient-section border border-gray-600 rounded-xl p-8">
+                        <h3 class="text-2xl font-semibold text-blue-400 mb-4">Sistema</h3>
+                        
+                        <div class="relative sistema-slider-container">
+                            @foreach($sistemaAluno->imagens as $indice => $imagem)
+                                <div class="sistema-slide">
+                                    <img src="{{ asset('storage/' . $imagem) }}" 
+                                         alt="Sistema do Aluno - Imagem {{ $indice + 1 }}" 
+                                         class="w-full h-48 object-cover rounded-lg shadow-lg">
+                                </div>
+                            @endforeach
+                            
+                            <!-- Indicadores do Slider -->
+                            @if(count($sistemaAluno->imagens) > 1)
+                                <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2">
+                                    @foreach($sistemaAluno->imagens as $indice => $imagem)
+                                        <button class="sistema-slider-indicator w-2 h-2 rounded-full transition-all {{ $indice === 0 ? 'bg-blue-400' : 'bg-white/50' }}" 
+                                                data-slide="{{ $indice }}"></button>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </section>
@@ -776,6 +897,45 @@
             opacity: 0.8;
             transform: scale(1.1);
         }
+        
+        /* Slider de imagens do sistema */
+        .sistema-slider-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 192px; /* h-48 equivale a 192px */
+        }
+        
+        .sistema-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: opacity 1s ease-in-out;
+            opacity: 0;
+        }
+        
+        .sistema-slide:first-child {
+            position: relative;
+            opacity: 1;
+        }
+        
+        .sistema-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .sistema-slider-indicator {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .sistema-slider-indicator:hover {
+            opacity: 0.8;
+            transform: scale(1.1);
+        }
     </style>
     
     <script>
@@ -931,6 +1091,103 @@
             
             // Auto slide a cada 4 segundos
             setInterval(nextSlide, 4000);
+        });
+
+        // Slider automático do sistema
+        document.addEventListener('DOMContentLoaded', function() {
+            const sistemaSliderContainer = document.querySelector('.sistema-slider-container');
+            if (!sistemaSliderContainer) return;
+            
+            const sistemaSlides = sistemaSliderContainer.querySelectorAll('.sistema-slide');
+            const sistemaIndicators = sistemaSliderContainer.querySelectorAll('.sistema-slider-indicator');
+            
+            if (sistemaSlides.length <= 1) return; // Não precisa de slider para 1 imagem ou menos
+            
+            let sistemaCurrentSlide = 0;
+            let sistemaIsTransitioning = false;
+            
+            // Inicializar - mostrar primeiro slide
+            function initSistemaSlider() {
+                sistemaSlides.forEach((slide, index) => {
+                    if (index === 0) {
+                        slide.style.opacity = '1';
+                        slide.style.position = 'relative';
+                    } else {
+                        slide.style.opacity = '0';
+                        slide.style.position = 'absolute';
+                        slide.style.top = '0';
+                        slide.style.left = '0';
+                        slide.style.width = '100%';
+                    }
+                });
+                
+                // Ativar primeiro indicador
+                if (sistemaIndicators.length > 0) {
+                    sistemaIndicators[0].classList.remove('bg-white/50');
+                    sistemaIndicators[0].classList.add('bg-blue-400');
+                }
+            }
+            
+            function showSistemaSlide(index) {
+                if (sistemaIsTransitioning || index === sistemaCurrentSlide) return;
+                sistemaIsTransitioning = true;
+                
+                const currentSlideEl = sistemaSlides[sistemaCurrentSlide];
+                const nextSlideEl = sistemaSlides[index];
+                
+                // Fade out do slide atual
+                currentSlideEl.style.opacity = '0';
+                
+                // Preparar próximo slide
+                nextSlideEl.style.position = 'absolute';
+                nextSlideEl.style.top = '0';
+                nextSlideEl.style.left = '0';
+                nextSlideEl.style.width = '100%';
+                nextSlideEl.style.opacity = '0';
+                
+                // Fade in do próximo slide após pequeno delay
+                setTimeout(() => {
+                    nextSlideEl.style.opacity = '1';
+                    
+                    // Após a transição, ajustar posições
+                    setTimeout(() => {
+                        currentSlideEl.style.position = 'absolute';
+                        nextSlideEl.style.position = 'relative';
+                        
+                        // Atualizar indicadores
+                        sistemaIndicators.forEach((indicator, i) => {
+                            if (i === index) {
+                                indicator.classList.remove('bg-white/50');
+                                indicator.classList.add('bg-blue-400');
+                            } else {
+                                indicator.classList.remove('bg-blue-400');
+                                indicator.classList.add('bg-white/50');
+                            }
+                        });
+                        
+                        sistemaCurrentSlide = index;
+                        sistemaIsTransitioning = false;
+                    }, 1000); // Tempo da transição CSS
+                }, 50);
+            }
+            
+            function nextSistemaSlide() {
+                const nextIndex = (sistemaCurrentSlide + 1) % sistemaSlides.length;
+                showSistemaSlide(nextIndex);
+            }
+            
+            // Controle manual pelos indicadores
+            sistemaIndicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    showSistemaSlide(index);
+                });
+            });
+            
+            // Inicializar slider
+            initSistemaSlider();
+            
+            // Auto slide a cada 5 segundos (diferente do slider do professor para não sincronizarem)
+            setInterval(nextSistemaSlide, 5000);
         });
     </script>
 @endsection

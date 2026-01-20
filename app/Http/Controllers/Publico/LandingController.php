@@ -8,6 +8,8 @@ use App\Models\FotoCentro;
 use App\Models\ValorPlano;
 use App\Models\Horario;
 use App\Models\User;
+use App\Models\SistemaAluno;
+use App\Models\Avaliacao;
 use Illuminate\Http\Request;
 
 class LandingController extends Controller
@@ -40,6 +42,17 @@ class LandingController extends Controller
             ->whereNotNull('descricao_professor')
             ->first();
 
-        return view('landing.index', compact('config', 'fotosCentro', 'valores', 'horarios', 'professor'));
+        // Dados do sistema do aluno
+        $sistemaAluno = SistemaAluno::where('ativo', true)->first();
+
+        // Avaliações dos alunos aprovadas
+        $avaliacoes = Avaliacao::with('user')
+            ->where('ativo', true)
+            ->where('exibir_landing', true)
+            ->orderBy('created_at', 'desc')
+            ->take(6) // Limite de 6 avaliações
+            ->get();
+
+        return view('landing.index', compact('config', 'fotosCentro', 'valores', 'horarios', 'professor', 'sistemaAluno', 'avaliacoes'));
     }
 }

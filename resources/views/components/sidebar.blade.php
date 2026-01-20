@@ -103,6 +103,24 @@
                 </a>
             </div>
 
+            <div class="px-4 mb-2">
+                <a href="{{ route('professor.app.index') }}" class="flex items-center px-6 py-4 text-gray-300 hover:text-white rounded-lg transition-all duration-300 nav-hover {{ request()->routeIs('professor.app.*') ? 'bg-gradient-blue text-white' : 'hover:bg-gradient-blue' }}">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                    </svg>
+                    App
+                </a>
+            </div>
+
+            <div class="px-4 mb-2">
+                <a href="{{ route('professor.avaliacoes.index') }}" class="flex items-center px-6 py-4 text-gray-300 hover:text-white rounded-lg transition-all duration-300 nav-hover {{ request()->routeIs('professor.avaliacoes.*') ? 'bg-gradient-blue text-white' : 'hover:bg-gradient-blue' }}">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.6.9-1 1.651-1.155.751-.154 1.532.055 2.152.625L19.64 6.55a2 2 0 01.25 2.83l-7.18 8.61c-.34.407-.808.695-1.335.82L9 19.5l.694-2.375c.125-.527.413-.995.82-1.335l8.61-7.18a2 2 0 002.83.25z"></path>
+                    </svg>
+                    Avaliações
+                </a>
+            </div>
+
             
 
         @else
@@ -158,6 +176,16 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                     </svg>
                     Minhas Anotações
+                </a>
+            </div>
+
+            <div class="px-4 mb-2">
+                <a href="{{ route('aluno.avaliar.index') }}" class="flex items-center px-6 py-4 text-gray-300 hover:text-white rounded-lg transition-all duration-300 nav-hover {{ request()->routeIs('aluno.avaliar.*') ? 'bg-gradient-blue text-white' : 'hover:bg-gradient-blue' }}">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.6.9-1 1.651-1.155.751-.154 1.532.055 2.152.625L19.64 6.55a2 2 0 01.25 2.83l-7.18 8.61c-.34.407-.808.695-1.335.82L9 19.5l.694-2.375c.125-.527.413-.995.82-1.335l8.61-7.18a2 2 0 002.83.25z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 3L16 5.5M9 13h3l4-4"></path>
+                    </svg>
+                    Avaliar
                 </a>
             </div>
         @endif

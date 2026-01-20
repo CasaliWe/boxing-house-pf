@@ -18,10 +18,13 @@ use App\Http\Controllers\Professor\AlunoController;
 use App\Http\Controllers\Professor\TreinoController;
 use App\Http\Controllers\Professor\AulaSequenciaController;
 use App\Http\Controllers\Professor\ProfessorController;
+use App\Http\Controllers\Professor\AppController;
+use App\Http\Controllers\Professor\AvaliacaoController;
 use App\Http\Controllers\Publico\CadastroController;
 use App\Http\Controllers\Publico\LandingController as PublicoLandingController;
 use App\Http\Controllers\Aluno\AnotacoesController as AlunoAnotacoesController;
 use App\Http\Controllers\Aluno\TreinosController as AlunoTreinosController;
+use App\Http\Controllers\Aluno\AvaliarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,6 +121,17 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
     Route::get('professor', [ProfessorController::class, 'edit'])->name('professor.edit');
     Route::put('professor', [ProfessorController::class, 'update'])->name('professor.update');
     Route::post('professor/remover-imagem', [ProfessorController::class, 'removerImagem'])->name('professor.remover-imagem');
+
+    // App - Sistema do Aluno
+    Route::get('app', [AppController::class, 'index'])->name('app.index');
+    Route::put('app', [AppController::class, 'update'])->name('app.update');
+    Route::post('app/remover-imagem', [AppController::class, 'removerImagem'])->name('app.remover-imagem');
+
+    // Avaliacões dos Alunos
+    Route::get('avaliacoes', [AvaliacaoController::class, 'index'])->name('avaliacoes.index');
+    Route::post('avaliacoes/{avaliacao}/aprovar', [AvaliacaoController::class, 'aprovar'])->name('avaliacoes.aprovar');
+    Route::post('avaliacoes/{avaliacao}/reprovar', [AvaliacaoController::class, 'reprovar'])->name('avaliacoes.reprovar');
+    Route::delete('avaliacoes/{avaliacao}', [AvaliacaoController::class, 'destroy'])->name('avaliacoes.destroy');
 });
 
 /*
@@ -148,4 +162,9 @@ Route::middleware(['auth', 'role:aluno'])->prefix('aluno')->name('aluno.')->grou
     Route::post('anotacoes', [AlunoAnotacoesController::class, 'store'])->name('anotacoes.store');
     Route::put('anotacoes/{anotacao}', [AlunoAnotacoesController::class, 'update'])->name('anotacoes.update');
     Route::delete('anotacoes/{anotacao}', [AlunoAnotacoesController::class, 'destroy'])->name('anotacoes.destroy');
+
+    // Avaliar
+    Route::get('avaliar', [AvaliarController::class, 'index'])->name('avaliar.index');
+    Route::post('avaliar', [AvaliarController::class, 'store'])->name('avaliar.store');
+    Route::post('avaliar/remover-foto', [AvaliarController::class, 'removerFoto'])->name('avaliar.remover-foto');
 });
