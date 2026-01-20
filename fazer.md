@@ -5,3 +5,8 @@ mysql;
 Docker;
 wpp,
 insta,
+
+
+att dados prof
+add fotos e infos app;
+montar combos;

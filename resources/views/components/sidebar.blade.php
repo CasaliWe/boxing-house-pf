@@ -94,6 +94,15 @@
                 </a>
             </div>
 
+            <div class="px-4 mb-2">
+                <a href="{{ route('professor.professor.edit') }}" class="flex items-center px-6 py-4 text-gray-300 hover:text-white rounded-lg transition-all duration-300 nav-hover {{ request()->routeIs('professor.professor.*') ? 'bg-gradient-blue text-white' : 'hover:bg-gradient-blue' }}">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    Professor
+                </a>
+            </div>
+
             
 
         @else

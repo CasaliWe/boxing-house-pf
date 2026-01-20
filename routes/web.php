@@ -17,6 +17,7 @@ use App\Http\Controllers\Professor\AprovacaoController;
 use App\Http\Controllers\Professor\AlunoController;
 use App\Http\Controllers\Professor\TreinoController;
 use App\Http\Controllers\Professor\AulaSequenciaController;
+use App\Http\Controllers\Professor\ProfessorController;
 use App\Http\Controllers\Publico\CadastroController;
 use App\Http\Controllers\Publico\LandingController as PublicoLandingController;
 use App\Http\Controllers\Aluno\AnotacoesController as AlunoAnotacoesController;
@@ -112,6 +113,11 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
     Route::resource('aulas-sequencia', AulaSequenciaController::class)->parameters([
         'aulas-sequencia' => 'sequencia'
     ]);
+
+    // Professor (dados pessoais do professor)
+    Route::get('professor', [ProfessorController::class, 'edit'])->name('professor.edit');
+    Route::put('professor', [ProfessorController::class, 'update'])->name('professor.update');
+    Route::post('professor/remover-imagem', [ProfessorController::class, 'removerImagem'])->name('professor.remover-imagem');
 });
 
 /*

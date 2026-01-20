@@ -21,6 +21,26 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'status',
+        'vencimento_at',
+        'idade',
+        'peso', 
+        'whatsapp',
+        'instagram',
+        'endereco',
+        'contato_emergencia_nome',
+        'contato_emergencia_whatsapp',
+        'data_nascimento',
+        'saude_problema',
+        'restricao_medica',
+        'saude_problema_descricao',
+        'restricao_descricao',
+        'plano_vezes',
+        'anos_boxe',
+        'anos_instrutor',
+        'descricao_professor',
+        'imagens_professor',
     ];
 
     /**
@@ -44,8 +64,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'vencimento_at' => 'date',
+            'data_nascimento' => 'date',
             'saude_problema' => 'boolean',
             'restricao_medica' => 'boolean',
+            'imagens_professor' => 'json',
         ];
     }
 

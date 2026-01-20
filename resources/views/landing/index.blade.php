@@ -1,11 +1,11 @@
 @extends('layouts.landing')
 
-@section('title', 'Boxing House PF - Academia de Boxe em Passo Fundo | Treinamento Personal')
-@section('description', 'Academia de boxe em Passo Fundo com treinamento personal. Turmas fechadas com máximo 3 alunos, aulas de 1h10min. Equipamentos específicos para seu desenvolvimento no boxe.')
-@section('keywords', 'academia boxe passo fundo, treinamento personal boxe, boxing house pf, aulas boxe, treino boxe rs, academia passo fundo')
+@section('title', 'Boxing House PF - Studio de Boxe Personal | Treino Personalizado')
+@section('description', 'Studio de boxe feito em casa, espaço compacto e organizado. Atendimento individual ou grupos pequenos, ambiente fechado e sem distrações. Treino personalizado com acompanhamento direto e correção técnica constante. Ideal para iniciantes e praticantes, com foco em condicionamento físico e técnica. Sem lotação, sem treino genérico.')
+@section('keywords', 'studio de boxe, treino personalizado, grupos pequenos, foco no aluno, correção técnica, ambiente fechado, condicionamento físico, técnica')
 
-@section('og_title', 'Boxing House PF - Academia de Boxe em Passo Fundo')
-@section('og_description', 'Treinamento personal de boxe com turmas fechadas de até 3 alunos. Equipamentos específicos e aulas de 1h10min em Passo Fundo/RS.')
+@section('og_title', 'Boxing House PF - Studio de Boxe Personal')
+@section('og_description', 'Studio de boxe feito em casa. Atendimento individual ou grupos pequenos, ambiente fechado e sem distrações, treino personalizado com correção técnica constante.')
 
 @section('content')
 
@@ -50,11 +50,11 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center">
                 <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight text-white">
-                    Treinamento Personal<br>
-                    Máx 3 Alunos por Turma
+                    Studio de Boxe Personal<br>
+                    Treino sob medida, sem distrações
                 </h1>
                 <p class="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-                    Turmas fechadas com máximo 3 alunos focando no mais personal possível. Aulas de 1 hora e 10 minutos com treinamento profissional em Passo Fundo.
+                    Espaço compacto e organizado, ambiente fechado e sem distrações. Atendimento individual ou em grupos pequenos, com acompanhamento direto e correção técnica constante.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4">
                     @if($config && $config->whatsapp)
@@ -86,36 +86,231 @@
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Sobre a Boxing House PF</h2>
                 <p class="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-                    Uma academia especializada em boxe, localizada em Passo Fundo, que oferece treinamento profissional 
-                    para todos os níveis. Do iniciante ao atleta avançado, proporcionamos um ambiente seguro e motivador 
-                    para seu desenvolvimento físico e técnico.
+                    Studio de boxe feito em casa, com espaço compacto e organizado. Atendimento individual ou em grupos pequenos, foco total no aluno e correção técnica constante. Ideal para iniciantes e praticantes, com treino personalizado voltado a condicionamento físico e técnica. Sem lotação e sem treino genérico.
                 </p>
             </div>
             
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="bg-gradient-section border border-gray-600 rounded-xl p-8 text-center hover:scale-105 transition-transform">
                     <div class="text-4xl mb-4">🥊</div>
-                    <h3 class="text-xl font-semibold text-blue-400 mb-4">Treinamento Profissional</h3>
+                    <h3 class="text-xl font-semibold text-blue-400 mb-4">Ambiente Fechado</h3>
                     <p class="text-gray-300">
-                        Técnicas avançadas de boxe com instrutor qualificado e experiente no esporte.
+                        Studio em casa, sem distrações, espaço compacto e organizado para treino focado.
                     </p>
                 </div>
                 
                 <div class="bg-gradient-section border border-gray-600 rounded-xl p-8 text-center hover:scale-105 transition-transform">
                     <div class="text-4xl mb-4">💪</div>
-                    <h3 class="text-xl font-semibold text-blue-400 mb-4">Condicionamento Físico</h3>
+                    <h3 class="text-xl font-semibold text-blue-400 mb-4">Acompanhamento Direto</h3>
                     <p class="text-gray-300">
-                        Desenvolva força, resistência e agilidade com nossos treinos personalizados.
+                        Correção técnica constante e foco total no aluno, com evolução real no seu ritmo.
                     </p>
                 </div>
                 
                 <div class="bg-gradient-section border border-gray-600 rounded-xl p-8 text-center hover:scale-105 transition-transform">
                     <div class="text-4xl mb-4">🎯</div>
-                    <h3 class="text-xl font-semibold text-blue-400 mb-4">Resultados Garantidos</h3>
+                    <h3 class="text-xl font-semibold text-blue-400 mb-4">Treino Personalizado</h3>
                     <p class="text-gray-300">
-                        Metodologia comprovada para alcançar seus objetivos, seja fitness ou competição.
+                        Planejamento sob medida, sem lotação e sem treino genérico. Foco em condicionamento físico e técnica.
                     </p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefícios -->
+    <section id="beneficios" class="py-20 bg-gradient-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Benefícios Reais</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Resultados que você vai sentir na prática, além da técnica do boxe.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform">
+                    <div class="text-4xl mb-4">🔥</div>
+                    <h3 class="text-lg font-semibold text-blue-400 mb-3">Mais Condicionamento</h3>
+                    <p class="text-gray-300 text-sm">
+                        Resistência e força que você sente no dia a dia.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform">
+                    <div class="text-4xl mb-4">⚡</div>
+                    <h3 class="text-lg font-semibold text-blue-400 mb-3">Coordenação</h3>
+                    <p class="text-gray-300 text-sm">
+                        Movimentos precisos e reflexos rápidos.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform">
+                    <div class="text-4xl mb-4">💎</div>
+                    <h3 class="text-lg font-semibold text-blue-400 mb-3">Confiança</h3>
+                    <p class="text-gray-300 text-sm">
+                        Postura e segurança que se refletem na vida.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform">
+                    <div class="text-4xl mb-4">🎯</div>
+                    <h3 class="text-lg font-semibold text-blue-400 mb-3">Disciplina</h3>
+                    <p class="text-gray-300 text-sm">
+                        Foco e organização mental para seus objetivos.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform">
+                    <div class="text-4xl mb-4">📈</div>
+                    <h3 class="text-lg font-semibold text-blue-400 mb-3">Evolução Rápida</h3>
+                    <p class="text-gray-300 text-sm">
+                        Progresso visível no seu ritmo de aprendizado.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform">
+                    <div class="text-4xl mb-4">👁️</div>
+                    <h3 class="text-lg font-semibold text-blue-400 mb-3">Atenção Total do Professor</h3>
+                    <p class="text-gray-300 text-sm">
+                        Correção individual e acompanhamento direto.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre o Instrutor -->
+    <section id="instrutor" class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Seu Instrutor</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Experiência que gera confiança e resultados reais.
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                @if($professor)
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <!-- Slider de Fotos do Instrutor -->
+                        <div class="order-2 md:order-1">
+                            @php
+                                $imagensProfessor = json_decode($professor->imagens_professor ?? '[]', true);
+                            @endphp
+                            
+                            @if(!empty($imagensProfessor))
+                                <div class="relative slider-container">
+                                    @foreach($imagensProfessor as $indice => $imagem)
+                                        <div class="slide">
+                                            <img src="{{ asset('storage/' . $imagem) }}" 
+                                                 alt="{{ $professor->name }} - Foto {{ $indice + 1 }}" 
+                                                 class="w-full h-80 object-cover rounded-xl shadow-2xl">
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-xl"></div>
+                                        </div>
+                                    @endforeach
+                                    
+                                    <!-- Indicadores do Slider -->
+                                    @if(count($imagensProfessor) > 1)
+                                        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                                            @foreach($imagensProfessor as $indice => $imagem)
+                                                <button class="slider-indicator w-2 h-2 rounded-full transition-all {{ $indice === 0 ? 'bg-blue-400' : 'bg-white/50' }}" 
+                                                        data-slide="{{ $indice }}"></button>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+                            @else
+                                <div class="relative">
+                                    <div class="w-full h-80 bg-gradient-section border border-gray-600 rounded-xl flex items-center justify-center">
+                                        <div class="text-center text-gray-400">
+                                            <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                            </svg>
+                                            <p>Foto em breve</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                        
+                        <!-- Informações do Instrutor -->
+                        <div class="order-1 md:order-2">
+                            <div class="bg-gradient-section border border-gray-600 rounded-xl p-8">
+                                <h3 class="text-2xl font-bold text-blue-400 mb-6">{{ $professor->name }}</h3>
+                                
+                                <div class="space-y-4">
+                                    <div class="flex items-start gap-3">
+                                        <div class="bg-blue-600 p-2 rounded-full mt-1">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-white font-semibold">{{ $professor->anos_boxe }} {{ $professor->anos_boxe == 1 ? 'ano' : 'anos' }} de boxe</p>
+                                            <p class="text-gray-300 text-sm">Experiência sólida na arte marcial</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-start gap-3">
+                                        <div class="bg-blue-600 p-2 rounded-full mt-1">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-white font-semibold">{{ $professor->anos_instrutor }} {{ $professor->anos_instrutor == 1 ? 'ano' : 'anos' }} como instrutor</p>
+                                            <p class="text-gray-300 text-sm">Formação e prática no ensino</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-start gap-3">
+                                        <div class="bg-blue-600 p-2 rounded-full mt-1">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-white font-semibold">Instrutor Especializado</p>
+                                            <p class="text-gray-300 text-sm">Metodologia personalizada para cada aluno</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-6 p-4 bg-gray-800 rounded-lg border-l-4 border-blue-600">
+                                    <p class="text-gray-300 italic">
+                                        "{{ $professor->descricao_professor }}"
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <!-- Fallback caso não tenha professor cadastrado -->
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <!-- Foto do Instrutor -->
+                        <div class="order-2 md:order-1">
+                            <div class="relative">
+                                <div class="w-full h-80 bg-gradient-section border border-gray-600 rounded-xl flex items-center justify-center">
+                                    <div class="text-center text-gray-400">
+                                        <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                        </svg>
+                                        <p>Informações do professor em breve</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Informações do Instrutor -->
+                        <div class="order-1 md:order-2">
+                            <div class="bg-gradient-section border border-gray-600 rounded-xl p-8">
+                                <h3 class="text-2xl font-bold text-blue-400 mb-6">Nosso Instrutor</h3>
+                                <p class="text-gray-300">Informações sobre o instrutor serão atualizadas em breve.</p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </section>
@@ -127,7 +322,7 @@
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Nosso Centro de Treinamento</h2>
                 <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-                    CT caseiro com equipamentos específicos que ajudam no desenvolvimento técnico e físico dos nossos alunos.
+                    Espaço compacto e organizado, fechado e sem distrações: foco no treino e na técnica.
                 </p>
             </div>
             
@@ -265,6 +460,43 @@
     </section>
     @endif
 
+    <!-- Sistema do Aluno -->
+    <section id="sistema" class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Sistema do Aluno</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Acompanhe sua evolução, aulas participadas e mais — tudo em um só lugar.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <div class="bg-gradient-section border border-gray-600 rounded-xl p-8">
+                    <h3 class="text-2xl font-semibold text-blue-400 mb-4">Resumo</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li>• Evolução real no seu ritmo</li>
+                        <li>• Registro de aulas participadas</li>
+                        <li>• Acesso simples pela área do aluno</li>
+                    </ul>
+                    <div class="mt-6">
+                        <a href="{{ route('login') }}" class="inline-flex items-center gap-2 border-2 border-white px-5 py-3 rounded-lg font-semibold hover:bg-white hover:text-gray-900 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            Área do Aluno
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-gray-900 border border-gray-600 rounded-xl p-8">
+                    <h3 class="text-2xl font-semibold text-blue-400 mb-4">Detalhes</h3>
+                    <p class="text-gray-300">
+                        Visualize sua participação nas aulas e o progresso ao longo do tempo. Tenha clareza sobre sua evolução técnica e física, com foco no que importa.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Localização -->
     @if($config && $config->maps_src)
     <section id="localizacao" class="py-20 bg-gradient-section">
@@ -272,7 +504,7 @@
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Nossa Localização</h2>
                 <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-                    Localização estratégica em Passo Fundo, com fácil acesso e ambiente ideal para o seu desenvolvimento no boxe.
+                    Ambiente fechado e organizado, ideal para treino focado sem distrações.
                 </p>
             </div>
             
@@ -432,10 +664,9 @@
     <section class="py-20 bg-gradient-hero">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-3xl md:text-4xl font-bold mb-6">Pronto para Começar?</h2>
-            <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-                Venha conhecer a Boxing House PF e descubra como o boxe pode transformar sua vida. 
-                Agende uma aula experimental!
-            </p>
+                <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+                    Studio de boxe feito em casa, sem lotação e sem treino genérico. Atendimento individual ou grupos pequenos, com foco em condicionamento físico e técnica.
+                </p>
             
             <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
                 @if($config && $config->whatsapp)
@@ -467,7 +698,7 @@
     <footer class="bg-gray-900 border-t border-gray-700 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h3 class="text-2xl font-bold text-blue-400 mb-4">Boxing House PF</h3>
-            <p class="text-gray-400 mb-4">Academia de Boxe - Passo Fundo, RS</p>
+            <p class="text-gray-400 mb-4">Studio de Boxe</p>
             <div class="flex justify-center gap-6 mb-4">
                 @if($config && $config->whatsapp)
                     <a href="https://wa.me/55{{ preg_replace('/\D/', '', $config->whatsapp) }}" target="_blank" 
@@ -506,6 +737,47 @@
 @endsection
 
 @section('scripts')
+    <style>
+        /* Slider de imagens do professor */
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 320px; /* h-80 equivale a 320px */
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: opacity 1s ease-in-out;
+            opacity: 0;
+        }
+        
+        .slide:first-child {
+            position: relative;
+            opacity: 1;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .slider-indicator {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slider-indicator:hover {
+            opacity: 0.8;
+            transform: scale(1.1);
+        }
+    </style>
+    
     <script>
         // Modal de fotos
         function openPhotoModal(src, description) {
@@ -562,6 +834,103 @@
                 header.classList.remove('bg-gray-900');
                 header.classList.add('bg-gray-900/95');
             }
+        });
+
+        // Slider automático do professor
+        document.addEventListener('DOMContentLoaded', function() {
+            const sliderContainer = document.querySelector('.slider-container');
+            if (!sliderContainer) return;
+            
+            const slides = sliderContainer.querySelectorAll('.slide');
+            const indicators = sliderContainer.querySelectorAll('.slider-indicator');
+            
+            if (slides.length <= 1) return; // Não precisa de slider para 1 imagem ou menos
+            
+            let currentSlide = 0;
+            let isTransitioning = false;
+            
+            // Inicializar - mostrar primeiro slide
+            function initSlider() {
+                slides.forEach((slide, index) => {
+                    if (index === 0) {
+                        slide.style.opacity = '1';
+                        slide.style.position = 'relative';
+                    } else {
+                        slide.style.opacity = '0';
+                        slide.style.position = 'absolute';
+                        slide.style.top = '0';
+                        slide.style.left = '0';
+                        slide.style.width = '100%';
+                    }
+                });
+                
+                // Ativar primeiro indicador
+                if (indicators.length > 0) {
+                    indicators[0].classList.remove('bg-white/50');
+                    indicators[0].classList.add('bg-blue-400');
+                }
+            }
+            
+            function showSlide(index) {
+                if (isTransitioning || index === currentSlide) return;
+                isTransitioning = true;
+                
+                const currentSlideEl = slides[currentSlide];
+                const nextSlideEl = slides[index];
+                
+                // Fade out do slide atual
+                currentSlideEl.style.opacity = '0';
+                
+                // Preparar próximo slide
+                nextSlideEl.style.position = 'absolute';
+                nextSlideEl.style.top = '0';
+                nextSlideEl.style.left = '0';
+                nextSlideEl.style.width = '100%';
+                nextSlideEl.style.opacity = '0';
+                
+                // Fade in do próximo slide após pequeno delay
+                setTimeout(() => {
+                    nextSlideEl.style.opacity = '1';
+                    
+                    // Após a transição, ajustar posições
+                    setTimeout(() => {
+                        currentSlideEl.style.position = 'absolute';
+                        nextSlideEl.style.position = 'relative';
+                        
+                        // Atualizar indicadores
+                        indicators.forEach((indicator, i) => {
+                            if (i === index) {
+                                indicator.classList.remove('bg-white/50');
+                                indicator.classList.add('bg-blue-400');
+                            } else {
+                                indicator.classList.remove('bg-blue-400');
+                                indicator.classList.add('bg-white/50');
+                            }
+                        });
+                        
+                        currentSlide = index;
+                        isTransitioning = false;
+                    }, 1000); // Tempo da transição CSS
+                }, 50);
+            }
+            
+            function nextSlide() {
+                const nextIndex = (currentSlide + 1) % slides.length;
+                showSlide(nextIndex);
+            }
+            
+            // Controle manual pelos indicadores
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    showSlide(index);
+                });
+            });
+            
+            // Inicializar slider
+            initSlider();
+            
+            // Auto slide a cada 4 segundos
+            setInterval(nextSlide, 4000);
         });
     </script>
 @endsection

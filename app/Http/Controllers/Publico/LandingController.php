@@ -7,6 +7,7 @@ use App\Models\Configuracao;
 use App\Models\FotoCentro;
 use App\Models\ValorPlano;
 use App\Models\Horario;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class LandingController extends Controller
@@ -31,6 +32,14 @@ class LandingController extends Controller
             ->get()
             ->groupBy('dia_semana');
 
-        return view('landing.index', compact('config', 'fotosCentro', 'valores', 'horarios'));
+        // Dados do professor (usuário com role 'professor')
+        $professor = User::where('role', 'professor')
+            ->whereNotNull('name')
+            ->whereNotNull('anos_boxe')
+            ->whereNotNull('anos_instrutor') 
+            ->whereNotNull('descricao_professor')
+            ->first();
+
+        return view('landing.index', compact('config', 'fotosCentro', 'valores', 'horarios', 'professor'));
     }
 }
