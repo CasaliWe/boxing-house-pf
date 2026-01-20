@@ -22,6 +22,8 @@ class ConfigController extends Controller
                 'whatsapp' => '',
                 'maps_src' => '',
                 'email' => '',
+                'whatsapp_api_url' => 'https://api.uazapi.com.br',
+                'whatsapp_api_token' => '',
             ]);
         }
 
@@ -45,8 +47,11 @@ class ConfigController extends Controller
             'numero' => ['nullable', 'string', 'max:255'],
             'maps_src' => ['nullable', 'string'],
             'email' => ['nullable', 'email'],
+            'whatsapp_api_url' => ['nullable', 'url', 'max:255'],
+            'whatsapp_api_token' => ['nullable', 'string', 'max:255'],
         ], [
             'email.email' => 'Informe um e-mail válido.',
+            'whatsapp_api_url.url' => 'Informe uma URL válida para a API.',
         ]);
 
         $config = Configuracao::firstOrCreate(['id' => 1], [
@@ -59,6 +64,8 @@ class ConfigController extends Controller
             'numero' => '',
             'maps_src' => '',
             'email' => '',
+            'whatsapp_api_url' => 'https://api.uazapi.com.br',
+            'whatsapp_api_token' => '',
         ]);
 
         $config->update($dados);

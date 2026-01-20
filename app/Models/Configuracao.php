@@ -21,5 +21,7 @@ class Configuracao extends Model
         'numero',
         'maps_src',
         'email',
+        'whatsapp_api_url',
+        'whatsapp_api_token',
     ];
 }

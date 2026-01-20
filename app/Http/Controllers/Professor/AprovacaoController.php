@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\CredenciaisAlunoMail;
 use App\Models\Horario;
 use App\Models\User;
+use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -81,13 +82,55 @@ class AprovacaoController extends Controller
             Log::error('Falha ao enviar e-mail de credenciais: '.$e->getMessage());
         }
 
+        // Enviar WhatsApp com as credenciais
+        $whatsappFalhou = false;
+        if ($user->whatsapp) {
+            try {
+                $whatsappService = new WhatsAppService();
+                $mensagemWhatsApp = "🥊 *Bem-vindo à Boxing House PF!* 🥊\n\n"
+                    . "Olá {$user->name}! Seu cadastro foi aprovado e seu acesso ao sistema está liberado.\n\n"
+                    . "📱 *Suas credenciais de acesso:*\n"
+                    . "Login: {$user->email}\n"
+                    . "Senha inicial: {$plain}\n\n"
+                    . "🔒 Por segurança, altere sua senha após o primeiro acesso.\n\n"
+                    . "🌐 Acesse em: " . config('app.url') . "\n\n"
+                    . "Qualquer dúvida, entre em contato conosco!";
+
+                $resultado = $whatsappService->enviarMensagem($user->whatsapp, $mensagemWhatsApp);
+                
+                if ($resultado !== true) {
+                    $whatsappFalhou = true;
+                    Log::warning('Falha ao enviar WhatsApp de credenciais', [
+                        'user_id' => $user->id,
+                        'whatsapp' => $user->whatsapp,
+                        'erro' => $resultado
+                    ]);
+                }
+            } catch (\Throwable $e) {
+                $whatsappFalhou = true;
+                Log::error('Exceção ao enviar WhatsApp de credenciais: '.$e->getMessage(), [
+                    'user_id' => $user->id,
+                    'whatsapp' => $user->whatsapp
+                ]);
+            }
+        }
+
         $msg = 'Aluno aprovado! Vagas confirmadas.';
-        // Mensagem simplificada para manter organização visual
+        // Adiciona informações sobre envios
+        $avisos = [];
+        if ($emailFalhou) {
+            $avisos[] = 'E-mail não pôde ser enviado';
+        }
+        if ($whatsappFalhou) {
+            $avisos[] = 'WhatsApp não pôde ser enviado';
+        }
 
         $redirect = redirect()->route('professor.aprovacoes.index')->with('success', $msg);
-        if ($emailFalhou) {
-            $redirect->with('warning', 'Aluno aprovado, porém o e-mail de credenciais não pôde ser enviado. Verifique as configurações de e-mail.');
+        
+        if (!empty($avisos)) {
+            $redirect->with('warning', 'Aluno aprovado, porém: ' . implode(', ', $avisos) . '. Verifique as configurações.');
         }
+        
         return $redirect;
     }
 }

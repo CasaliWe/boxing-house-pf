@@ -6,7 +6,7 @@
 <div class="space-y-8">
     <div>
         <h1 class="text-3xl font-bold text-blue-400">⚙️ Configurações</h1>
-        <p class="text-gray-400">Atualize informações da academia: PIX, WhatsApp, Maps (src) e e-mail.</p>
+        <p class="text-gray-400">Atualize informações da academia: PIX, WhatsApp, Maps (src), e-mail e configurações da API WhatsApp.</p>
     </div>
 
     <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
@@ -55,6 +55,47 @@
                 @error('instagram')
                     <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
                 @enderror
+            </div>
+
+            <!-- Seção API WhatsApp -->
+            <div class="border-t border-gray-600 pt-6">
+                <h3 class="text-lg font-semibold text-blue-400 mb-4">🔌 Configurações API WhatsApp</h3>
+                <p class="text-sm text-gray-400 mb-4">Configure as credenciais da API uazapi para envio automático de mensagens WhatsApp</p>
+                
+                <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 mb-4">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <svg class="w-5 h-5 text-blue-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-blue-300">
+                                <span class="font-medium">Informação:</span> Se deixados em branco, o sistema utilizará valores padrão para as configurações da API.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="whatsapp_api_url" class="block text-sm font-medium text-gray-300 mb-2">URL da API uazapi</label>
+                        <input type="url" id="whatsapp_api_url" name="whatsapp_api_url" value="{{ old('whatsapp_api_url', $config->whatsapp_api_url) }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex.: https://api.uazapi.com">
+                        @error('whatsapp_api_url')
+                            <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
+                        @enderror
+                        <p class="text-xs text-gray-500 mt-1">Deixe em branco para usar valor padrão</p>
+                    </div>
+
+                    <div>
+                        <label for="whatsapp_api_token" class="block text-sm font-medium text-gray-300 mb-2">Token da API</label>
+                        <input type="text" id="whatsapp_api_token" name="whatsapp_api_token" value="{{ old('whatsapp_api_token', $config->whatsapp_api_token) }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Token de autorização da uazapi">
+                        @error('whatsapp_api_token')
+                            <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
+                        @enderror
+                        <p class="text-xs text-gray-500 mt-1">Deixe em branco para usar valor padrão</p>
+                    </div>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
