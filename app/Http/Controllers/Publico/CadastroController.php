@@ -8,13 +8,22 @@ use App\Models\ValorPlano;
 use App\Models\Horario;
 use App\Models\Regra;
 use App\Models\Configuracao;
+use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class CadastroController extends Controller
 {
+    protected WhatsAppService $whatsAppService;
+
+    public function __construct(WhatsAppService $whatsAppService)
+    {
+        $this->whatsAppService = $whatsAppService;
+    }
+
     public function step1()
     {
         $data = session('cadastro', []);
@@ -139,6 +148,9 @@ class CadastroController extends Controller
 
         $user->save();
 
+        // Enviar notificação para Weslei sobre novo cadastro
+        $this->enviarNotificacaoNovoCadastro($user);
+
         // Vincular horários escolhidos com aprovado=false
         $horariosIds = $cad['horarios'] ?? [];
         if (!empty($horariosIds)) {
@@ -158,5 +170,47 @@ class CadastroController extends Controller
     {
         $config = Configuracao::first();
         return view('public.cadastro.final', compact('config'));
+    }
+
+    /**
+     * Envia notificação WhatsApp para Weslei sobre novo cadastro
+     */
+    private function enviarNotificacaoNovoCadastro(User $novoAluno)
+    {
+        try {
+            // Número do Weslei (hardcoded)
+            $numeroWeslei = '5554991538488';
+            
+            $mensagem = "🥊 *BOXING HOUSE PF* - Novo Cadastro\n\n" .
+                       "Olá Weslei! 👋\n\n" .
+                       "🎆 *Novo aluno se cadastrou no sistema!*\n\n" .
+                       "👤 *Nome:* {$novoAluno->name}\n" .
+                       "📞 *WhatsApp:* {$novoAluno->whatsapp}\n" .
+                       "📧 *Email:* {$novoAluno->email}\n\n" .
+                       "📅 *Status:* Pendente de aprovação\n" .
+                       "💳 *Plano:* {$novoAluno->plano_vezes}x por semana\n\n" .
+                       "📈 Acesse o painel administrativo para aprovar o cadastro e enviar as credenciais.\n\n" .
+                       "_Notificação automática do sistema_";
+            
+            $resultado = $this->whatsAppService->enviarMensagem($numeroWeslei, $mensagem);
+            
+            if ($resultado === true) {
+                Log::info('Notificação de novo cadastro enviada', [
+                    'novo_aluno' => $novoAluno->name,
+                    'email' => $novoAluno->email
+                ]);
+            } else {
+                Log::error('Falha ao enviar notificação de novo cadastro', [
+                    'novo_aluno' => $novoAluno->name,
+                    'erro' => is_array($resultado) ? $resultado['erro'] : 'Erro desconhecido'
+                ]);
+            }
+            
+        } catch (\Exception $e) {
+            Log::error('Exceção ao enviar notificação de novo cadastro', [
+                'novo_aluno' => $novoAluno->name ?? 'Desconhecido',
+                'erro' => $e->getMessage()
+            ]);
+        }
     }
 }
