@@ -44,6 +44,10 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- AOS Library for Scroll Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
     <!-- Styles -->
     <style>
         .bg-gradient-hero {
@@ -67,6 +71,17 @@
 </head>
 <body class="bg-gray-900 text-white scroll-smooth font-inter">
     @yield('content')
+
+    <script>
+        // Initialize AOS animations
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 120,
+            delay: 100
+        });
+    </script>
 
     @yield('scripts')
 </body>

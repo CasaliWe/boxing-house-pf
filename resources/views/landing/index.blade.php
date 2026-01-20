@@ -84,7 +84,7 @@
     <!-- Sobre o CT -->
     <section id="sobre" class="py-20 bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Sobre a Boxing House PF</h2>
                 <p class="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
                     Studio de boxe feito em casa, com espaço compacto e organizado. Atendimento individual ou em grupos pequenos, foco total no aluno e correção técnica constante. Ideal para iniciantes e praticantes, com treino personalizado voltado a condicionamento físico e técnica. Sem lotação e sem treino genérico.
@@ -92,7 +92,7 @@
             </div>
             
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-gradient-section border border-gray-600 rounded-xl p-8 text-center hover:scale-105 transition-transform">
+                <div class="bg-gradient-section border border-gray-600 rounded-xl p-8 text-center hover:scale-105 transition-transform" data-aos="fade-up" data-aos-delay="100">
                     <div class="text-4xl mb-4">🥊</div>
                     <h3 class="text-xl font-semibold text-blue-400 mb-4">Ambiente Fechado</h3>
                     <p class="text-gray-300">
@@ -100,7 +100,7 @@
                     </p>
                 </div>
                 
-                <div class="bg-gradient-section border border-gray-600 rounded-xl p-8 text-center hover:scale-105 transition-transform">
+                <div class="bg-gradient-section border border-gray-600 rounded-xl p-8 text-center hover:scale-105 transition-transform" data-aos="fade-up" data-aos-delay="200">
                     <div class="text-4xl mb-4">💪</div>
                     <h3 class="text-xl font-semibold text-blue-400 mb-4">Acompanhamento Direto</h3>
                     <p class="text-gray-300">
@@ -108,7 +108,7 @@
                     </p>
                 </div>
                 
-                <div class="bg-gradient-section border border-gray-600 rounded-xl p-8 text-center hover:scale-105 transition-transform">
+                <div class="bg-gradient-section border border-gray-600 rounded-xl p-8 text-center hover:scale-105 transition-transform" data-aos="fade-up" data-aos-delay="300">
                     <div class="text-4xl mb-4">🎯</div>
                     <h3 class="text-xl font-semibold text-blue-400 mb-4">Treino Personalizado</h3>
                     <p class="text-gray-300">
@@ -122,7 +122,7 @@
     <!-- Benefícios -->
     <section id="beneficios" class="py-20 bg-gradient-section">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Benefícios Reais</h2>
                 <p class="text-xl text-gray-300 max-w-3xl mx-auto">
                     Resultados que você vai sentir na prática, além da técnica do boxe.
@@ -130,7 +130,7 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform">
+                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform" data-aos="fade-up" data-aos-delay="100">
                     <div class="text-4xl mb-4">🔥</div>
                     <h3 class="text-lg font-semibold text-blue-400 mb-3">Mais Condicionamento</h3>
                     <p class="text-gray-300 text-sm">
@@ -138,7 +138,7 @@
                     </p>
                 </div>
                 
-                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform">
+                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform" data-aos="fade-up" data-aos-delay="150">
                     <div class="text-4xl mb-4">⚡</div>
                     <h3 class="text-lg font-semibold text-blue-400 mb-3">Coordenação</h3>
                     <p class="text-gray-300 text-sm">
@@ -146,7 +146,7 @@
                     </p>
                 </div>
                 
-                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform">
+                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform" data-aos="fade-up" data-aos-delay="200">
                     <div class="text-4xl mb-4">💎</div>
                     <h3 class="text-lg font-semibold text-blue-400 mb-3">Confiança</h3>
                     <p class="text-gray-300 text-sm">
@@ -154,7 +154,7 @@
                     </p>
                 </div>
                 
-                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform">
+                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform" data-aos="fade-up" data-aos-delay="250">
                     <div class="text-4xl mb-4">🎯</div>
                     <h3 class="text-lg font-semibold text-blue-400 mb-3">Disciplina</h3>
                     <p class="text-gray-300 text-sm">
@@ -162,7 +162,7 @@
                     </p>
                 </div>
                 
-                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform">
+                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform" data-aos="fade-up" data-aos-delay="300">
                     <div class="text-4xl mb-4">📈</div>
                     <h3 class="text-lg font-semibold text-blue-400 mb-3">Evolução Rápida</h3>
                     <p class="text-gray-300 text-sm">
@@ -170,7 +170,7 @@
                     </p>
                 </div>
                 
-                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform">
+                <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 text-center hover:scale-105 transition-transform" data-aos="fade-up" data-aos-delay="350">
                     <div class="text-4xl mb-4">👁️</div>
                     <h3 class="text-lg font-semibold text-blue-400 mb-3">Atenção Total do Professor</h3>
                     <p class="text-gray-300 text-sm">
@@ -184,7 +184,7 @@
     <!-- Sobre o Instrutor -->
     <section id="instrutor" class="py-20 bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Seu Instrutor</h2>
                 <p class="text-xl text-gray-300 max-w-3xl mx-auto">
                     Experiência que gera confiança e resultados reais.
@@ -193,7 +193,7 @@
             
             <div class="max-w-4xl mx-auto">
                 @if($professor)
-                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="grid md:grid-cols-2 gap-12 items-center" data-aos="fade-up" data-aos-delay="100">
                         <!-- Slider de Fotos do Instrutor -->
                         <div class="order-2 md:order-1">
                             @php
@@ -320,7 +320,7 @@
     @if($avaliacoes->isNotEmpty())
     <section id="avaliacoes" class="py-20 bg-gradient-section">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">O que Nossos Alunos Dizem</h2>
                 <p class="text-xl text-gray-300 max-w-3xl mx-auto">
                     Depoimentos reais de quem treina conosco e vive a experiência Boxing House PF.
@@ -329,7 +329,7 @@
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($avaliacoes as $avaliacao)
-                    <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 hover:scale-105 transition-transform duration-300">
+                    <div class="bg-gray-900 border border-gray-600 rounded-xl p-6 hover:scale-105 transition-transform duration-300" data-aos="fade-up" data-aos-delay="{{ 100 + ($loop->index * 100) }}">
                         <!-- Header com foto e nome -->
                         <div class="flex items-center gap-4 mb-4">
                             @if($avaliacao->foto_avaliacao)
@@ -392,7 +392,7 @@
     @if($fotosCentro->isNotEmpty())
     <section id="galeria" class="py-20 bg-gradient-section">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Nosso Centro de Treinamento</h2>
                 <p class="text-xl text-gray-300 max-w-3xl mx-auto">
                     Espaço compacto e organizado, fechado e sem distrações: foco no treino e na técnica.
@@ -401,7 +401,7 @@
             
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 @foreach($fotosCentro->take(6) as $foto)
-                    <div class="group relative overflow-hidden rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 cursor-pointer" 
+                    <div class="group relative overflow-hidden rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 cursor-pointer" data-aos="fade-up" data-aos-delay="{{ 100 + ($loop->index * 80) }}" 
                          onclick="openPhotoModal('{{ asset('storage/'.$foto->caminho_arquivo) }}', '{{ $foto->descricao ?: 'Foto do centro de treinamento' }}')">
                         <img src="{{ asset('storage/'.$foto->caminho_arquivo) }}" 
                              alt="{{ $foto->descricao ?: 'Foto do centro de treinamento' }}" 
@@ -431,14 +431,14 @@
     @if($horarios->isNotEmpty())
     <section id="horarios" class="py-20 bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Horários de Funcionamento</h2>
                 <p class="text-xl text-gray-300 max-w-3xl mx-auto">
                     Confira nossos horários disponíveis e escolha o melhor para sua rotina.
                 </p>
             </div>
             
-            <div class="bg-gradient-section border border-gray-600 rounded-xl p-8 max-w-4xl mx-auto">
+            <div class="bg-gradient-section border border-gray-600 rounded-xl p-8 max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="200">
                 <div class="grid gap-4">
                     @php
                         $diasSemana = [
@@ -479,7 +479,7 @@
     @if($valores->isNotEmpty())
     <section id="valores" class="py-20 bg-gradient-section">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Planos e Valores</h2>
                 <p class="text-xl text-gray-300 max-w-3xl mx-auto">
                     Escolha o plano que melhor se adapta à sua rotina e objetivos.
@@ -488,7 +488,7 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-{{ min(count($valores), 4) }} gap-8 max-w-6xl mx-auto">
                 @foreach($valores as $valor)
-                    <div class="bg-gray-900 border border-gray-600 rounded-xl p-8 text-center hover:scale-105 hover:border-blue-500 transition-all duration-300 relative overflow-hidden">
+                    <div class="bg-gray-900 border border-gray-600 rounded-xl p-8 text-center hover:scale-105 hover:border-blue-500 transition-all duration-300 relative overflow-hidden" data-aos="fade-up" data-aos-delay="{{ 100 + ($loop->index * 100) }}">
                         @if($loop->iteration == 2)
                             <div class="absolute top-0 left-0 right-0 bg-blue-600 text-white text-sm font-semibold py-2">
                                 Mais Popular
@@ -536,7 +536,7 @@
     <!-- Sistema do Aluno -->
     <section id="sistema" class="py-20 bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">
                     {{ $sistemaAluno->titulo ?? 'Sistema do Aluno' }}
                 </h2>
@@ -553,7 +553,7 @@
 
             <div class="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 <!-- Resumo -->
-                <div class="bg-gradient-section border border-gray-600 rounded-xl p-8">
+                <div class="bg-gradient-section border border-gray-600 rounded-xl p-8" data-aos="fade-up" data-aos-delay="100">
                     <h3 class="text-2xl font-semibold text-blue-400 mb-4">Resumo</h3>
                     <ul class="space-y-3 text-gray-300">
                         @if($sistemaAluno && $sistemaAluno->resumo_items)
@@ -577,7 +577,7 @@
                 </div>
 
                 <!-- Detalhes -->
-                <div class="bg-gray-900 border border-gray-600 rounded-xl p-8">
+                <div class="bg-gray-900 border border-gray-600 rounded-xl p-8" data-aos="fade-up" data-aos-delay="200">
                     <h3 class="text-2xl font-semibold text-blue-400 mb-4">Detalhes</h3>
                     <p class="text-gray-300">
                         @if($sistemaAluno && $sistemaAluno->detalhes)
@@ -590,7 +590,7 @@
 
                 <!-- Imagens do Sistema -->
                 @if($sistemaAluno && $sistemaAluno->imagens && count($sistemaAluno->imagens) > 0)
-                    <div class="bg-gradient-section border border-gray-600 rounded-xl p-8">
+                    <div class="bg-gradient-section border border-gray-600 rounded-xl p-8" data-aos="fade-up" data-aos-delay="300">
                         <h3 class="text-2xl font-semibold text-blue-400 mb-4">Sistema</h3>
                         
                         <div class="relative sistema-slider-container">
@@ -622,14 +622,14 @@
     @if($config && $config->maps_src)
     <section id="localizacao" class="py-20 bg-gradient-section">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Nossa Localização</h2>
                 <p class="text-xl text-gray-300 max-w-3xl mx-auto">
                     Ambiente fechado e organizado, ideal para treino focado sem distrações.
                 </p>
             </div>
             
-            <div class="bg-gray-900 border border-gray-600 rounded-xl overflow-hidden shadow-2xl">
+            <div class="bg-gray-900 border border-gray-600 rounded-xl overflow-hidden shadow-2xl" data-aos="fade-up" data-aos-delay="200">
                 <iframe src="{{ $config->maps_src }}" 
                         width="100%" 
                         height="500" 
@@ -641,7 +641,7 @@
                 </iframe>
             </div>
             
-            <div class="mt-8 text-center">
+            <div class="mt-8 text-center" data-aos="fade-up" data-aos-delay="300">
                 <div class="inline-flex items-center gap-2 bg-gray-900 border border-gray-600 rounded-lg px-6 py-4">
                     <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
@@ -671,7 +671,7 @@
     <!-- Contato -->
     <section id="contato" class="py-20 bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Entre em Contato</h2>
                 <p class="text-xl text-gray-300 max-w-3xl mx-auto">
                     Venha nos visitar ou entre em contato para mais informações.
@@ -681,7 +681,7 @@
             <div class="max-w-4xl mx-auto">
                 <!-- Informações de Contato -->
                 <div class="space-y-8">
-                    <div class="bg-gradient-section border border-gray-600 rounded-xl p-8">
+                    <div class="bg-gradient-section border border-gray-600 rounded-xl p-8" data-aos="fade-up" data-aos-delay="200">
                         <h3 class="text-2xl font-semibold text-blue-400 mb-6">Informações de Contato</h3>
                         
                         <div class="space-y-6">
@@ -783,13 +783,13 @@
 
     <!-- CTA Final -->
     <section class="py-20 bg-gradient-hero">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="fade-up">
             <h2 class="text-3xl md:text-4xl font-bold mb-6">Pronto para Começar?</h2>
                 <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
                     Studio de boxe feito em casa, sem lotação e sem treino genérico. Atendimento individual ou grupos pequenos, com foco em condicionamento físico e técnica.
                 </p>
             
-            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4" data-aos="fade-up" data-aos-delay="200">
                 @if($config && $config->whatsapp)
                     <a href="https://wa.me/55{{ preg_replace('/\D/', '', $config->whatsapp) }}?text=Olá! Gostaria de agendar uma aula experimental" 
                        target="_blank"
