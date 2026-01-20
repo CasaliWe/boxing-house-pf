@@ -107,6 +107,13 @@
         <div class="flex-1 flex flex-col min-w-0">
             @auth
                 @include('components.topbar')
+            @else
+                <!-- Header para usuários não logados -->
+                <header class="bg-gray-900/95 backdrop-blur-sm border-b border-gray-700 p-4">
+                    <div class="max-w-7xl mx-auto flex justify-center">
+                        <img src="{{ asset('logo-x.png') }}" alt="Boxing House PF" class="h-12 w-auto">
+                    </div>
+                </header>
             @endauth
 
             <main class="flex-1 p-6 md:p-8 overflow-y-auto">
