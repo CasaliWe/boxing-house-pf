@@ -27,6 +27,8 @@ use App\Http\Controllers\Aluno\TreinosController as AlunoTreinosController;
 use App\Http\Controllers\Aluno\AvaliarController;
 use App\Http\Controllers\Professor\VideoController;
 use App\Http\Controllers\Aluno\AprendizadoController;
+use App\Http\Controllers\Aluno\MensalidadeVencidaController;
+use App\Http\Controllers\Professor\MensalidadeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +77,17 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [LoginController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
+
+// Rota para verificar mensalidades
+Route::get('/mensalidades', function () {
+    try {
+        \Artisan::call('mensalidade:verificar');
+        $output = \Artisan::output();
+        return response("<pre>$output</pre>");
+    } catch (\Exception $e) {
+        return response("Erro: " . $e->getMessage(), 500);
+    }
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -127,6 +140,20 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
     // App - Sistema do Aluno
     Route::get('app', [AppController::class, 'index'])->name('app.index');
     Route::put('app', [AppController::class, 'update'])->name('app.update');
+
+    // Mensalidades (gerenciar alunos inativos)
+    Route::get('mensalidades', [MensalidadeController::class, 'index'])->name('mensalidades.index');
+    Route::post('mensalidades/{user}/reativar', [MensalidadeController::class, 'reativar'])->name('mensalidades.reativar');
+    Route::post('mensalidades/verificar', function() {
+        try {
+            \Artisan::call('mensalidade:verificar');
+            $output = \Artisan::output();
+            return response()->json(['success' => true, 'message' => 'Verificação executada com sucesso!']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    })->name('mensalidades.verificar');
+    Route::put('app', [AppController::class, 'update'])->name('app.update');
     Route::post('app/remover-imagem', [AppController::class, 'removerImagem'])->name('app.remover-imagem');
 
     // Avaliacões dos Alunos
@@ -150,7 +177,13 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
 |--------------------------------------------------------------------------
 */
 
+// Rota específica para mensalidade vencida (sem middleware de verificação)
 Route::middleware(['auth', 'role:aluno'])->prefix('aluno')->name('aluno.')->group(function () {
+    Route::get('mensalidade-vencida', [MensalidadeVencidaController::class, 'index'])->name('mensalidade-vencida');
+});
+
+// Demais rotas do aluno com verificação de status ativo
+Route::middleware(['auth', 'role:aluno', 'aluno.ativo'])->prefix('aluno')->name('aluno.')->group(function () {
     Route::get('/dashboard', [AlunoDashboardController::class, 'index'])->name('dashboard');
     
     // Regras do CT
