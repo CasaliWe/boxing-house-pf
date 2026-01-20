@@ -1,1 +1,2 @@
-cron vencimentos
+cron /mensalidades
+cron /avisar

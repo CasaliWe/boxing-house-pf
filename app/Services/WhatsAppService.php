@@ -11,8 +11,8 @@ class WhatsAppService
     /**
      * Configurações padrão caso não estejam definidas no banco
      */
-    private const DEFAULT_API_URL = '';
-    private const DEFAULT_API_TOKEN = '';
+    private const DEFAULT_API_URL = 'https://casali.uazapi.com/send/text';
+    private const DEFAULT_API_TOKEN = 'ef83a6d1-9284-4e6c-b777-e0f7d61fdbb1';
 
     /**
      * Obtém as configurações da API do banco de dados

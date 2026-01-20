@@ -216,3 +216,6 @@ Route::middleware(['auth', 'role:aluno', 'aluno.ativo'])->prefix('aluno')->name(
     Route::get('aprendizado/{modulo}', [AprendizadoController::class, 'show'])->name('aprendizado.show');
     Route::get('aprendizado/{modulo}/video/{video}', [AprendizadoController::class, 'video'])->name('aprendizado.video');
 });
+
+// Rota para avisos automáticos de aulas (cron job)
+Route::get('/avisar', [\App\Http\Controllers\AvisoAulaController::class, 'avisar'])->name('avisar.aulas');
