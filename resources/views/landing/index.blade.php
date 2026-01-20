@@ -13,7 +13,9 @@
     <header class="fixed w-full top-0 z-50 bg-gray-900/95 backdrop-blur-sm border-b border-gray-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
-                <h1 class="text-xl font-bold text-blue-400 tracking-wide">Boxing House PF</h1>
+                <div class="flex items-center">
+                    <img src="{{ asset('logo-x.png') }}" alt="Boxing House PF" class="h-10 w-auto">
+                </div>
                 <nav class="hidden md:flex space-x-8">
                     <a href="#home" class="text-gray-300 hover:text-blue-400 transition-colors">Início</a>
                     <a href="#sobre" class="text-gray-300 hover:text-blue-400 transition-colors">Sobre</a>
@@ -50,7 +52,7 @@
         <div class="absolute inset-0 bg-black/20"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center">
-                <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight text-white">
+                <h1 class="mt-20 text-4xl md:text-6xl font-bold mb-6 leading-tight text-white">
                     Studio de Boxe Personal<br>
                     Treino sob medida, sem distrações
                 </h1>
@@ -368,22 +370,6 @@
                     </div>
                 @endforeach
             </div>
-            
-            <!-- Call to action -->
-            <div class="text-center mt-12">
-                <div class="bg-gray-900 border border-gray-600 rounded-xl p-8 max-w-2xl mx-auto">
-                    <h3 class="text-2xl font-bold text-blue-400 mb-4">Quer compartilhar sua experiência?</h3>
-                    <p class="text-gray-300 mb-6">
-                        Se você já é nosso aluno, faça login na sua área e deixe sua avaliação!
-                    </p>
-                    <a href="{{ route('login') }}" class="inline-flex items-center gap-2 bg-gradient-blue hover:from-blue-700 hover:to-purple-700 px-6 py-3 rounded-lg font-semibold transition-all duration-300">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                        </svg>
-                        Acessar Área do Aluno
-                    </a>
-                </div>
-            </div>
         </div>
     </section>
     @endif
@@ -454,7 +440,7 @@
                     @foreach($horarios as $diaNumero => $horariosDay)
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between py-4 border-b border-gray-600 last:border-b-0">
                             <div class="font-semibold text-blue-400 text-lg mb-2 md:mb-0">
-                                {{ $diasSemana[$diaNumero] ?? 'Dia '.$diaNumero }}-feira
+                                {{ ($diasSemana[$diaNumero] ?? 'Dia '.$diaNumero) . (in_array($diaNumero, [6, 7]) ? '' : '-feira') }}
                             </div>
                             <div class="flex flex-wrap gap-2">
                                 @foreach($horariosDay as $horario)
@@ -818,7 +804,9 @@
     <!-- Footer -->
     <footer class="bg-gray-900 border-t border-gray-700 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h3 class="text-2xl font-bold text-blue-400 mb-4">Boxing House PF</h3>
+            <div class="flex justify-center mb-4">
+                <img src="{{ asset('logo-y.png') }}" alt="Boxing House PF" class="h-16 w-auto">
+            </div>
             <p class="text-gray-400 mb-4">Studio de Boxe</p>
             <div class="flex justify-center gap-6 mb-4">
                 @if($config && $config->whatsapp)
