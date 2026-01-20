@@ -33,7 +33,10 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(30, 41, 59, 0.85)), url('/capa.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             color: #ffffff;
             min-height: 100vh;
             display: flex;
@@ -215,15 +218,11 @@
     <div class="login-container">
         <div class="login-card">
             <div class="login-header">
-                <h1>Boxing House PF</h1>
+                <div class="mb-4">
+                    <img src="{{ asset('logo-x.png') }}" alt="Boxing House PF" class="mx-auto" style="height: 60px; width: auto;">
+                </div>
                 <p>Entre com suas credenciais</p>
             </div>
-
-            @if ($errors->any())
-                <div class="alert alert-error">
-                    {{ $errors->first() }}
-                </div>
-            @endif
 
             <form method="POST" action="{{ route('login') }}">
                 @csrf
@@ -251,6 +250,9 @@
                            class="form-input" 
                            required 
                            placeholder="Sua senha">
+                    @error('password')
+                        <div class="form-error">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="form-checkbox">

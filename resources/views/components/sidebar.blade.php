@@ -1,7 +1,9 @@
 <!-- Sidebar -->
 <aside class="w-72 bg-gradient-sidebar border-r border-gray-700 transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0 fixed md:static h-screen z-50 flex flex-col" id="sidebar">
     <div class="p-4 border-b border-gray-700 text-center flex-shrink-0">
-        <h1 class="text-blue-400 text-base md:text-sm lg:text-sm font-bold uppercase tracking-normal">Boxing House PF</h1>
+        <div class="flex justify-center">
+            <img src="{{ asset('logo-x.png') }}" alt="Boxing House PF" class="h-16 w-auto">
+        </div>
     </div>
 
     <nav class="py-6 flex-1 overflow-y-auto">
