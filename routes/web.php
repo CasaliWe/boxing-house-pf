@@ -25,6 +25,8 @@ use App\Http\Controllers\Publico\LandingController as PublicoLandingController;
 use App\Http\Controllers\Aluno\AnotacoesController as AlunoAnotacoesController;
 use App\Http\Controllers\Aluno\TreinosController as AlunoTreinosController;
 use App\Http\Controllers\Aluno\AvaliarController;
+use App\Http\Controllers\Professor\VideoController;
+use App\Http\Controllers\Aluno\AprendizadoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -132,6 +134,14 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
     Route::post('avaliacoes/{avaliacao}/aprovar', [AvaliacaoController::class, 'aprovar'])->name('avaliacoes.aprovar');
     Route::post('avaliacoes/{avaliacao}/reprovar', [AvaliacaoController::class, 'reprovar'])->name('avaliacoes.reprovar');
     Route::delete('avaliacoes/{avaliacao}', [AvaliacaoController::class, 'destroy'])->name('avaliacoes.destroy');
+
+    // Vídeos EAD
+    Route::resource('videos', VideoController::class)->parameters(['videos' => 'modulo']);
+    Route::get('videos/{modulo}/add-video', [VideoController::class, 'addVideo'])->name('videos.add-video');
+    Route::post('videos/{modulo}/store-video', [VideoController::class, 'storeVideo'])->name('videos.store-video');
+    Route::get('videos/{modulo}/videos/{video}/edit', [VideoController::class, 'editVideo'])->name('videos.edit-video');
+    Route::put('videos/{modulo}/videos/{video}', [VideoController::class, 'updateVideo'])->name('videos.update-video');
+    Route::delete('videos/{modulo}/videos/{video}', [VideoController::class, 'destroyVideo'])->name('videos.destroy-video');
 });
 
 /*
@@ -167,4 +177,9 @@ Route::middleware(['auth', 'role:aluno'])->prefix('aluno')->name('aluno.')->grou
     Route::get('avaliar', [AvaliarController::class, 'index'])->name('avaliar.index');
     Route::post('avaliar', [AvaliarController::class, 'store'])->name('avaliar.store');
     Route::post('avaliar/remover-foto', [AvaliarController::class, 'removerFoto'])->name('avaliar.remover-foto');
+
+    // Aprendizado EAD
+    Route::get('aprendizado', [AprendizadoController::class, 'index'])->name('aprendizado.index');
+    Route::get('aprendizado/{modulo}', [AprendizadoController::class, 'show'])->name('aprendizado.show');
+    Route::get('aprendizado/{modulo}/video/{video}', [AprendizadoController::class, 'video'])->name('aprendizado.video');
 });
