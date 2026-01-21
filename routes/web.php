@@ -78,16 +78,6 @@ Route::post('/logout', [LoginController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
-// Rota para verificar mensalidades
-Route::get('/mensalidades', function () {
-    try {
-        \Artisan::call('mensalidade:verificar');
-        $output = \Artisan::output();
-        return response("<pre>$output</pre>");
-    } catch (\Exception $e) {
-        return response("Erro: " . $e->getMessage(), 500);
-    }
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -218,4 +208,15 @@ Route::middleware(['auth', 'role:aluno', 'aluno.ativo'])->prefix('aluno')->name(
 });
 
 // Rota para avisos automáticos de aulas (cron job)
-Route::get('/avisar', [\App\Http\Controllers\AvisoAulaController::class, 'avisar'])->name('avisar.aulas');
+Route::get('/avisar', [\App\Http\Controllers\Publico\AvisoAulaController::class, 'avisar'])->name('avisar.aulas');
+
+// Rota para verificar mensalidades (cron job)
+Route::get('/mensalidades', function () {
+    try {
+        \Artisan::call('mensalidade:verificar');
+        $output = \Artisan::output();
+        return response("<pre>$output</pre>");
+    } catch (\Exception $e) {
+        return response("Erro: " . $e->getMessage(), 500);
+    }
+});

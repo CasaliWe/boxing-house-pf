@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Publico;
 
+use App\Http\Controllers\Controller;
 use App\Models\Configuracao;
 use App\Models\Horario;
 use App\Services\WhatsAppService;
