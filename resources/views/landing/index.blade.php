@@ -89,7 +89,10 @@
             <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6">Sobre a Boxing House PF</h2>
                 <p class="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-                    Studio de boxe feito em casa, com espaço compacto e organizado. Atendimento individual ou em grupos pequenos, foco total no aluno e correção técnica constante. Ideal para iniciantes e praticantes, com treino personalizado voltado a condicionamento físico e técnica. Sem lotação e sem treino genérico.
+                    Studio de boxe em ambiente privado, compacto e organizado.
+                    Atendimento individual ou em grupos reduzidos, garantindo foco total no aluno e correção técnica constante.
+                    Treinos personalizados para iniciantes e praticantes, com ênfase em técnica, condicionamento físico e evolução real.
+                    Sem lotação, sem treino genérico, aqui o treino é feito para você.
                 </p>
             </div>
             
