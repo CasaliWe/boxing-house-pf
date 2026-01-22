@@ -47,7 +47,7 @@
                 </div>
                 <div>
                     <label class="text-gray-300 text-sm">Data de Nascimento</label>
-                    <input type="date" name="data_nascimento" value="{{ old('data_nascimento', $user->data_nascimento) }}" class="mt-1 w-full bg-gray-900 border border-gray-700 rounded p-2 text-white">
+                    <input type="date" name="data_nascimento" value="{{ old('data_nascimento', $user->data_nascimento ? \Illuminate\Support\Carbon::parse($user->data_nascimento)->format('Y-m-d') : '') }}" class="mt-1 w-full bg-gray-900 border border-gray-700 rounded p-2 text-white">
                 </div>
                 <div>
                     <label class="text-gray-300 text-sm">Idade</label>
