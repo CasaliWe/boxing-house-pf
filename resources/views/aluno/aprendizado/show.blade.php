@@ -29,7 +29,7 @@
                 
                 // Se tem arquivo de vídeo, gera thumbnail do próprio vídeo
                 if (!empty($video->arquivo_path)) {
-                    $videoPath = asset('storage/' . $video->arquivo_path);
+                    $videoPath = asset($video->arquivo_path);
                     $thumbnailUrl = $videoPath; // Usaremos o próprio vídeo como preview
                 }
                 // Fallback para capa/thumbnail
@@ -45,7 +45,7 @@
                     @if($thumbnailUrl && !empty($video->arquivo_path))
                         {{-- Preview do vídeo igual área professor --}}
                         <video preload="metadata" muted>
-                            <source src="{{ asset('storage/' . $video->arquivo_path) }}" type="video/mp4">
+                            <source src="{{ asset($video->arquivo_path) }}" type="video/mp4">
                         </video>
                     @elseif($thumbnailUrl)
                         <img src="{{ $thumbnailUrl }}" alt="{{ $video->titulo }}" loading="lazy">

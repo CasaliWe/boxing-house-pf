@@ -35,7 +35,7 @@
     <section class="player-wrap">
         @if(!empty($video->arquivo_path))
             <video controls playsinline poster="{{ $posterUrl ?? $placeholderSvg }}">
-                <source src="{{ asset('storage/' . $video->arquivo_path) }}" type="video/mp4">
+                <source src="{{ asset($video->arquivo_path) }}" type="video/mp4">
                 Seu navegador não suporta vídeo.
             </video>
         @else
@@ -57,7 +57,7 @@
                     @php
                         $thumbUrl = null;
                         if (!empty($videoRelacionado->arquivo_path)) {
-                            $thumbUrl = asset('storage/' . $videoRelacionado->arquivo_path);
+                            $thumbUrl = asset($videoRelacionado->arquivo_path);
                         } elseif (!empty($videoRelacionado->thumbnail_url)) {
                             $thumbUrl = $videoRelacionado->thumbnail_url;
                         } elseif (!empty($videoRelacionado->capa)) {
@@ -69,7 +69,7 @@
                         <a href="{{ route('aluno.aprendizado.video', [$modulo->id, $videoRelacionado->id]) }}" class="thumb-relacionado">
                             @if($thumbUrl && !empty($videoRelacionado->arquivo_path))
                                 <video preload="metadata" muted>
-                                    <source src="{{ asset('storage/' . $videoRelacionado->arquivo_path) }}" type="video/mp4">
+                                    <source src="{{ asset($videoRelacionado->arquivo_path) }}" type="video/mp4">
                                 </video>
                             @elseif($thumbUrl)
                                 <img src="{{ $thumbUrl }}" alt="{{ $videoRelacionado->titulo }}" loading="lazy">

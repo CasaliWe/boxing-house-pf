@@ -170,7 +170,7 @@
                 @foreach($fotosCentro as $foto)
                     <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-colors">
                         <div class="aspect-video overflow-hidden">
-                            <img src="{{ asset('storage/'.$foto->caminho_arquivo) }}" alt="{{ $foto->nome_original }}" 
+                            <img src="{{ asset($foto->caminho_arquivo) }}" alt="{{ $foto->nome_original }}" 
                                  class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
                         </div>
                         <div class="p-4">

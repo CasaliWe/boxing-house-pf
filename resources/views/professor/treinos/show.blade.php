@@ -14,7 +14,7 @@
 
     <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
         <div class="aspect-video mb-4 overflow-hidden rounded">
-            <img src="{{ asset('storage/'.$treino->foto_path) }}" alt="Foto do treino" class="w-full h-full object-cover">
+            <img src="{{ asset($treino->foto_path) }}" alt="Foto do treino" class="w-full h-full object-cover">
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>

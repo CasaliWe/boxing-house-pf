@@ -102,10 +102,25 @@ class TreinoController extends Controller
 
         if ($request->hasFile('foto')) {
             // Apagar foto antiga e salvar nova
-            if ($treino->foto_path && Storage::disk('public')->exists($treino->foto_path)) {
-                Storage::disk('public')->delete($treino->foto_path);
+            if ($treino->foto_path) {
+                $caminhoAntigo = public_path($treino->foto_path);
+                if (file_exists($caminhoAntigo)) {
+                    unlink($caminhoAntigo);
+                }
             }
-            $update['foto_path'] = $request->file('foto')->store('treinos', 'public');
+            
+            $arquivo = $request->file('foto');
+            $nomeArquivo = 'treino-' . time() . '-' . uniqid() . '.' . $arquivo->getClientOriginalExtension();
+            
+            // Criar diretório se não existir
+            $diretorio = public_path('uploads/treinos');
+            if (!file_exists($diretorio)) {
+                mkdir($diretorio, 0755, true);
+            }
+            
+            // Mover arquivo para public
+            $arquivo->move($diretorio, $nomeArquivo);
+            $update['foto_path'] = 'uploads/treinos/' . $nomeArquivo;
         }
 
         $treino->update($update);
@@ -121,8 +136,11 @@ class TreinoController extends Controller
     public function destroy(Treino $treino)
     {
         // Remove foto
-        if ($treino->foto_path && Storage::disk('public')->exists($treino->foto_path)) {
-            Storage::disk('public')->delete($treino->foto_path);
+        if ($treino->foto_path) {
+            $caminhoArquivo = public_path($treino->foto_path);
+            if (file_exists($caminhoArquivo)) {
+                unlink($caminhoArquivo);
+            }
         }
 
         $treino->delete();

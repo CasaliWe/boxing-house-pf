@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\VideoModulo;
 use App\Models\Video;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class VideoController extends Controller
@@ -126,8 +125,11 @@ class VideoController extends Controller
     {
         // Deletar arquivos de vídeo
         foreach ($modulo->videos as $video) {
-            if (Storage::disk('public')->exists($video->arquivo_path)) {
-                Storage::disk('public')->delete($video->arquivo_path);
+            if ($video->arquivo_path) {
+                $caminhoArquivo = public_path($video->arquivo_path);
+                if (file_exists($caminhoArquivo)) {
+                    unlink($caminhoArquivo);
+                }
             }
         }
 
@@ -159,7 +161,18 @@ class VideoController extends Controller
         ]);
 
         // Upload do vídeo
-        $path = $request->file('arquivo')->store('videos', 'public');
+        $arquivo = $request->file('arquivo');
+        $nomeArquivo = 'video-' . time() . '-' . uniqid() . '.' . $arquivo->getClientOriginalExtension();
+        
+        // Criar diretório se não existir
+        $diretorio = public_path('uploads/videos');
+        if (!file_exists($diretorio)) {
+            mkdir($diretorio, 0755, true);
+        }
+        
+        // Mover arquivo para public
+        $arquivo->move($diretorio, $nomeArquivo);
+        $path = 'uploads/videos/' . $nomeArquivo;
 
         // Tentar extrair duração (opcional - precisa ffmpeg)
         $duracaoSegundos = 0;
@@ -213,12 +226,26 @@ class VideoController extends Controller
         // Se enviou novo arquivo
         if ($request->hasFile('arquivo')) {
             // Deletar arquivo antigo
-            if (Storage::disk('public')->exists($video->arquivo_path)) {
-                Storage::disk('public')->delete($video->arquivo_path);
+            if ($video->arquivo_path) {
+                $caminhoAntigo = public_path($video->arquivo_path);
+                if (file_exists($caminhoAntigo)) {
+                    unlink($caminhoAntigo);
+                }
             }
 
             // Upload novo arquivo
-            $path = $request->file('arquivo')->store('videos', 'public');
+            $arquivo = $request->file('arquivo');
+            $nomeArquivo = 'video-' . time() . '-' . uniqid() . '.' . $arquivo->getClientOriginalExtension();
+            
+            // Criar diretório se não existir
+            $diretorio = public_path('uploads/videos');
+            if (!file_exists($diretorio)) {
+                mkdir($diretorio, 0755, true);
+            }
+            
+            // Mover arquivo para public
+            $arquivo->move($diretorio, $nomeArquivo);
+            $path = 'uploads/videos/' . $nomeArquivo;
             $dados['arquivo_path'] = $path;
 
             // Tentar extrair nova duração
@@ -253,8 +280,11 @@ class VideoController extends Controller
     public function destroyVideo(VideoModulo $modulo, Video $video)
     {
         // Deletar arquivo
-        if (Storage::disk('public')->exists($video->arquivo_path)) {
-            Storage::disk('public')->delete($video->arquivo_path);
+        if ($video->arquivo_path) {
+            $caminhoArquivo = public_path($video->arquivo_path);
+            if (file_exists($caminhoArquivo)) {
+                unlink($caminhoArquivo);
+            }
         }
 
         $video->delete();

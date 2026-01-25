@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Avaliacao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\File;
 
 class AvaliarController extends Controller
@@ -49,12 +48,24 @@ class AvaliarController extends Controller
         if ($request->hasFile('foto_avaliacao')) {
             // Remover foto antiga se existir
             if ($avaliacao->foto_avaliacao) {
-                Storage::disk('public')->delete($avaliacao->foto_avaliacao);
+                $caminhoAntigo = public_path($avaliacao->foto_avaliacao);
+                if (file_exists($caminhoAntigo)) {
+                    unlink($caminhoAntigo);
+                }
             }
             
-            $nomeArquivo = 'avaliacao-' . Auth::id() . '-' . time() . '.' . $request->file('foto_avaliacao')->getClientOriginalExtension();
-            $caminhoFoto = $request->file('foto_avaliacao')->storeAs('avaliacoes', $nomeArquivo, 'public');
-            $dados['foto_avaliacao'] = $caminhoFoto;
+            $arquivo = $request->file('foto_avaliacao');
+            $nomeArquivo = 'avaliacao-' . Auth::id() . '-' . time() . '.' . $arquivo->getClientOriginalExtension();
+            
+            // Criar diretório se não existir
+            $diretorio = public_path('uploads/avaliacoes');
+            if (!file_exists($diretorio)) {
+                mkdir($diretorio, 0755, true);
+            }
+            
+            // Mover arquivo para public
+            $arquivo->move($diretorio, $nomeArquivo);
+            $dados['foto_avaliacao'] = 'uploads/avaliacoes/' . $nomeArquivo;
         }
 
         // Atualizar dados

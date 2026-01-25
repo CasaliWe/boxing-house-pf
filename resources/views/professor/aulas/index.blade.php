@@ -31,8 +31,7 @@
                     <td class="px-3 md:px-4 py-3 align-top md:w-64">
                         <div class="flex items-center gap-2 flex-wrap">
                             @if($seq->video_path)
-                                <button type="button" class="px-3 py-2 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700 text-sm text-center transition duration-150 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                                        onclick="abrirModalVideo('{{ asset('storage/'.$seq->video_path) }}')">Vídeo</button>
+                                <img src="{{ asset($seq->video_path) }}" alt="Imagem da sequência" class="h-8 w-8 rounded object-cover border border-gray-600">
                             @endif
                             <a href="{{ route('professor.aulas-sequencia.edit', $seq) }}" class="px-3 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-sm text-center transition duration-150 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500">Editar</a>
                             <form method="POST" action="{{ route('professor.aulas-sequencia.destroy', $seq) }}" onsubmit="return confirm('Excluir esta sequência?')" class="inline">

@@ -209,7 +209,7 @@
                                 <div class="relative slider-container">
                                     @foreach($imagensProfessor as $indice => $imagem)
                                         <div class="slide">
-                                            <img src="{{ asset('storage/' . $imagem) }}" 
+                                            <img src="{{ asset($imagem) }}" 
                                                  alt="{{ $professor->name }} - Foto {{ $indice + 1 }}" 
                                                  class="w-full h-80 object-cover rounded-xl shadow-2xl">
                                             <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-xl"></div>
@@ -338,7 +338,7 @@
                         <!-- Header com foto e nome -->
                         <div class="flex items-center gap-4 mb-4">
                             @if($avaliacao->foto_avaliacao)
-                                <img src="{{ asset('storage/' . $avaliacao->foto_avaliacao) }}" 
+                                <img src="{{ asset($avaliacao->foto_avaliacao) }}"  
                                      alt="Foto de {{ $avaliacao->user->name }}" 
                                      class="w-12 h-12 rounded-full object-cover border-2 border-blue-400">
                             @else
@@ -391,8 +391,8 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 @foreach($fotosCentro->take(6) as $foto)
                     <div class="group relative overflow-hidden rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 cursor-pointer" data-aos="fade-up" data-aos-delay="{{ 100 + ($loop->index * 80) }}" 
-                         onclick="openPhotoModal('{{ asset('storage/'.$foto->caminho_arquivo) }}', '{{ $foto->descricao ?: 'Foto do centro de treinamento' }}')">
-                        <img src="{{ asset('storage/'.$foto->caminho_arquivo) }}" 
+                         onclick="openPhotoModal('{{ asset($foto->caminho_arquivo) }}', '{{ $foto->descricao ?: 'Foto do centro de treinamento' }}')">
+                        <img src="{{ asset($foto->caminho_arquivo) }}" 
                              alt="{{ $foto->descricao ?: 'Foto do centro de treinamento' }}" 
                              class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
@@ -614,7 +614,7 @@
                         <div class="relative sistema-slider-container">
                             @foreach($sistemaAluno->imagens as $indice => $imagem)
                                 <div class="sistema-slide">
-                                    <img src="{{ asset('storage/' . $imagem) }}" 
+                                    <img src="{{ asset($imagem) }}" 
                                          alt="Sistema do Aluno - Imagem {{ $indice + 1 }}" 
                                          class="w-full h-48 object-cover rounded-lg shadow-lg">
                                 </div>

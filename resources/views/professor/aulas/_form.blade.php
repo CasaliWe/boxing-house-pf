@@ -12,14 +12,13 @@
             @error('descricao')<p class="text-red-400 text-sm mt-2">{{ $message }}</p>@enderror
         </div>
         <div>
-            <label class="block text-sm font-medium text-gray-300 mb-2">Vídeo da sequência (opcional)</label>
-            <input type="file" name="video" accept="video/*" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-            @error('video')<p class="text-red-400 text-sm mt-2">{{ $message }}</p>@enderror
+            <label class="block text-sm font-medium text-gray-300 mb-2">Imagem da sequência (opcional)</label>
+            <input type="file" name="imagem" accept="image/*" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+            @error('imagem')<p class="text-red-400 text-sm mt-2">{{ $message }}</p>@enderror
             @isset($sequencia)
                 @if($sequencia->video_path)
                     <div class="mt-3">
-                        <button type="button" class="px-3 py-2 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700 text-sm"
-                                onclick="abrirModalVideo('{{ asset('storage/'.$sequencia->video_path) }}')">Vídeo</button>
+                        <img src="{{ asset($sequencia->video_path) }}" alt="Imagem da sequência" class="h-20 rounded object-cover border border-gray-600">
                     </div>
                 @endif
             @endisset

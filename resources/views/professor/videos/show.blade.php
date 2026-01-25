@@ -69,7 +69,7 @@
                             <!-- Video Thumbnail -->
                             <div class="aspect-video mb-4 overflow-hidden rounded-lg bg-gradient-to-br from-gray-700 to-gray-800 relative">
                                 <video class="w-full h-full object-cover" preload="metadata">
-                                    <source src="{{ asset('storage/'.$video->arquivo_path) }}" type="video/mp4">
+                                    <source src="{{ asset($video->arquivo_path) }}" type="video/mp4">
                                 </video>
                                 <!-- Status Badge -->
                                 <div class="absolute top-2 right-2">

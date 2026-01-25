@@ -52,7 +52,10 @@ class AvaliacaoController extends Controller
     {
         // Remover foto se existir
         if ($avaliacao->foto_avaliacao) {
-            \Storage::disk('public')->delete($avaliacao->foto_avaliacao);
+            $caminhoArquivo = public_path($avaliacao->foto_avaliacao);
+            if (file_exists($caminhoArquivo)) {
+                unlink($caminhoArquivo);
+            }
         }
         
         $avaliacao->delete();

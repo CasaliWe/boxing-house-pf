@@ -91,7 +91,17 @@ class ConfigController extends Controller
         if ($request->hasFile('foto')) {
             $arquivo = $request->file('foto');
             $nomeOriginal = $arquivo->getClientOriginalName();
-            $caminhoArquivo = $arquivo->store('fotos_centro', 'public');
+            $nomeArquivo = 'centro-' . time() . '-' . uniqid() . '.' . $arquivo->getClientOriginalExtension();
+            
+            // Criar diretório se não existir
+            $diretorio = public_path('uploads/fotos_centro');
+            if (!file_exists($diretorio)) {
+                mkdir($diretorio, 0755, true);
+            }
+            
+            // Mover arquivo para public
+            $arquivo->move($diretorio, $nomeArquivo);
+            $caminhoArquivo = 'uploads/fotos_centro/' . $nomeArquivo;
 
             // Definir ordem como próximo número
             $proximaOrdem = FotoCentro::max('ordem') + 1;
@@ -115,8 +125,11 @@ class ConfigController extends Controller
     public function excluirFoto(FotoCentro $foto)
     {
         // Excluir arquivo físico
-        if (Storage::disk('public')->exists($foto->caminho_arquivo)) {
-            Storage::disk('public')->delete($foto->caminho_arquivo);
+        if ($foto->caminho_arquivo) {
+            $caminhoArquivo = public_path($foto->caminho_arquivo);
+            if (file_exists($caminhoArquivo)) {
+                unlink($caminhoArquivo);
+            }
         }
 
         // Excluir registro do banco

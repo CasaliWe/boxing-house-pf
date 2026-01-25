@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Professor;
 use App\Http\Controllers\Controller;
 use App\Models\AulaSequencia;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class AulaSequenciaController extends Controller
 {
@@ -34,18 +33,30 @@ class AulaSequenciaController extends Controller
         $dados = $request->validate([
             'numero' => ['required', 'integer', 'min:1', 'unique:aula_sequencias,numero'],
             'descricao' => ['required', 'string'],
-            'video' => ['nullable', 'file', 'mimetypes:video/*'],
+            'imagem' => ['nullable', 'file', 'image', 'max:5120'], // 5MB máximo
             'ativo' => ['nullable', 'boolean'],
         ]);
-        $videoPath = null;
-        if ($request->hasFile('video')) {
-            $videoPath = $request->file('video')->store('sequencias', 'public');
+        
+        $imagemPath = null;
+        if ($request->hasFile('imagem')) {
+            $arquivo = $request->file('imagem');
+            $nomeArquivo = 'sequencia-' . time() . '-' . uniqid() . '.' . $arquivo->getClientOriginalExtension();
+            
+            // Criar diretório se não existir
+            $diretorio = public_path('uploads/sequencias');
+            if (!file_exists($diretorio)) {
+                mkdir($diretorio, 0755, true);
+            }
+            
+            // Mover arquivo para public
+            $arquivo->move($diretorio, $nomeArquivo);
+            $imagemPath = 'uploads/sequencias/' . $nomeArquivo;
         }
 
         AulaSequencia::create([
             'numero' => $dados['numero'],
             'descricao' => $dados['descricao'],
-            'video_path' => $videoPath,
+            'video_path' => $imagemPath, // Mantendo o campo video_path por compatibilidade
             'ativo' => (bool)($dados['ativo'] ?? true),
         ]);
 
@@ -69,20 +80,37 @@ class AulaSequenciaController extends Controller
         $dados = $request->validate([
             'numero' => ['required', 'integer', 'min:1', 'unique:aula_sequencias,numero,' . $sequencia->id],
             'descricao' => ['required', 'string'],
-            'video' => ['nullable', 'file', 'mimetypes:video/*'],
+            'imagem' => ['nullable', 'file', 'image', 'max:5120'], // 5MB máximo
             'ativo' => ['nullable', 'boolean'],
         ]);
+        
         $update = [
             'numero' => $dados['numero'],
             'descricao' => $dados['descricao'],
             'ativo' => (bool)($dados['ativo'] ?? true),
         ];
 
-        if ($request->hasFile('video')) {
-            if ($sequencia->video_path && Storage::disk('public')->exists($sequencia->video_path)) {
-                Storage::disk('public')->delete($sequencia->video_path);
+        if ($request->hasFile('imagem')) {
+            // Remover imagem antiga se existir
+            if ($sequencia->video_path) {
+                $caminhoAntigo = public_path($sequencia->video_path);
+                if (file_exists($caminhoAntigo)) {
+                    unlink($caminhoAntigo);
+                }
             }
-            $update['video_path'] = $request->file('video')->store('sequencias', 'public');
+            
+            $arquivo = $request->file('imagem');
+            $nomeArquivo = 'sequencia-' . time() . '-' . uniqid() . '.' . $arquivo->getClientOriginalExtension();
+            
+            // Criar diretório se não existir
+            $diretorio = public_path('uploads/sequencias');
+            if (!file_exists($diretorio)) {
+                mkdir($diretorio, 0755, true);
+            }
+            
+            // Mover arquivo para public
+            $arquivo->move($diretorio, $nomeArquivo);
+            $update['video_path'] = 'uploads/sequencias/' . $nomeArquivo; // Mantendo campo video_path
         }
 
         $sequencia->update($update);
@@ -96,6 +124,14 @@ class AulaSequenciaController extends Controller
      */
     public function destroy(AulaSequencia $sequencia)
     {
+        // Remover imagem se existir
+        if ($sequencia->video_path) {
+            $caminhoArquivo = public_path($sequencia->video_path);
+            if (file_exists($caminhoArquivo)) {
+                unlink($caminhoArquivo);
+            }
+        }
+        
         $sequencia->delete();
         return redirect()->route('professor.aulas-sequencia.index')
             ->with('success', 'Sequência excluída com sucesso.');

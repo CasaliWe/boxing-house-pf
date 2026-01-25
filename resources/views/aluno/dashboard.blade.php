@@ -87,10 +87,7 @@
                                 <span class="text-gray-200 text-sm">{{ $item['descricao'] }}</span>
                             </div>
                             @if($item['video_path'])
-                                <button type="button" class="px-2 py-1 rounded text-xs bg-blue-600 hover:bg-blue-700 text-white transition duration-150"
-                                        onclick="abrirModalVideo('{{ asset('storage/'.$item['video_path']) }}')">
-                                    Vídeo
-                                </button>
+                                <img src="{{ asset($item['video_path']) }}" alt="Imagem da sequência" class="h-8 w-8 rounded object-cover border border-gray-600">
                             @endif
                         </div>
                     @endforeach

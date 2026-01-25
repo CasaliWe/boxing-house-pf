@@ -23,7 +23,7 @@
         @error('foto')<p class="text-red-400 text-sm mt-2">{{ $message }}</p>@enderror
         @isset($treino)
             <div class="mt-3">
-                <img src="{{ asset('storage/'.$treino->foto_path) }}" alt="Foto atual" class="h-28 rounded object-cover border border-gray-600">
+                <img src="{{ asset($treino->foto_path) }}" alt="Foto atual" class="h-28 rounded object-cover border border-gray-600">
             </div>
         @endisset
     </div>

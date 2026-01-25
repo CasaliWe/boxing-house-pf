@@ -49,7 +49,7 @@
                     <div class="mb-4">
                         <div class="aspect-[9/16] w-48 overflow-hidden rounded bg-gray-700 mb-2">
                             <video class="w-full h-full object-cover" controls preload="metadata">
-                                <source src="{{ asset('storage/'.$video->arquivo_path) }}" type="video/mp4">
+                                <source src="{{ asset($video->arquivo_path) }}" type="video/mp4">
                                 Seu navegador não suporta vídeo.
                             </video>
                         </div>

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Professor;
 use App\Http\Controllers\Controller;
 use App\Models\SistemaAluno;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\File;
 
 class AppController extends Controller
@@ -65,12 +64,21 @@ class AppController extends Controller
         // Processar imagens atuais
         $imagensAtuais = $sistemaAluno->imagens ?? [];
         
-        // Adicionar novas imagens
         if ($request->hasFile('novas_imagens')) {
             foreach ($request->file('novas_imagens') as $imagem) {
                 if (count($imagensAtuais) < 10) { // Limite de 10 imagens
-                    $nomeArquivo = 'sistema-aluno-' . time() . '-' . uniqid() . '.' . $imagem->getClientOriginalExtension();
-                    $caminho = $imagem->storeAs('sistema-aluno/imagens', $nomeArquivo, 'public');
+                    $arquivo = $imagem;
+                    $nomeArquivo = 'sistema-aluno-' . time() . '-' . uniqid() . '.' . $arquivo->getClientOriginalExtension();
+                    
+                    // Criar diretório se não existir
+                    $diretorio = public_path('uploads/sistema-aluno/imagens');
+                    if (!file_exists($diretorio)) {
+                        mkdir($diretorio, 0755, true);
+                    }
+                    
+                    // Mover arquivo para public
+                    $arquivo->move($diretorio, $nomeArquivo);
+                    $caminho = 'uploads/sistema-aluno/imagens/' . $nomeArquivo;
                     $imagensAtuais[] = $caminho;
                 }
             }
@@ -82,7 +90,10 @@ class AppController extends Controller
             foreach ($imagensParaRemover as $indice) {
                 if (isset($imagensAtuais[$indice])) {
                     // Deletar arquivo físico
-                    Storage::disk('public')->delete($imagensAtuais[$indice]);
+                    $caminhoArquivo = public_path($imagensAtuais[$indice]);
+                    if (file_exists($caminhoArquivo)) {
+                        unlink($caminhoArquivo);
+                    }
                     // Remover do array
                     unset($imagensAtuais[$indice]);
                 }
@@ -131,7 +142,10 @@ class AppController extends Controller
         }
 
         // Deletar arquivo físico
-        Storage::disk('public')->delete($imagens[$indice]);
+        $caminhoArquivo = public_path($imagens[$indice]);
+        if (file_exists($caminhoArquivo)) {
+            unlink($caminhoArquivo);
+        }
 
         // Remover do array e reindexar
         unset($imagens[$indice]);

@@ -59,7 +59,7 @@
                 <div class="mb-6">
                     <h3 class="text-lg font-medium text-gray-300 mb-4">Foto Atual</h3>
                     <div class="relative inline-block">
-                        <img src="{{ asset('storage/' . $avaliacao->foto_avaliacao) }}" alt="Sua foto de avaliação" 
+                        <img src="{{ asset($avaliacao->foto_avaliacao) }}" alt="Sua foto de avaliação" 
                              class="w-32 h-32 object-cover rounded-full border-4 border-blue-400">
                         <button type="button" 
                                 onclick="removerFoto()"

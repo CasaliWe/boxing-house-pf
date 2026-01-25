@@ -57,8 +57,18 @@ class ProfessorController extends Controller
         if ($request->hasFile('novas_imagens')) {
             foreach ($request->file('novas_imagens') as $imagem) {
                 if (count($imagensAtuais) < 5) {
-                    $nomeArquivo = 'professor-' . $professor->id . '-' . time() . '-' . uniqid() . '.' . $imagem->getClientOriginalExtension();
-                    $caminho = $imagem->storeAs('professor/imagens', $nomeArquivo, 'public');
+                    $arquivo = $imagem;
+                    $nomeArquivo = 'professor-' . $professor->id . '-' . time() . '-' . uniqid() . '.' . $arquivo->getClientOriginalExtension();
+                    
+                    // Criar diretório se não existir
+                    $diretorio = public_path('uploads/professor/imagens');
+                    if (!file_exists($diretorio)) {
+                        mkdir($diretorio, 0755, true);
+                    }
+                    
+                    // Mover arquivo para public
+                    $arquivo->move($diretorio, $nomeArquivo);
+                    $caminho = 'uploads/professor/imagens/' . $nomeArquivo;
                     $imagensAtuais[] = $caminho;
                 }
             }
@@ -70,7 +80,10 @@ class ProfessorController extends Controller
             foreach ($imagensParaRemover as $indice) {
                 if (isset($imagensAtuais[$indice])) {
                     // Deletar arquivo físico
-                    Storage::disk('public')->delete($imagensAtuais[$indice]);
+                    $caminhoArquivo = public_path($imagensAtuais[$indice]);
+                    if (file_exists($caminhoArquivo)) {
+                        unlink($caminhoArquivo);
+                    }
                     // Remover do array
                     unset($imagensAtuais[$indice]);
                 }

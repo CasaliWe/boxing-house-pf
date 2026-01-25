@@ -26,7 +26,7 @@
                 @foreach($treinos as $treino)
                     <div class="border border-gray-600 rounded-lg p-5 bg-gray-800/40 hover:bg-gray-800/60 transition-colors">
                         <div class="aspect-video mb-4 overflow-hidden rounded-lg">
-                            <img src="{{ asset('storage/'.$treino->foto_path) }}" alt="Foto do treino" class="w-full h-full object-cover">
+                            <img src="{{ asset($treino->foto_path) }}" alt="Foto do treino" class="w-full h-full object-cover">
                         </div>
                         
                         <div class="space-y-3">
@@ -52,13 +52,7 @@
                                         <div class="flex items-center justify-between gap-3">
                                             <div class="text-gray-200 text-sm">{{ $treino->sequencia->descricao }}</div>
                                             @if($treino->video_path)
-                                                <button onclick="abrirModalVideo('{{ asset('storage/'.$treino->video_path) }}')" 
-                                                        class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-medium transition-colors flex items-center gap-1">
-                                                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path d="M8.5 5.5L15.5 10L8.5 14.5V5.5Z"/>
-                                                    </svg>
-                                                    Assistir
-                                                </button>
+                                                <img src="{{ asset($treino->video_path) }}" alt="Imagem da sequência" class="h-8 w-8 rounded object-cover border border-gray-600">
                                             @endif
                                         </div>
                                     @else

@@ -20,7 +20,7 @@
                 @foreach($treinos as $treino)
                     <div class="border border-gray-600 rounded-lg p-5 bg-gray-800/40">
                         <div class="aspect-video mb-3 overflow-hidden rounded">
-                            <img src="{{ asset('storage/'.$treino->foto_path) }}" alt="Foto do treino" class="w-full h-full object-cover">
+                            <img src="{{ asset($treino->foto_path) }}" alt="Foto do treino" class="w-full h-full object-cover">
                         </div>
                         <div class="flex items-center justify-between">
                             <div>

@@ -18,7 +18,7 @@
                         <div class="flex items-center justify-between mb-4">
                             <div class="flex items-center gap-4">
                                 @if($avaliacao->foto_avaliacao)
-                                    <img src="{{ asset('storage/' . $avaliacao->foto_avaliacao) }}" 
+                                    <img src="{{ asset($avaliacao->foto_avaliacao) }}"  
                                          alt="Foto de {{ $avaliacao->user->name }}" 
                                          class="w-16 h-16 rounded-full object-cover border-2 border-blue-400">
                                 @else

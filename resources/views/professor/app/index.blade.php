@@ -143,7 +143,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         @foreach($imagensAtuais as $indice => $imagem)
                             <div class="relative group">
-                                <img src="{{ asset('storage/' . $imagem) }}" alt="Imagem do Sistema {{ $indice + 1 }}" 
+                                <img src="{{ asset($imagem) }}" alt="Imagem do Sistema {{ $indice + 1 }}" 
                                      class="w-full h-48 object-cover rounded-lg">
                                 <div class="absolute inset-0 bg-black bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                                     <button type="button" 
