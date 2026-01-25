@@ -204,7 +204,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.6.9-1 1.651-1.155.751-.154 1.532.055 2.152.625L19.64 6.55a2 2 0 01.25 2.83l-7.18 8.61c-.34.407-.808.695-1.335.82L9 19.5l.694-2.375c.125-.527.413-.995.82-1.335l8.61-7.18a2 2 0 002.83.25z"></path>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 3L16 5.5M9 13h3l4-4"></path>
                     </svg>
-                    Avaliar
+                    Avaliar a academia
                 </a>
             </div>
 

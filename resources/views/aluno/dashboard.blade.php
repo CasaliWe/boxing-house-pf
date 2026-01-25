@@ -120,6 +120,9 @@
     </div>
 </div>
 
+<!-- PWA Install Prompt -->
+@include('components.pwa-install-prompt')
+
 <script>
 function abrirModalVideo(src){
     const modal = document.getElementById('modalVideoSequencia');

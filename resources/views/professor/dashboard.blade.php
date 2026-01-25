@@ -114,6 +114,9 @@
         </div>
     </div>
 
+    <!-- PWA Install Prompt -->
+    @include('components.pwa-install-prompt')
+
     <script>
         function openAlunoModal(data) {
             document.getElementById('alunoModalTitle').textContent = data.name;
