@@ -27,7 +27,7 @@ class Horario extends Model
     {
         return $this->belongsToMany(User::class, 'horario_user')
             ->withTimestamps()
-            ->where('role', 'aluno')
+            ->where('users.role', 'aluno')
             ->withPivot(['aprovado']);
     }
 
