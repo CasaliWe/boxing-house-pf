@@ -616,7 +616,8 @@
                                 <div class="sistema-slide">
                                     <img src="{{ asset($imagem) }}" 
                                          alt="Sistema do Aluno - Imagem {{ $indice + 1 }}" 
-                                         class="w-full h-48 object-cover rounded-lg shadow-lg">
+                                         style="width: 100%; height: auto;" 
+                                         class="rounded-lg shadow-lg">
                                 </div>
                             @endforeach
                             
