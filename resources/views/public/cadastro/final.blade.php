@@ -9,7 +9,7 @@
         <p class="text-gray-300 mt-2">Recebemos suas informações. Seu cadastro está <span class="text-yellow-300">pendente</span> de confirmação.</p>
     </div>
 
-    <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
+    <div class="bg-gradient-card border border-gray-600 rounded-xl p-6 mb-16">
         <p class="text-gray-300">Para concluir, realize o pagamento via PIX e envie o comprovante pelo WhatsApp da academia.</p>
         <p class="text-gray-400 mt-2">Assim que confirmarmos o pagamento, ativaremos seu acesso.</p>
 

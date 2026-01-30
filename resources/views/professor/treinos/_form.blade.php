@@ -7,7 +7,7 @@
 <div class="space-y-6">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-300 mb-2">Data do treino</label>
+            <label class="block w-full text-sm font-medium text-gray-300 mb-2">Data do treino</label>
             <input type="date" name="data" value="{{ old('data', isset($treino) ? $treino->data->format('Y-m-d') : '') }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" required>
             @error('data')<p class="text-red-400 text-sm mt-2">{{ $message }}</p>@enderror
         </div>

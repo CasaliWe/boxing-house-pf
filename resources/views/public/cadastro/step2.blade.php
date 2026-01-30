@@ -9,7 +9,7 @@
         <p class="text-gray-400">Selecione o plano e os horários desejados.</p>
     </div>
 
-    <div class="bg-gradient-card border border-gray-600 rounded-xl p-6 space-y-6">
+    <div class="bg-gradient-card border border-gray-600 rounded-xl p-6 space-y-6 mb-16">
         <form method="POST" action="{{ route('cadastro.step2.post') }}" class="space-y-6">
             @csrf
 

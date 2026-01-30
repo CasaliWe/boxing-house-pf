@@ -45,7 +45,18 @@ class TreinoController extends Controller
             'alunos.*' => ['exists:users,id'],
         ]);
 
-        $path = $request->file('foto')->store('treinos', 'public');
+        $arquivo = $request->file('foto');
+        $nomeArquivo = 'treino-' . time() . '-' . uniqid() . '.' . $arquivo->getClientOriginalExtension();
+        
+        // Criar diretório se não existir
+        $diretorio = public_path('uploads/treinos');
+        if (!file_exists($diretorio)) {
+            mkdir($diretorio, 0755, true);
+        }
+        
+        // Mover arquivo para public
+        $arquivo->move($diretorio, $nomeArquivo);
+        $path = 'uploads/treinos/' . $nomeArquivo;
 
         $treino = Treino::create([
             'data' => $dados['data'],

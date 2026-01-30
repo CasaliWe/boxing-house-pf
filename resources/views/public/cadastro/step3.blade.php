@@ -9,7 +9,7 @@
         <p class="text-gray-400">Leia e aceite todas as regras para concluir.</p>
     </div>
 
-    <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
+    <div class="bg-gradient-card border border-gray-600 rounded-xl p-6 mb-16">
         <form method="POST" action="{{ route('cadastro.step3.post') }}" class="space-y-6">
             @csrf
 

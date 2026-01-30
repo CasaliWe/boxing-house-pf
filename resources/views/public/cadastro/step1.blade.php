@@ -9,7 +9,7 @@
         <p class="text-gray-400">Informações pessoais e de contato.</p>
     </div>
 
-    <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
+    <div class="bg-gradient-card border border-gray-600 rounded-xl p-6 mb-16">
         <form method="POST" action="{{ route('cadastro.step1.post') }}" class="space-y-6">
             @csrf
 
