@@ -37,6 +37,7 @@ class User extends Authenticatable
         'saude_problema_descricao',
         'restricao_descricao',
         'plano_vezes',
+        'objetivos',
         'anos_boxe',
         'anos_instrutor',
         'descricao_professor',
@@ -67,6 +68,7 @@ class User extends Authenticatable
             'data_nascimento' => 'date',
             'saude_problema' => 'boolean',
             'restricao_medica' => 'boolean',
+            'objetivos' => 'array',
             'imagens_professor' => 'json',
         ];
     }

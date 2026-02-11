@@ -43,6 +43,8 @@ class CadastroController extends Controller
             'contato_emergencia_nome' => ['required', 'string', 'max:255'],
             'contato_emergencia_whatsapp' => ['required', 'string', 'max:255'],
             'data_nascimento' => ['required', 'date'],
+            'objetivos' => ['nullable', 'array'],
+            'objetivos.*' => ['string', 'in:Perder peso,Condicionamento físico,Parte técnica,Diversão,Competir'],
             'saude_problema' => ['nullable', 'boolean'],
             'saude_descricao' => ['nullable', 'string', 'max:1000', 'required_if:saude_problema,1'],
             'restricao_medica' => ['nullable', 'boolean'],
@@ -51,6 +53,7 @@ class CadastroController extends Controller
 
         $dados['saude_problema'] = (bool)($dados['saude_problema'] ?? false);
         $dados['restricao_medica'] = (bool)($dados['restricao_medica'] ?? false);
+        $dados['objetivos'] = array_values(array_unique($dados['objetivos'] ?? []));
 
         session(['cadastro' => array_merge(session('cadastro', []), $dados)]);
         return redirect()->route('cadastro.step2');
@@ -145,6 +148,7 @@ class CadastroController extends Controller
         $user->restricao_medica = (bool)($cad['restricao_medica'] ?? false);
         $user->restricao_descricao = $cad['restricao_descricao'] ?? null;
         $user->plano_vezes = $cad['plano_vezes'] ?? null;
+        $user->objetivos = $cad['objetivos'] ?? [];
 
         $user->save();
 

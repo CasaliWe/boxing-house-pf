@@ -59,6 +59,35 @@
                 </div>
             </div>
 
+            <div>
+                <label class="text-gray-300 text-sm block mb-2">Objetivo (pode marcar mais de um)</label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    @php
+                        $objetivosSelecionados = old('objetivos', $user->objetivos ?? []);
+                    @endphp
+                    <label class="inline-flex items-center gap-3">
+                        <input type="checkbox" name="objetivos[]" value="Perder peso" {{ in_array('Perder peso', $objetivosSelecionados) ? 'checked' : '' }} class="rounded bg-gray-900 border-gray-700 text-blue-500">
+                        <span class="text-gray-300">Perder peso</span>
+                    </label>
+                    <label class="inline-flex items-center gap-3">
+                        <input type="checkbox" name="objetivos[]" value="Condicionamento físico" {{ in_array('Condicionamento físico', $objetivosSelecionados) ? 'checked' : '' }} class="rounded bg-gray-900 border-gray-700 text-blue-500">
+                        <span class="text-gray-300">Condicionamento físico</span>
+                    </label>
+                    <label class="inline-flex items-center gap-3">
+                        <input type="checkbox" name="objetivos[]" value="Parte técnica" {{ in_array('Parte técnica', $objetivosSelecionados) ? 'checked' : '' }} class="rounded bg-gray-900 border-gray-700 text-blue-500">
+                        <span class="text-gray-300">Parte técnica</span>
+                    </label>
+                    <label class="inline-flex items-center gap-3">
+                        <input type="checkbox" name="objetivos[]" value="Diversão" {{ in_array('Diversão', $objetivosSelecionados) ? 'checked' : '' }} class="rounded bg-gray-900 border-gray-700 text-blue-500">
+                        <span class="text-gray-300">Diversão</span>
+                    </label>
+                    <label class="inline-flex items-center gap-3">
+                        <input type="checkbox" name="objetivos[]" value="Competir" {{ in_array('Competir', $objetivosSelecionados) ? 'checked' : '' }} class="rounded bg-gray-900 border-gray-700 text-blue-500">
+                        <span class="text-gray-300">Competir</span>
+                    </label>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="text-gray-300 text-sm">Nova senha</label>

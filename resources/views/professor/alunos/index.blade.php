@@ -174,6 +174,19 @@
                                         @endif
                                     </div>
                                 </div>
+                                <div>
+                                    <div class="text-gray-400 text-sm mb-2">Objetivos</div>
+                                    @php $objetivos = $u->objetivos ?? []; @endphp
+                                    @if(empty($objetivos))
+                                        <div class="text-gray-300">Nenhum</div>
+                                    @else
+                                        <div class="flex flex-wrap gap-2">
+                                            @foreach($objetivos as $obj)
+                                                <span class="inline-block px-2 py-1 rounded bg-gray-700 text-gray-200 text-xs">{{ $obj }}</span>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <div class="text-gray-400 text-sm">Plano</div>

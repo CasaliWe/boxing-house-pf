@@ -28,6 +28,8 @@ class PerfilController extends Controller
             'data_nascimento' => ['nullable', 'date'],
             'idade' => ['nullable', 'integer', 'min:1', 'max:120'],
             'peso' => ['nullable', 'numeric', 'min:0'],
+            'objetivos' => ['nullable', 'array'],
+            'objetivos.*' => ['string', 'in:Perder peso,Condicionamento físico,Parte técnica,Diversão,Competir'],
             'password' => ['nullable', 'string', 'min:6', 'confirmed'],
         ]);
 
@@ -41,6 +43,7 @@ class PerfilController extends Controller
         $user->data_nascimento = $data['data_nascimento'] ?? $user->data_nascimento;
         $user->idade = $data['idade'] ?? $user->idade;
         $user->peso = isset($data['peso']) ? number_format((float)$data['peso'], 2, '.', '') : $user->peso;
+        $user->objetivos = array_values(array_unique($data['objetivos'] ?? []));
 
         if (!empty($data['password'])) {
             $user->password = Hash::make($data['password']);

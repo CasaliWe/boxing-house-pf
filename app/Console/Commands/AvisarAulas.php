@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\AvisoAulaController;
+use App\Http\Controllers\Publico\AvisoAulaController;
 use App\Services\WhatsAppService;
 use Illuminate\Console\Command;
 

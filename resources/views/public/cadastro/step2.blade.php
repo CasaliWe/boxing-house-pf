@@ -17,6 +17,9 @@
                 <label class="block text-sm font-medium text-gray-300 mb-2">Plano (vezes por semana)</label>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     @foreach($valores as $v)
+                        @if((int)$v->vezes_semana === 5)
+                            @continue
+                        @endif
                         @php
                             $aulasMes = max(($v->vezes_semana ?? 0) * 4, 1);
                             $porAula = ($v->valor ?? 0) / $aulasMes;

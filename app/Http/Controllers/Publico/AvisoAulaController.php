@@ -131,9 +131,8 @@ class AvisoAulaController extends Controller
                "📅 *Hoje:* " . Carbon::today()->format('d/m/Y') . " ({$horario->dia_semana_label})\n" .
                "⏰ *Horário:* {$horaInicio} às {$horaFim}\n\n" .
                "💪 Prepare-se para mais um dia de treino intenso!\n" .
-               "🥤 Não esqueça de levar água e uma toalha.\n\n" .
-               "📞 *Dúvidas ou imprevistos:*\n" .
-               "• WhatsApp: {$whatsappAcademia}\n\n" .
+               "🥤 Não esqueça de levar água.\n\n" .
+               "📞 *Dúvidas ou imprevistos avisar aqui no WhatsApp da academia*\n" .
                "Nos vemos em breve! 🔥\n\n" .
                "_Mensagem enviada automaticamente pelo sistema_";
     }
