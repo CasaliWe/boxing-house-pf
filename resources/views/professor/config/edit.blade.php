@@ -141,6 +141,58 @@
         </form>
     </div>
 
+    <!-- Vídeo de Apresentação -->
+    <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold text-blue-400 mb-2">🎬 Vídeo de Apresentação</h2>
+            <p class="text-gray-400 text-sm">Vídeo em formato vertical (reels) que será exibido na landing page. Mostre sua academia, treinos e ambiente.</p>
+        </div>
+
+        @if($config->video_apresentacao)
+            <div class="flex flex-col sm:flex-row items-start gap-6">
+                <div class="w-full sm:w-48 flex-shrink-0">
+                    <video controls class="w-full rounded-lg border border-gray-600" style="max-height: 340px;">
+                        <source src="{{ asset($config->video_apresentacao) }}" type="video/mp4">
+                        Seu navegador não suporta vídeo.
+                    </video>
+                </div>
+                <div class="flex flex-col gap-3">
+                    <p class="text-gray-300 text-sm">Vídeo atual carregado com sucesso.</p>
+                    <form method="POST" action="{{ route('professor.config.video.store') }}" enctype="multipart/form-data" class="flex flex-col gap-3">
+                        @csrf
+                        <label class="text-sm text-gray-400">Substituir vídeo:</label>
+                        <input type="file" name="video_apresentacao" accept="video/*" class="text-sm text-gray-300 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white file:cursor-pointer">
+                        @error('video_apresentacao')
+                            <div class="text-red-400 text-sm">{{ $message }}</div>
+                        @enderror
+                        <button type="submit" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-sm w-fit">Enviar Novo Vídeo</button>
+                    </form>
+                    <form method="POST" action="{{ route('professor.config.video.destroy') }}" onsubmit="return confirm('Tem certeza que deseja remover o vídeo de apresentação?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white text-sm">Remover Vídeo</button>
+                    </form>
+                </div>
+            </div>
+        @else
+            <div class="text-center py-10 border-2 border-dashed border-gray-600 rounded-lg">
+                <div class="text-5xl mb-4">🎥</div>
+                <h3 class="text-lg font-semibold text-gray-400 mb-2">Nenhum vídeo de apresentação</h3>
+                <p class="text-gray-500 mb-4 text-sm">Envie um vídeo vertical (formato reels) apresentando sua academia.</p>
+                <form method="POST" action="{{ route('professor.config.video.store') }}" enctype="multipart/form-data" class="flex flex-col items-center gap-3">
+                    @csrf
+                    <input type="file" name="video_apresentacao" accept="video/*" class="text-sm text-gray-300 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-green-600 file:text-white file:cursor-pointer">
+                    @error('video_apresentacao')
+                        <div class="text-red-400 text-sm">{{ $message }}</div>
+                    @enderror
+                    <button type="submit" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm">
+                        Enviar Vídeo
+                    </button>
+                </form>
+            </div>
+        @endif
+    </div>
+
     <!-- Fotos do Centro de Treinamento -->
     <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">

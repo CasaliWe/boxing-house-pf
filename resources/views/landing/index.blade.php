@@ -324,6 +324,73 @@
         </div>
     </section>
 
+
+    <!-- Vídeo de Apresentação -->
+    @if($config && $config->video_apresentacao)
+    <section id="apresentacao" class="py-20 bg-gray-900 relative overflow-hidden">
+        <div class="absolute inset-0">
+            <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl"></div>
+        </div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <span class="inline-block bg-blue-600/20 text-blue-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4">▶ Conheça</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Veja Como é Treinar Aqui</h2>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+                    Ambiente, treino e energia. Aperte o play e conheça a Boxing House PF.
+                </p>
+            </div>
+
+            <div class="flex justify-center" data-aos="zoom-in" data-aos-delay="100">
+                <div class="relative group">
+                    <!-- Glow decorativo atrás do vídeo -->
+                    <div class="absolute -inset-1 bg-gradient-to-b from-blue-600/30 via-blue-500/10 to-transparent rounded-2xl blur-lg opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
+                    
+                    <!-- Container do vídeo formato reels -->
+                    <div class="relative bg-gray-800 rounded-2xl overflow-hidden border border-gray-600/50 shadow-2xl" style="width: 340px; max-width: 90vw;">
+                        <video 
+                            id="videoApresentacao"
+                            class="w-full object-cover cursor-pointer" 
+                            style="aspect-ratio: 9/16;"
+                            playsinline
+                            preload="metadata"
+                            poster=""
+                            onclick="toggleVideoApresentacao(this)">
+                            <source src="{{ asset($config->video_apresentacao) }}" type="video/mp4">
+                            Seu navegador não suporta vídeo.
+                        </video>
+                        
+                        <!-- Overlay de play -->
+                        <div id="videoPlayOverlay" class="absolute inset-0 flex items-center justify-center bg-black/30 transition-opacity duration-300 cursor-pointer" onclick="toggleVideoApresentacao(document.getElementById('videoApresentacao'))">
+                            <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border-2 border-white/40 hover:bg-white/30 hover:scale-110 transition-all duration-300">
+                                <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Indicadores visuais abaixo do vídeo -->
+            <div class="flex justify-center gap-8 mt-10" data-aos="fade-up" data-aos-delay="200">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-blue-400">🥊</div>
+                    <p class="text-gray-400 text-sm mt-1">Treino real</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-blue-400">🏠</div>
+                    <p class="text-gray-400 text-sm mt-1">Ambiente exclusivo</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-blue-400">🎯</div>
+                    <p class="text-gray-400 text-sm mt-1">Foco total</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    @endif
+
     <!-- Avaliações dos Alunos -->
     @if($avaliacoes->isNotEmpty())
     <section id="avaliacoes" class="py-20 bg-gradient-section">
@@ -1221,6 +1288,35 @@
             // Auto slide a cada 5 segundos (diferente do slider do professor para não sincronizarem)
             setInterval(nextSistemaSlide, 5000);
         });
+    </script>
+
+    <!-- Vídeo de Apresentação Player -->
+    <script>
+    function toggleVideoApresentacao(video) {
+        var overlay = document.getElementById('videoPlayOverlay');
+        if (!video || !overlay) return;
+        if (video.paused) {
+            video.play();
+            overlay.style.opacity = '0';
+            overlay.style.pointerEvents = 'none';
+        } else {
+            video.pause();
+            overlay.style.opacity = '1';
+            overlay.style.pointerEvents = 'auto';
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        var video = document.getElementById('videoApresentacao');
+        if (video) {
+            video.addEventListener('ended', function() {
+                var overlay = document.getElementById('videoPlayOverlay');
+                if (overlay) {
+                    overlay.style.opacity = '1';
+                    overlay.style.pointerEvents = 'auto';
+                }
+            });
+        }
+    });
     </script>
 
     <!-- Analytics Tracking -->

@@ -23,5 +23,6 @@ class Configuracao extends Model
         'email',
         'whatsapp_api_url',
         'whatsapp_api_token',
+        'video_apresentacao',
     ];
 }

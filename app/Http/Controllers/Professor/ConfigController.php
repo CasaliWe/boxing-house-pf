@@ -137,4 +137,54 @@ class ConfigController extends Controller
 
         return redirect()->route('professor.config.edit')->with('success', 'Foto excluída com sucesso!');
     }
+
+    /**
+     * Upload do vídeo de apresentação da landing page
+     */
+    public function uploadVideo(Request $request)
+    {
+        $request->validate([
+            'video_apresentacao' => 'required|file|mimetypes:video/mp4,video/quicktime,video/webm|max:102400',
+        ], [
+            'video_apresentacao.required' => 'Selecione um vídeo.',
+            'video_apresentacao.mimetypes' => 'O arquivo deve ser um vídeo (MP4, MOV ou WebM).',
+            'video_apresentacao.max' => 'O vídeo pode ter no máximo 100MB.',
+        ]);
+
+        $config = Configuracao::firstOrFail();
+
+        // Remover vídeo antigo se existir
+        if ($config->video_apresentacao && file_exists(public_path($config->video_apresentacao))) {
+            unlink(public_path($config->video_apresentacao));
+        }
+
+        $arquivo = $request->file('video_apresentacao');
+        $nome = 'apresentacao-' . time() . '.' . $arquivo->getClientOriginalExtension();
+
+        $diretorio = public_path('uploads/videos');
+        if (!file_exists($diretorio)) {
+            mkdir($diretorio, 0755, true);
+        }
+
+        $arquivo->move($diretorio, $nome);
+        $config->update(['video_apresentacao' => 'uploads/videos/' . $nome]);
+
+        return redirect()->route('professor.config.edit')->with('success', 'Vídeo de apresentação atualizado com sucesso!');
+    }
+
+    /**
+     * Remover vídeo de apresentação
+     */
+    public function removerVideo()
+    {
+        $config = Configuracao::firstOrFail();
+
+        if ($config->video_apresentacao && file_exists(public_path($config->video_apresentacao))) {
+            unlink(public_path($config->video_apresentacao));
+        }
+
+        $config->update(['video_apresentacao' => null]);
+
+        return redirect()->route('professor.config.edit')->with('success', 'Vídeo de apresentação removido com sucesso!');
+    }
 }
