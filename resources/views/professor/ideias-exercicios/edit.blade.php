@@ -17,7 +17,7 @@
     </div>
 
     <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
-        <form method="POST" action="{{ route('professor.ideias-exercicios.update', $ideia) }}" class="space-y-6">
+        <form method="POST" action="{{ route('professor.ideias-exercicios.update', $ideia) }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
             @method('PUT')
             @include('professor.ideias-exercicios._form', ['ideia' => $ideia])

@@ -47,6 +47,7 @@ class AvisarTurmasDia extends Command
 
         // Montar mensagem
         $linhasTurmas = [];
+        $totalAlunos = 0;
         foreach ($horariosHoje as $horario) {
             $alunos = $horario->alunos()
                 ->wherePivot('aprovado', true)
@@ -58,6 +59,7 @@ class AvisarTurmasDia extends Command
             $horaFim = Carbon::parse($horario->hora_fim)->format('H:i');
 
             $linhasTurmas[] = "⏰ *{$horaInicio} - {$horaFim}* ({$alunos->count()}/{$horario->limite_alunos} alunos)";
+            $totalAlunos += $alunos->count();
 
             if ($alunos->isNotEmpty()) {
                 foreach ($alunos as $aluno) {
@@ -67,6 +69,11 @@ class AvisarTurmasDia extends Command
                 $linhasTurmas[] = "   _Nenhum aluno nesta turma_";
             }
             $linhasTurmas[] = '';
+        }
+
+        if ($totalAlunos === 0) {
+            $this->info('Nenhum aluno nas turmas de hoje. WhatsApp não enviado.');
+            return Command::SUCCESS;
         }
 
         $mensagem = "🥊 *BOXING HOUSE PF* - Turmas do Dia\n\n" .

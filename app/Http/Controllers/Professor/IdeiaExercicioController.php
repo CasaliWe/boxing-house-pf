@@ -31,6 +31,14 @@ class IdeiaExercicioController extends Controller
     public function store(Request $request)
     {
         $dados = $this->validar($request);
+
+        if ($request->hasFile('video')) {
+            $arquivo = $request->file('video');
+            $nome = time() . '_' . $arquivo->getClientOriginalName();
+            $arquivo->move(public_path('uploads/ideias-exercicios'), $nome);
+            $dados['video_path'] = 'uploads/ideias-exercicios/' . $nome;
+        }
+
         IdeiaExercicio::create($dados);
 
         return redirect()->route('professor.ideias-exercicios.index')
@@ -51,6 +59,18 @@ class IdeiaExercicioController extends Controller
     public function update(Request $request, IdeiaExercicio $ideias_exercicio)
     {
         $dados = $this->validar($request);
+
+        if ($request->hasFile('video')) {
+            // Remover vídeo antigo
+            if ($ideias_exercicio->video_path && file_exists(public_path($ideias_exercicio->video_path))) {
+                unlink(public_path($ideias_exercicio->video_path));
+            }
+            $arquivo = $request->file('video');
+            $nome = time() . '_' . $arquivo->getClientOriginalName();
+            $arquivo->move(public_path('uploads/ideias-exercicios'), $nome);
+            $dados['video_path'] = 'uploads/ideias-exercicios/' . $nome;
+        }
+
         $ideias_exercicio->update($dados);
 
         return redirect()->route('professor.ideias-exercicios.index')
@@ -62,6 +82,9 @@ class IdeiaExercicioController extends Controller
      */
     public function destroy(IdeiaExercicio $ideias_exercicio)
     {
+        if ($ideias_exercicio->video_path && file_exists(public_path($ideias_exercicio->video_path))) {
+            unlink(public_path($ideias_exercicio->video_path));
+        }
         $ideias_exercicio->delete();
         return redirect()->route('professor.ideias-exercicios.index')
             ->with('success', 'Ideia de exercício removida com sucesso.');
@@ -75,11 +98,12 @@ class IdeiaExercicioController extends Controller
         return $request->validate([
             'nome'      => ['required', 'string', 'max:255'],
             'descricao' => ['required', 'string'],
-            'video_url' => ['nullable', 'url', 'max:500'],
+            'video'     => ['nullable', 'file', 'mimetypes:video/mp4,video/quicktime,video/x-msvideo,video/webm', 'max:102400'],
         ], [
             'nome.required'      => 'Informe o nome do exercício.',
             'descricao.required' => 'Informe a descrição do exercício.',
-            'video_url.url'      => 'Informe uma URL válida para o vídeo.',
+            'video.mimetypes'    => 'O arquivo deve ser um vídeo (MP4, MOV, AVI ou WebM).',
+            'video.max'          => 'O vídeo pode ter no máximo 100MB.',
         ]);
     }
 }

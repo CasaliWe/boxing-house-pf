@@ -16,9 +16,18 @@
     </div>
 
     <div>
-        <label for="video_url" class="block text-sm font-medium text-gray-300 mb-2">URL do Vídeo (opcional)</label>
-        <input type="url" id="video_url" name="video_url" value="{{ old('video_url', $ideia->video_url ?? '') }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="https://youtube.com/watch?v=...">
-        @error('video_url')
+        <label for="video" class="block text-sm font-medium text-gray-300 mb-2">Vídeo (opcional)</label>
+        @if(isset($ideia) && $ideia->video_path)
+            <div class="mb-3">
+                <video controls class="w-full max-w-md rounded-lg border border-gray-600">
+                    <source src="{{ asset($ideia->video_path) }}" type="video/mp4">
+                    Seu navegador não suporta vídeo.
+                </video>
+                <p class="text-gray-400 text-sm mt-1">Envie um novo vídeo para substituir o atual.</p>
+            </div>
+        @endif
+        <input type="file" id="video" name="video" accept="video/*" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white file:cursor-pointer">
+        @error('video')
             <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
         @enderror
     </div>

@@ -10,7 +10,7 @@
     </div>
 
     <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
-        <form method="POST" action="{{ route('professor.ideias-exercicios.store') }}" class="space-y-6">
+        <form method="POST" action="{{ route('professor.ideias-exercicios.store') }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
             @include('professor.ideias-exercicios._form')
         </form>

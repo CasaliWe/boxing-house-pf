@@ -11,6 +11,7 @@
 - /aniversario - Mensagem de aniversário para o aluno;
 - /turmas-dia - Avisa sobre as turmas do dia;
 - /aulas-exp-dia - Avisa sobre as aulas exp do dia;
+- /analytics - Joga os dados coletados para o whatsapp;
 
 ### IMPORTANTE:
 - Usando o email da freeladev no .env para disparar notificações;

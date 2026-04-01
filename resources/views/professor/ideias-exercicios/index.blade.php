@@ -27,10 +27,13 @@
                             <div class="min-w-0 w-full sm:w-auto">
                                 <h3 class="text-lg font-semibold text-white">{{ $ideia->nome }}</h3>
                                 <p class="text-gray-300 mt-2 whitespace-pre-line break-words">{{ $ideia->descricao }}</p>
-                                @if($ideia->video_url)
-                                    <a href="{{ $ideia->video_url }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 mt-2 text-blue-400 hover:text-blue-300 text-sm">
-                                        🎬 Ver vídeo
-                                    </a>
+                                @if($ideia->video_path)
+                                    <div class="mt-3">
+                                        <video controls class="w-full max-w-sm rounded-lg border border-gray-600">
+                                            <source src="{{ asset($ideia->video_path) }}" type="video/mp4">
+                                            Seu navegador não suporta vídeo.
+                                        </video>
+                                    </div>
                                 @endif
                             </div>
                             <div class="flex items-center gap-2 flex-shrink-0 mt-3 sm:mt-0">

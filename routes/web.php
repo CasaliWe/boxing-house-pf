@@ -31,6 +31,7 @@ use App\Http\Controllers\Aluno\MensalidadeVencidaController;
 use App\Http\Controllers\Professor\MensalidadeController;
 use App\Http\Controllers\Professor\IdeiaExercicioController;
 use App\Http\Controllers\Professor\AulaExpController;
+use App\Http\Controllers\Publico\AnalyticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -259,6 +260,20 @@ Route::get('/turmas-dia', function () {
 Route::get('/aulas-exp-dia', function () {
     try {
         \Artisan::call('aulas-exp:avisar');
+        $output = \Artisan::output();
+        return response("<pre>$output</pre>");
+    } catch (\Exception $e) {
+        return response("Erro: " . $e->getMessage(), 500);
+    }
+});
+
+// Rota para registrar eventos de analytics da landing page
+Route::post('/analytics/registrar', [AnalyticsController::class, 'registrar'])->name('analytics.registrar');
+
+// Rota para enviar relatório semanal de analytics (cron job)
+Route::get('/analytics', function () {
+    try {
+        \Artisan::call('analytics:semanal');
         $output = \Artisan::output();
         return response("<pre>$output</pre>");
     } catch (\Exception $e) {

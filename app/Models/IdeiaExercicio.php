@@ -14,6 +14,6 @@ class IdeiaExercicio extends Model
     protected $fillable = [
         'nome',
         'descricao',
-        'video_url',
+        'video_path',
     ];
 }
