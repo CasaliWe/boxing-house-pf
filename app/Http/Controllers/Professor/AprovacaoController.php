@@ -43,7 +43,7 @@ class AprovacaoController extends Controller
         $semVaga = [];
         foreach ($horariosSelecionados as $h) {
             $ocupadas = $h->alunos()->wherePivot('aprovado', true)->count();
-            if ($ocupadas >= Horario::LIMITE_ALUNOS) {
+            if ($ocupadas >= $h->limite_alunos) {
                 $semVaga[] = $h->dia_semana_label.' '.\Illuminate\Support\Carbon::parse($h->hora_inicio)->format('H:i');
             }
         }

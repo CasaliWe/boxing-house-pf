@@ -30,9 +30,11 @@ class DashboardController extends Controller
             $alunosInativos = User::where('role', 'aluno')->where('status', 'inativo')->count();
             $alunosPendentes = User::where('role', 'aluno')->where('status', 'pendente')->count();
 
-            // Próxima aula com base nos horários
+            // Próxima aula com base nos horários (somente com alunos ativos e aprovados)
             $horarios = Horario::with(['alunos' => function ($q) {
-                $q->where('role', 'aluno');
+                $q->where('role', 'aluno')
+                  ->where('status', 'ativo')
+                  ->wherePivot('aprovado', true);
             }])->get();
             $now = Carbon::now();
             $nowDow = (int) $now->dayOfWeekIso; // 1..7
@@ -40,11 +42,15 @@ class DashboardController extends Controller
             $proximaAula = null; // ['horario' => Horario, 'datetime' => Carbon]
             foreach ($horarios as $h) {
                 $horaInicio = Carbon::parse($h->hora_inicio);
+                $horaFim = Carbon::parse($h->hora_fim);
                 $targetDow = (int) $h->dia_semana;
+
                 // Calcula próxima ocorrência para este horário
                 if ($targetDow === $nowDow) {
                     $candidate = $now->copy()->setTimeFromTimeString($horaInicio->format('H:i:s'));
-                    if ($candidate->lessThanOrEqualTo($now)) {
+                    // Se a aula ainda não terminou hoje, considera como próxima
+                    $fimHoje = $now->copy()->setTimeFromTimeString($horaFim->format('H:i:s'));
+                    if ($fimHoje->lessThanOrEqualTo($now)) {
                         $candidate->addDays(7);
                     }
                 } else {
@@ -62,8 +68,12 @@ class DashboardController extends Controller
 
             $alunosProxima = [];
             if ($proximaAula) {
-                // Alunos aprovados neste horário
-                $alunos = $proximaAula['horario']->alunos()->wherePivot('aprovado', true)->orderBy('name')->get();
+                // Alunos ativos e aprovados neste horário
+                $alunos = $proximaAula['horario']->alunos()
+                    ->wherePivot('aprovado', true)
+                    ->where('status', 'ativo')
+                    ->orderBy('name')
+                    ->get();
                 foreach ($alunos as $aluno) {
                     $treinos = $aluno->treinos()->orderBy('data')->get();
                     $padraoCount = $treinos->where('especial', false)->count();

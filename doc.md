@@ -8,6 +8,9 @@
 ### CRONS:
 - /mensalidades - Verifica as mensalidades, avisa vencidos e muda status ativo para inativo;
 - /avisar - Avisa sobre o treino do dia para o aluno;
+- /aniversario - Mensagem de aniversário para o aluno;
+- /turmas-dia - Avisa sobre as turmas do dia;
+- /aulas-exp-dia - Avisa sobre as aulas exp do dia;
 
 ### IMPORTANTE:
 - Usando o email da freeladev no .env para disparar notificações;

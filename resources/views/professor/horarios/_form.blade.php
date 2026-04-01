@@ -41,6 +41,15 @@
         </div>
     </div>
 
+    <div>
+        <label for="vagas" class="block text-sm font-medium text-gray-300 mb-2">Vagas</label>
+        <input type="number" id="vagas" name="vagas" min="1" max="10" value="{{ old('vagas', $horario->vagas ?? 3) }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="3">
+        <p class="text-xs text-gray-400 mt-1">Quantidade máxima de alunos neste horário (1 a 10).</p>
+        @error('vagas')
+            <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
+        @enderror
+    </div>
+
     <div class="flex items-center justify-end gap-3">
         <a href="{{ route('professor.horarios.index') }}" class="px-4 py-2 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700">Cancelar</a>
         <button id="btnSalvarHorario" type="submit" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white">

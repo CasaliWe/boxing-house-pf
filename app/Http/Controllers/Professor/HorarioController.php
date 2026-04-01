@@ -89,6 +89,7 @@ class HorarioController extends Controller
             // Aceita input de <input type="time"> (HH:MM)
             'hora_inicio'  => ['required', 'date_format:H:i'],
             'hora_fim'     => ['required', 'date_format:H:i', 'after:hora_inicio'],
+            'vagas'        => ['required', 'integer', 'min:1', 'max:10'],
         ];
 
         // Normaliza para HH:MM:SS para comparar com o banco e manter consistência
@@ -110,6 +111,9 @@ class HorarioController extends Controller
             'hora_fim.after'      => 'A hora de fim deve ser após a hora de início.',
             'hora_fim.date_format'=> 'Formato da hora de fim inválido (HH:MM).',
             'dia_semana.unique'   => 'Já existe um horário com este dia e intervalo.',
+            'vagas.required'      => 'Informe o número de vagas.',
+            'vagas.min'           => 'Mínimo de 1 vaga.',
+            'vagas.max'           => 'Máximo de 10 vagas.',
         ];
 
         $dados = $request->validate($rules, $mensagens);

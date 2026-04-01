@@ -29,6 +29,8 @@ use App\Http\Controllers\Professor\VideoController;
 use App\Http\Controllers\Aluno\AprendizadoController;
 use App\Http\Controllers\Aluno\MensalidadeVencidaController;
 use App\Http\Controllers\Professor\MensalidadeController;
+use App\Http\Controllers\Professor\IdeiaExercicioController;
+use App\Http\Controllers\Professor\AulaExpController;
 
 /*
 |--------------------------------------------------------------------------
@@ -159,6 +161,16 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
     Route::get('videos/{modulo}/videos/{video}/edit', [VideoController::class, 'editVideo'])->name('videos.edit-video');
     Route::put('videos/{modulo}/videos/{video}', [VideoController::class, 'updateVideo'])->name('videos.update-video');
     Route::delete('videos/{modulo}/videos/{video}', [VideoController::class, 'destroyVideo'])->name('videos.destroy-video');
+
+    // Ideias de Exercícios (CRUD)
+    Route::resource('ideias-exercicios', IdeiaExercicioController::class)->parameters([
+        'ideias-exercicios' => 'ideias_exercicio'
+    ]);
+
+    // Aulas EXP (CRUD)
+    Route::resource('aulas-exp', AulaExpController::class)->parameters([
+        'aulas-exp' => 'aula_exp'
+    ]);
 });
 
 /*
@@ -214,6 +226,39 @@ Route::get('/avisar', [\App\Http\Controllers\Publico\AvisoAulaController::class,
 Route::get('/mensalidades', function () {
     try {
         \Artisan::call('mensalidade:verificar');
+        $output = \Artisan::output();
+        return response("<pre>$output</pre>");
+    } catch (\Exception $e) {
+        return response("Erro: " . $e->getMessage(), 500);
+    }
+});
+
+// Rota para parabéns de aniversário (cron job)
+Route::get('/aniversario', function () {
+    try {
+        \Artisan::call('aniversario:parabenizar');
+        $output = \Artisan::output();
+        return response("<pre>$output</pre>");
+    } catch (\Exception $e) {
+        return response("Erro: " . $e->getMessage(), 500);
+    }
+});
+
+// Rota para avisar turmas do dia ao professor (cron job)
+Route::get('/turmas-dia', function () {
+    try {
+        \Artisan::call('turmas:avisar');
+        $output = \Artisan::output();
+        return response("<pre>$output</pre>");
+    } catch (\Exception $e) {
+        return response("Erro: " . $e->getMessage(), 500);
+    }
+});
+
+// Rota para avisar aulas EXP do dia ao professor (cron job)
+Route::get('/aulas-exp-dia', function () {
+    try {
+        \Artisan::call('aulas-exp:avisar');
         $output = \Artisan::output();
         return response("<pre>$output</pre>");
     } catch (\Exception $e) {

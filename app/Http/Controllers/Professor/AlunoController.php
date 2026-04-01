@@ -102,7 +102,7 @@ class AlunoController extends Controller
                     $q->where('users.id', '!=', $user->id);
                 })
                 ->count();
-            $syncData[$h->id] = ['aprovado' => $ocupadas < Horario::LIMITE_ALUNOS];
+            $syncData[$h->id] = ['aprovado' => $ocupadas < $h->limite_alunos];
         }
 
         $user->horarios()->sync($syncData);

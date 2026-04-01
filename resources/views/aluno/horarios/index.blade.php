@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="mt-2">
                                     <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium {{ $temVaga ? 'bg-green-900 text-green-200 border border-green-700' : 'bg-red-900 text-red-200 border border-red-700' }}">
-                                        {{ $temVaga ? '✓ '.$h->vagas_disponiveis.' vaga(s)' : '✕ LOTADO' }}
+                                        {{ $temVaga ? '✓ '.$h->vagas_disponiveis.'/'.$h->limite_alunos.' vaga(s)' : '✕ LOTADO' }}
                                     </span>
                                 </div>
                             </div>

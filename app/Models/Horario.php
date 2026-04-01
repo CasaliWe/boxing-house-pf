@@ -16,9 +16,10 @@ class Horario extends Model
         'dia_semana',
         'hora_inicio',
         'hora_fim',
+        'vagas',
     ];
 
-    public const LIMITE_ALUNOS = 3;
+    public const LIMITE_ALUNOS_PADRAO = 3;
 
     /**
      * Alunos vinculados ao horário (apenas usuários com role 'aluno').
@@ -49,12 +50,20 @@ class Horario extends Model
     }
 
     /**
+     * Limite de vagas deste horário (usa o campo 'vagas' ou o padrão).
+     */
+    public function getLimiteAlunosAttribute(): int
+    {
+        return (int) ($this->vagas ?? self::LIMITE_ALUNOS_PADRAO);
+    }
+
+    /**
      * Vagas disponíveis (considerando somente aprovados).
      */
     public function getVagasDisponiveisAttribute(): int
     {
         $ocupadas = $this->alunos()->wherePivot('aprovado', true)->count();
-        return max(0, self::LIMITE_ALUNOS - $ocupadas);
+        return max(0, $this->limite_alunos - $ocupadas);
     }
 
     /**
@@ -78,6 +87,8 @@ class Horario extends Model
             throw new \RuntimeException('Horário sem vagas disponíveis.');
         }
         $this->alunos()->syncWithoutDetaching([$usuario->id => ['aprovado' => true]]);
+        // Limpa cache do accessor
+        unset($this->attributes['vagas_disponiveis']);
     }
 
     /**

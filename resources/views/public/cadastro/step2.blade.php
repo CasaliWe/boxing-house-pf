@@ -58,7 +58,7 @@
                                 <div class="text-white font-semibold flex items-center gap-2">
                                     <span>{{ $h->dia_semana_label }}</span>
                                     <span class="text-xs px-2 py-0.5 rounded {{ $temVaga ? 'bg-green-700 text-white' : 'bg-red-700 text-white' }}">
-                                        {{ $temVaga ? ($h->vagas_disponiveis.' vaga(s)') : 'FULL' }}
+                                        {{ $temVaga ? ($h->vagas_disponiveis.'/'.$h->limite_alunos.' vaga(s)') : 'FULL' }}
                                     </span>
                                 </div>
                                 <div class="text-gray-300">{{ \Illuminate\Support\Carbon::parse($h->hora_inicio)->format('H:i') }} - {{ \Illuminate\Support\Carbon::parse($h->hora_fim)->format('H:i') }}</div>

@@ -8,7 +8,7 @@
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div class="w-full sm:w-auto">
             <h1 class="text-2xl md:text-3xl font-bold text-blue-400">📅 Horários</h1>
-            <p class="text-gray-400 text-sm md:text-base">Gerencie dias e horários disponíveis das turmas (máx. 3 alunos por horário).</p>
+            <p class="text-gray-400 text-sm md:text-base">Gerencie dias, horários e vagas disponíveis das turmas.</p>
         </div>
         <a href="{{ route('professor.horarios.create') }}" class="bg-gradient-blue text-white px-5 py-3 rounded-lg font-medium hover:opacity-95 transition w-full sm:w-auto text-center">
             + Novo Horário
@@ -35,7 +35,7 @@
                             </div>
                             <div class="text-right">
                                 <div class="text-gray-300 text-sm">Alunos</div>
-                                <div class="text-blue-400 text-2xl font-bold">{{ $horario->alunos->count() }} / {{ \App\Models\Horario::LIMITE_ALUNOS }}</div>
+                                <div class="text-blue-400 text-2xl font-bold">{{ $horario->alunos->count() }} / {{ $horario->limite_alunos }}</div>
                             </div>
                         </div>
 
