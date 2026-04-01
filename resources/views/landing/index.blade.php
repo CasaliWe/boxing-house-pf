@@ -91,7 +91,7 @@
                 <p class="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
                     Studio de boxe em ambiente privado, compacto e organizado.
                     Atendimento individual ou em grupos reduzidos, garantindo foco total no aluno e correção técnica constante.
-                    Treinos personalizados para iniciantes e praticantes, com ênfase em técnica, condicionamento físico e evolução real.
+                    Treinos personalizados para iniciantes e praticantes, com ênfase em técnica e evolução real.
                     Sem lotação, sem treino genérico, aqui o treino é feito para você.
                 </p>
             </div>
@@ -117,7 +117,7 @@
                     <div class="text-4xl mb-4">🎯</div>
                     <h3 class="text-xl font-semibold text-blue-400 mb-4">Treino Personalizado</h3>
                     <p class="text-gray-300">
-                        Planejamento sob medida, sem lotação e sem treino genérico. Foco em condicionamento físico e técnica.
+                        Planejamento sob medida, sem lotação e sem treino genérico. Foco em técnica e evolução real.
                     </p>
                 </div>
             </div>
@@ -601,7 +601,7 @@
                         @if($sistemaAluno && $sistemaAluno->detalhes)
                             {{ $sistemaAluno->detalhes }}
                         @else
-                            Visualize sua participação nas aulas e o progresso ao longo do tempo. Tenha clareza sobre sua evolução técnica e física, com foco no que importa.
+                            Visualize sua participação nas aulas e o progresso ao longo do tempo. Tenha clareza sobre sua evolução técnica, com foco no que importa.
                         @endif
                     </p>
                 </div>
@@ -805,7 +805,7 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="fade-up">
             <h2 class="text-3xl md:text-4xl font-bold mb-6">Pronto para Começar?</h2>
                 <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-                    Studio de boxe feito em casa, sem lotação e sem treino genérico. Atendimento individual ou grupos pequenos, com foco em condicionamento físico e técnica.
+                    Studio de boxe feito em casa, sem lotação e sem treino genérico. Atendimento individual ou grupos pequenos, com foco em técnica e evolução.
                 </p>
             
             <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4" data-aos="fade-up" data-aos-delay="200">
