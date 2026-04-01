@@ -4,8 +4,10 @@
 - conferir alunos na dashboard se esta mostrando certo;
 - fazer enviar no meu wpp avisando quais turmas tenho no dia todo dia as 08 da manha deve ser outro cron;
 - fazer pagina ideias de exercicios para os alunos frente professor;
-- fazer parte dos combos frente aluno;
 - pagina para anotar aula exp frente professor;
+
+
+- fazer parte dos combos frente aluno;
 
 - fazer analytics interno da home enviando 1x na semana para mim o relatorio;
 
