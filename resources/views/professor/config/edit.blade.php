@@ -247,6 +247,50 @@
     </div>
 </div>
 
+<!-- Bloco Resetar Analytics -->
+<div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
+    <div class="flex items-center justify-between flex-wrap gap-4">
+        <div>
+            <h2 class="text-xl font-semibold text-white flex items-center gap-2">
+                📊 Analytics
+            </h2>
+            <p class="text-gray-400 text-sm mt-1">Limpa todos os dados de analytics coletados na landing page. Essa ação não pode ser desfeita.</p>
+        </div>
+
+        <button onclick="confirmarResetAnalytics()" class="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium text-sm">
+            Resetar Analytics
+        </button>
+    </div>
+</div>
+
+<!-- Modal Confirmação Reset Analytics -->
+<div id="modalResetAnalytics" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" style="display:none">
+    <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md">
+        <div class="flex items-center gap-3 mb-4">
+            <div class="text-red-500 text-2xl">⚠️</div>
+            <h3 class="text-xl font-semibold text-white">Confirmar Reset</h3>
+        </div>
+
+        <p class="text-gray-300 mb-6">
+            Tem certeza que deseja <span class="font-semibold text-red-400">apagar todos os dados de analytics</span>?
+            <br><span class="text-sm text-red-400">Esta ação não pode ser desfeita.</span>
+        </p>
+
+        <div class="flex gap-3">
+            <form method="POST" action="{{ route('professor.config.analytics.reset') }}">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors">
+                    Sim, Resetar
+                </button>
+            </form>
+            <button onclick="fecharModalResetAnalytics()" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                Cancelar
+            </button>
+        </div>
+    </div>
+</div>
+
 <!-- Modal Adicionar Foto -->
 <div id="modalFoto" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" style="display:none">
     <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md">
@@ -371,6 +415,7 @@ document.addEventListener('DOMContentLoaded', function(){
         if (e.key === 'Escape') {
             fecharModalFoto();
             fecharModalExclusaoFoto();
+            fecharModalResetAnalytics();
         }
     });
 });
@@ -398,6 +443,17 @@ function confirmarExclusaoFoto(id, nome) {
 
 function fecharModalExclusaoFoto() {
     document.getElementById('modalExclusaoFoto').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Funções do modal de reset analytics
+function confirmarResetAnalytics() {
+    document.getElementById('modalResetAnalytics').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function fecharModalResetAnalytics() {
+    document.getElementById('modalResetAnalytics').style.display = 'none';
     document.body.style.overflow = 'auto';
 }
 </script>

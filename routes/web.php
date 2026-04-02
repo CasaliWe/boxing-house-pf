@@ -107,6 +107,7 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
     Route::delete('config/fotos/{foto}', [ConfigController::class, 'excluirFoto'])->name('config.fotos.destroy');
     Route::post('config/video', [ConfigController::class, 'uploadVideo'])->name('config.video.store');
     Route::delete('config/video', [ConfigController::class, 'removerVideo'])->name('config.video.destroy');
+    Route::delete('config/analytics', [ConfigController::class, 'resetarAnalytics'])->name('config.analytics.reset');
 
     // Aprovações (listar pendentes e aprovar)
     Route::get('aprovacoes', [AprovacaoController::class, 'index'])->name('aprovacoes.index');

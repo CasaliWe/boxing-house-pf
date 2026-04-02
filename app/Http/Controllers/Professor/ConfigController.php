@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Professor;
 
 use App\Http\Controllers\Controller;
+use App\Models\AnalyticsEvento;
 use App\Models\Configuracao;
 use App\Models\FotoCentro;
 use Illuminate\Http\Request;
@@ -186,5 +187,15 @@ class ConfigController extends Controller
         $config->update(['video_apresentacao' => null]);
 
         return redirect()->route('professor.config.edit')->with('success', 'Vídeo de apresentação removido com sucesso!');
+    }
+
+    /**
+     * Resetar todos os dados de analytics (limpar tabela analytics_eventos).
+     */
+    public function resetarAnalytics()
+    {
+        AnalyticsEvento::truncate();
+
+        return redirect()->route('professor.config.edit')->with('success', 'Analytics resetados com sucesso!');
     }
 }
