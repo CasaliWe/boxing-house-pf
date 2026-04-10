@@ -29,9 +29,3 @@
 - Cron que verifica vencimento, envia também notificação;
 - Mensalidade regularizada, quando aprovo no admin envia a notificação avisando para o aluno;
 - Quando o aluno atualiza o horário dele envia para mim avisando no whatsapp;
-
-### PÁGINAS:
-- home - / = landing page;
-- cadastro - /cadastro = formulário de cadastro dos novos alunos;
-- login - /login = fazer login no sistema;
-
