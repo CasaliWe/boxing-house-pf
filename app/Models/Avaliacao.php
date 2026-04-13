@@ -10,6 +10,7 @@ class Avaliacao extends Model
 
     protected $fillable = [
         'user_id',
+        'nome_publico',
         'foto_avaliacao',
         'comentario',
         'ativo',
@@ -24,5 +25,13 @@ class Avaliacao extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Retorna o nome para exibição (aluno cadastrado ou nome público).
+     */
+    public function getNomeExibicaoAttribute(): string
+    {
+        return $this->user?->name ?? $this->nome_publico ?? 'Anônimo';
     }
 }

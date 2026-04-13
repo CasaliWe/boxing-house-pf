@@ -408,7 +408,7 @@
                         <div class="flex items-center gap-4 mb-4">
                             @if($avaliacao->foto_avaliacao)
                                 <img src="{{ asset($avaliacao->foto_avaliacao) }}"  
-                                     alt="Foto de {{ $avaliacao->user->name }}" 
+                                     alt="Foto de {{ $avaliacao->nome_exibicao }}" 
                                      class="w-12 h-12 rounded-full object-cover border-2 border-blue-400">
                             @else
                                 <div class="w-12 h-12 rounded-full bg-gradient-blue flex items-center justify-center">
@@ -418,8 +418,8 @@
                                 </div>
                             @endif
                             <div>
-                                <h3 class="text-white font-semibold">{{ $avaliacao->user->name }}</h3>
-                                <p class="text-gray-400 text-sm">Aluno</p>
+                                <h3 class="text-white font-semibold">{{ $avaliacao->nome_exibicao }}</h3>
+                                <p class="text-gray-400 text-sm">{{ $avaliacao->user ? 'Aluno' : 'Visitante' }}</p>
                             </div>
                         </div>
                         

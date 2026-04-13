@@ -22,6 +22,8 @@ use App\Http\Controllers\Professor\AppController;
 use App\Http\Controllers\Professor\AvaliacaoController;
 use App\Http\Controllers\Publico\CadastroController;
 use App\Http\Controllers\Publico\LandingController as PublicoLandingController;
+use App\Http\Controllers\Publico\AvaliacaoPublicaController;
+use App\Http\Controllers\Publico\AgendarExpController;
 use App\Http\Controllers\Aluno\AnotacoesController as AlunoAnotacoesController;
 use App\Http\Controllers\Aluno\TreinosController as AlunoTreinosController;
 use App\Http\Controllers\Aluno\AvaliarController;
@@ -83,6 +85,14 @@ Route::post('/logout', [LoginController::class, 'logout'])
 
 // Página de preços (acesso público via link direto)
 Route::get('/precos', [LandingController::class, 'precos'])->name('precos');
+
+// Avaliação pública (acesso via link direto, sem autenticação)
+Route::get('/avaliar-boxing-house', [AvaliacaoPublicaController::class, 'index'])->name('avaliar.publica');
+Route::post('/avaliar-boxing-house', [AvaliacaoPublicaController::class, 'store'])->name('avaliar.publica.store');
+
+// Agendamento de aula experimental (acesso público via link direto)
+Route::get('/agendar-exp', [AgendarExpController::class, 'index'])->name('agendar.exp');
+Route::post('/agendar-exp', [AgendarExpController::class, 'store'])->name('agendar.exp.store');
 
 
 /*
