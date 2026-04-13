@@ -81,6 +81,9 @@ Route::post('/logout', [LoginController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
+// Página de preços (acesso público via link direto)
+Route::get('/precos', [LandingController::class, 'precos'])->name('precos');
+
 
 /*
 |--------------------------------------------------------------------------

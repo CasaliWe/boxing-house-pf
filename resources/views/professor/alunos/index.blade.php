@@ -231,6 +231,18 @@
         <form id="formModalHorarios" method="POST">
             @csrf
             @method('PUT')
+
+            <!-- Select de vezes por semana -->
+            <div class="mb-6">
+                <label for="planoVezesSelect" class="block text-sm text-gray-300 mb-2">Quantas vezes por semana</label>
+                <select id="planoVezesSelect" name="plano_vezes" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none" onchange="atualizarLimitePlano()">
+                    <option value="1">1x por semana</option>
+                    <option value="2">2x por semana</option>
+                    <option value="3">3x por semana</option>
+                    <option value="4">4x por semana</option>
+                </select>
+            </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 @foreach($horarios as $h)
                     @php $temVaga = $h->vagas_disponiveis > 0; @endphp
@@ -272,6 +284,12 @@ function abrirModalHorarios(btn){
     // Ajusta action do form para o aluno correto
     modalForm.action = baseAction + '/' + userId + '/horarios';
 
+    // Atualiza o select de vezes por semana
+    const selectPlano = document.getElementById('planoVezesSelect');
+    if (selectPlano) {
+        selectPlano.value = limitePlano > 0 ? limitePlano : 1;
+    }
+
     // Preseleciona os horários e aplica limite
     const checks = Array.from(modalForm.querySelectorAll('input[type="checkbox"][name="horarios[]"]'));
     checks.forEach(c=>{
@@ -286,6 +304,17 @@ function abrirModalHorarios(btn){
 
     // Bind change uma vez
     checks.forEach(c=>{ c.onchange = ()=>aplicarLimite(checks); });
+}
+
+/**
+ * Atualiza o limite de horários ao trocar o select de vezes/semana
+ */
+function atualizarLimitePlano(){
+    const selectPlano = document.getElementById('planoVezesSelect');
+    limitePlano = parseInt(selectPlano.value||'0');
+    document.getElementById('limiteNum').textContent = limitePlano;
+    const checks = Array.from(document.getElementById('formModalHorarios').querySelectorAll('input[type="checkbox"][name="horarios[]"]'));
+    aplicarLimite(checks);
 }
 function fecharModalHorarios(){
     const modal = document.getElementById('modalHorarios');

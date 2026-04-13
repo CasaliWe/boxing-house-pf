@@ -80,9 +80,16 @@ class AlunoController extends Controller
         }
 
         $data = $request->validate([
+            'plano_vezes' => ['nullable', 'integer', 'min:1', 'max:4'],
             'horarios' => ['array'],
             'horarios.*' => ['integer', 'exists:horarios,id'],
         ]);
+
+        // Atualiza o plano de vezes por semana se informado
+        if (isset($data['plano_vezes'])) {
+            $user->plano_vezes = $data['plano_vezes'];
+            $user->save();
+        }
 
         $selecionados = collect($data['horarios'] ?? []);
 

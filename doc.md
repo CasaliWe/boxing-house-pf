@@ -29,3 +29,7 @@
 - Cron que verifica vencimento, envia também notificação;
 - Mensalidade regularizada, quando aprovo no admin envia a notificação avisando para o aluno;
 - Quando o aluno atualiza o horário dele envia para mim avisando no whatsapp;
+
+### ROTAS ESPECIAIS:
+- /cadastro = fazer o cadastro do aluno;
+- /precos = valores para treinar na academia;

@@ -55,4 +55,15 @@ class LandingController extends Controller
 
         return view('landing.index', compact('config', 'fotosCentro', 'valores', 'horarios', 'professor', 'sistemaAluno', 'avaliacoes'));
     }
+
+    /**
+     * Exibir a página de preços/valores (acesso direto via link)
+     */
+    public function precos()
+    {
+        $config = Configuracao::first();
+        $valores = ValorPlano::orderBy('vezes_semana')->get();
+
+        return view('public.precos', compact('config', 'valores'));
+    }
 }
