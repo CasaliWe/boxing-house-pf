@@ -39,8 +39,8 @@ class MeusHorariosController extends Controller
 
         $selecionados = collect($data['horarios'] ?? []);
 
-        // Limite do plano
-        $max = (int)($user->plano_vezes ?? 0);
+        // Limite do pacote de aulas
+        $max = (int)($user->limite_horarios ?? 0);
         if ($max > 0 && $selecionados->count() > $max) {
             return back()->withErrors(['horarios' => 'Você só pode selecionar '.$max.' horário(s) conforme seu plano.'])->withInput();
         }

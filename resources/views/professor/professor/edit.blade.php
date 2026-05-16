@@ -3,200 +3,178 @@
 @section('title', 'Meus Dados - Professor')
 
 @section('content')
-<div class="space-y-8">
-    <div>
-        <h1 class="text-3xl font-bold text-blue-400">👤 Meus Dados - Professor</h1>
-        <p class="text-gray-400">Atualize suas informações pessoais, experiência e imagens de perfil.</p>
+<div class="max-w-5xl mx-auto space-y-6">
+
+    {{-- Cabeçalho da página --}}
+    <div class="flex items-end justify-between flex-wrap gap-4 pb-4 border-b border-gray-800">
+        <div>
+            <h1 class="text-2xl font-bold text-white">Meus dados — Professor</h1>
+            <p class="text-sm text-gray-400 mt-1">Informações que aparecem na landing page</p>
+        </div>
     </div>
 
-    <form method="POST" action="{{ route('professor.professor.update') }}" enctype="multipart/form-data" class="space-y-8">
+    <form method="POST" action="{{ route('professor.professor.update') }}" enctype="multipart/form-data" class="space-y-6">
         @csrf
         @method('PUT')
 
-        <!-- Dados Básicos -->
-        <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
-            <h2 class="text-xl font-bold text-blue-400 mb-6 flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                </svg>
-                Informações Pessoais
-            </h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="md:col-span-2">
-                    <label for="name" class="block text-sm font-medium text-gray-300 mb-2">Nome Completo *</label>
-                    <input type="text" id="name" name="name" value="{{ old('name', $professor->name) }}" 
-                           class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                           placeholder="Ex.: João Silva" required>
-                    @error('name')
-                        <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
-                    @enderror
+        {{-- Card: dados pessoais --}}
+        <div class="bg-gray-900/60 border border-gray-800 rounded-lg overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-800 flex items-center gap-3">
+                <div class="w-9 h-9 rounded-md bg-blue-500/10 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
                 </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label for="anos_boxe" class="block text-sm font-medium text-gray-300 mb-2">Anos no Boxe *</label>
-                        <input type="number" id="anos_boxe" name="anos_boxe" value="{{ old('anos_boxe', $professor->anos_boxe) }}" 
-                               min="0" max="50" 
-                               class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                               placeholder="5" required>
-                        @error('anos_boxe')
-                            <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label for="anos_instrutor" class="block text-sm font-medium text-gray-300 mb-2">Anos Instrutor *</label>
-                        <input type="number" id="anos_instrutor" name="anos_instrutor" value="{{ old('anos_instrutor', $professor->anos_instrutor) }}" 
-                               min="0" max="50" 
-                               class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                               placeholder="3" required>
-                        @error('anos_instrutor')
-                            <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
+                <div>
+                    <h3 class="text-base font-semibold text-white">Informações pessoais</h3>
+                    <p class="text-xs text-gray-400">Nome, experiência e descrição</p>
                 </div>
             </div>
 
-            <div class="mt-6">
-                <label for="descricao_professor" class="block text-sm font-medium text-gray-300 mb-2">Descrição *</label>
-                <textarea id="descricao_professor" name="descricao_professor" rows="4" 
-                          class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                          placeholder="Conte um pouco sobre sua experiência, especialidades e filosofia de ensino..." required>{{ old('descricao_professor', $professor->descricao_professor) }}</textarea>
-                @error('descricao_professor')
-                    <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
-                @enderror
-                <p class="text-xs text-gray-400 mt-2">Máximo de 1000 caracteres. Seja autêntico e conte sua história!</p>
+            <div class="p-6 space-y-5">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="md:col-span-2">
+                        <label for="name" class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Nome completo *</label>
+                        <input type="text" id="name" name="name" value="{{ old('name', $professor->name) }}" required placeholder="Ex.: João Silva"
+                               class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        @error('name')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label for="anos_boxe" class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Anos no boxe *</label>
+                            <input type="number" id="anos_boxe" name="anos_boxe" value="{{ old('anos_boxe', $professor->anos_boxe) }}" min="0" max="50" required placeholder="5"
+                                   class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            @error('anos_boxe')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
+                        </div>
+                        <div>
+                            <label for="anos_instrutor" class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Como instrutor *</label>
+                            <input type="number" id="anos_instrutor" name="anos_instrutor" value="{{ old('anos_instrutor', $professor->anos_instrutor) }}" min="0" max="50" required placeholder="3"
+                                   class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            @error('anos_instrutor')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="descricao_professor" class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Descrição *</label>
+                    <textarea id="descricao_professor" name="descricao_professor" rows="4" required placeholder="Conte sobre sua experiência, especialidades e filosofia de ensino..."
+                              class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none">{{ old('descricao_professor', $professor->descricao_professor) }}</textarea>
+                    @error('descricao_professor')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
+                    <p class="text-xs text-gray-500 mt-1.5">Máximo de 1000 caracteres.</p>
+                </div>
             </div>
         </div>
 
-        <!-- Imagens do Professor -->
-        <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
-            <h2 class="text-xl font-bold text-blue-400 mb-6 flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                </svg>
-                Fotos (máximo 5)
-            </h2>
-
-            <!-- Imagens Atuais -->
-            @php
-                $imagensAtuais = json_decode($professor->imagens_professor ?? '[]', true);
-            @endphp
-
-            @if(!empty($imagensAtuais))
-                <div class="mb-6">
-                    <h3 class="text-lg font-medium text-gray-300 mb-4">Imagens Atuais</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                        @foreach($imagensAtuais as $indice => $imagem)
-                            <div class="relative group">
-                                <img src="{{ asset($imagem) }}" alt="Imagem do Professor {{ $indice + 1 }}" 
-                                     class="w-full h-48 object-cover rounded-lg">
-                                <div class="absolute inset-0 bg-black bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                                    <button type="button" 
-                                            onclick="removerImagem({{ $indice }})"
-                                            class="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm transition-colors">
-                                        <svg class="w-4 h-4 mr-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                        </svg>
-                                        Remover
-                                    </button>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
+        {{-- Card: fotos --}}
+        @php $imagensAtuais = json_decode($professor->imagens_professor ?? '[]', true); @endphp
+        <div class="bg-gray-900/60 border border-gray-800 rounded-lg overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-800 flex items-center gap-3">
+                <div class="w-9 h-9 rounded-md bg-blue-500/10 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
                 </div>
-            @endif
-
-            <!-- Upload de Novas Imagens -->
-            @if(count($imagensAtuais) < 5)
                 <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">
-                        Adicionar Novas Imagens ({{ 5 - count($imagensAtuais) }} restantes)
-                    </label>
-                    <div class="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center hover:border-blue-500 transition-colors">
-                        <input type="file" name="novas_imagens[]" id="novas_imagens" multiple 
-                               accept="image/*" 
-                               class="hidden" 
-                               onchange="previewImages(this)"
-                               max="{{ 5 - count($imagensAtuais) }}">
-                        <label for="novas_imagens" class="cursor-pointer">
-                            <svg class="w-12 h-12 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                            </svg>
-                            <p class="text-gray-400">Clique para selecionar imagens</p>
+                    <h3 class="text-base font-semibold text-white">Fotos do professor</h3>
+                    <p class="text-xs text-gray-400">Máximo 5 imagens · {{ count($imagensAtuais) }}/5 atual</p>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-5">
+                @if(!empty($imagensAtuais))
+                    <div>
+                        <div class="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-2">Imagens atuais</div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                            @foreach($imagensAtuais as $indice => $imagem)
+                                <div class="relative group bg-gray-800/40 border border-gray-700 rounded-lg overflow-hidden">
+                                    <img src="{{ asset($imagem) }}" alt="Foto {{ $indice + 1 }}" class="w-full h-44 object-cover">
+                                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <button type="button" onclick="removerImagem({{ $indice }})"
+                                                style="background-color: #dc2626; color: #ffffff;"
+                                                onmouseover="this.style.backgroundColor='#b91c1c'"
+                                                onmouseout="this.style.backgroundColor='#dc2626'"
+                                                class="text-xs font-medium px-3 py-1.5 rounded-md transition-colors">
+                                            Remover
+                                        </button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                @if(count($imagensAtuais) < 5)
+                    <div>
+                        <label for="novas_imagens" class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">
+                            Adicionar imagens <span class="text-gray-500 normal-case font-normal">({{ 5 - count($imagensAtuais) }} restantes)</span>
+                        </label>
+                        <label for="novas_imagens" class="block border-2 border-dashed border-gray-700 hover:border-blue-500/60 rounded-lg p-6 text-center cursor-pointer transition-colors">
+                            <input type="file" name="novas_imagens[]" id="novas_imagens" multiple accept="image/*" class="hidden" onchange="previewImages(this)" max="{{ 5 - count($imagensAtuais) }}">
+                            <svg class="w-10 h-10 text-gray-500 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+                            <p class="text-sm text-gray-400">Clique para selecionar imagens</p>
                             <p class="text-xs text-gray-500 mt-1">Máximo 5MB por imagem</p>
                         </label>
-                    </div>
-                    @error('novas_imagens.*')
-                        <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
-                    @enderror
-                </div>
+                        @error('novas_imagens.*')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
 
-                <!-- Preview das novas imagens -->
-                <div id="preview-container" class="mt-4 hidden">
-                    <h4 class="text-sm font-medium text-gray-300 mb-2">Preview das Novas Imagens:</h4>
-                    <div id="preview-images" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
-                </div>
-            @else
-                <div class="bg-yellow-900/50 border border-yellow-500 rounded-lg p-4">
-                    <p class="text-yellow-400">Você já atingiu o limite máximo de 5 imagens. Remova uma imagem existente para adicionar uma nova.</p>
-                </div>
-            @endif
+                        <div id="preview-container" class="mt-4 hidden">
+                            <div class="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-2">Pré-visualização</div>
+                            <div id="preview-images" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
+                        </div>
+                    </div>
+                @else
+                    <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-md px-4 py-3 text-xs text-yellow-200">
+                        Limite máximo de 5 imagens atingido. Remova uma para adicionar nova.
+                    </div>
+                @endif
+            </div>
         </div>
 
-        <!-- Botões -->
-        <div class="flex flex-col sm:flex-row justify-end gap-3">
-            <button type="button" onclick="history.back()" 
-                    class="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors">
+        {{-- Ações --}}
+        <div class="flex justify-end gap-2">
+            <button type="button" onclick="history.back()"
+                    class="text-sm font-medium px-4 py-2 rounded-md border border-gray-700 text-gray-300 hover:bg-gray-800 transition-colors">
                 Cancelar
             </button>
             <button type="submit" id="btnSalvarProfessor"
-                    class="px-6 py-3 bg-gradient-blue hover:from-blue-700 hover:to-purple-700 text-white rounded-lg transition-all duration-300 flex items-center justify-center">
-                <span class="btn-spin inline-block align-middle w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin mr-2" style="display:none"></span>
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="btn-text">Salvar Alterações</span>
+                    style="background-color: #2563eb; color: #ffffff;"
+                    onmouseover="this.style.backgroundColor='#1d4ed8'"
+                    onmouseout="this.style.backgroundColor='#2563eb'"
+                    class="inline-flex items-center text-sm font-medium px-4 py-2 rounded-md transition-colors">
+                <span class="btn-spin inline-block align-middle w-3.5 h-3.5 border-2 border-white/60 border-t-transparent rounded-full animate-spin mr-2" style="display:none"></span>
+                <span class="btn-text">Salvar alterações</span>
             </button>
         </div>
     </form>
 </div>
 
-<!-- Scripts para preview e remoção de imagens -->
 <script>
-function previewImages(input) {
-    const previewContainer = document.getElementById('preview-container');
-    const previewImages = document.getElementById('preview-images');
-    
-    if (input.files.length > 0) {
-        previewContainer.classList.remove('hidden');
-        previewImages.innerHTML = '';
-        
-        Array.from(input.files).forEach((file, index) => {
-            if (file.type.startsWith('image/')) {
+    // Preview de imagens recém selecionadas
+    function previewImages(input) {
+        const previewContainer = document.getElementById('preview-container');
+        const previewImages    = document.getElementById('preview-images');
+
+        if (input.files.length > 0) {
+            previewContainer.classList.remove('hidden');
+            previewImages.innerHTML = '';
+            Array.from(input.files).forEach((file, index) => {
+                if (!file.type.startsWith('image/')) return;
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = (e) => {
                     const div = document.createElement('div');
-                    div.className = 'relative';
-                    div.innerHTML = `
-                        <img src="${e.target.result}" alt="Preview ${index + 1}" class="w-full h-32 object-cover rounded-lg">
-                        <div class="absolute top-1 right-1 bg-black bg-opacity-50 rounded-full p-1">
-                            <span class="text-white text-xs">${index + 1}</span>
-                        </div>
-                    `;
+                    div.className = 'bg-gray-800/40 border border-gray-700 rounded-lg overflow-hidden';
+                    div.innerHTML = `<img src="${e.target.result}" alt="Preview ${index + 1}" class="w-full h-32 object-cover">`;
                     previewImages.appendChild(div);
                 };
                 reader.readAsDataURL(file);
-            }
-        });
-    } else {
-        previewContainer.classList.add('hidden');
+            });
+        } else {
+            previewContainer.classList.add('hidden');
+        }
     }
-}
 
-async function removerImagem(indice) {
-    if (confirm('Tem certeza que deseja remover esta imagem?')) {
+    // Remove uma imagem do servidor via ajax
+    async function removerImagem(indice) {
+        if (!confirm('Tem certeza que deseja remover esta imagem?')) return;
         try {
             const response = await fetch('{{ route("professor.professor.remover-imagem") }}', {
                 method: 'POST',
@@ -204,13 +182,11 @@ async function removerImagem(indice) {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
-                body: JSON.stringify({ indice: indice })
+                body: JSON.stringify({ indice })
             });
-            
             const result = await response.json();
-            
             if (result.success) {
-                location.reload(); // Recarrega a página para mostrar a atualização
+                location.reload();
             } else {
                 alert('Erro ao remover imagem: ' + result.message);
             }
@@ -219,23 +195,22 @@ async function removerImagem(indice) {
             alert('Erro ao remover imagem.');
         }
     }
-}
 
-// Loading ao salvar dados do professor
-document.addEventListener('DOMContentLoaded', function(){
-    const btn = document.getElementById('btnSalvarProfessor');
-    let form = btn;
-    while(form && form.tagName !== 'FORM'){ form = form.parentElement; }
-    if(form && btn){
-        form.addEventListener('submit', function(){
-            btn.disabled = true;
-            btn.classList.add('opacity-70','cursor-not-allowed');
-            const txt = btn.querySelector('.btn-text');
-            const spn = btn.querySelector('.btn-spin');
-            if(txt) txt.textContent = 'Salvando...';
-            if(spn) spn.style.display = 'inline-block';
-        }, { once: true });
-    }
-});
+    // Loading do botão de salvar
+    document.addEventListener('DOMContentLoaded', function(){
+        const btn  = document.getElementById('btnSalvarProfessor');
+        let   form = btn;
+        while (form && form.tagName !== 'FORM') { form = form.parentElement; }
+        if (form && btn) {
+            form.addEventListener('submit', function(){
+                btn.disabled = true;
+                btn.classList.add('opacity-70','cursor-not-allowed');
+                const txt = btn.querySelector('.btn-text');
+                const spn = btn.querySelector('.btn-spin');
+                if (txt) txt.textContent = 'Salvando...';
+                if (spn) spn.style.display = 'inline-block';
+            }, { once: true });
+        }
+    });
 </script>
 @endsection

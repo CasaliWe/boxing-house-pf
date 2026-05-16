@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class MensalidadeVencidaController extends Controller
 {
     /**
-     * Exibe página informando sobre mensalidade vencida
+     * Exibe página informando sobre acesso inativo.
      */
     public function index()
     {

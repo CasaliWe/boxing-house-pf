@@ -3,69 +3,110 @@
 @section('title', 'Aulas EXP')
 
 @section('content')
-<div class="space-y-8">
-    <!-- Cabeçalho -->
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div class="w-full sm:w-auto">
-            <h1 class="text-2xl md:text-3xl font-bold text-blue-400">🥊 Aulas EXP</h1>
-            <p class="text-gray-400 text-sm md:text-base">Gerencie as aulas experimentais marcadas.</p>
+<div class="max-w-7xl mx-auto space-y-6">
+
+    {{-- Cabeçalho da página --}}
+    <div class="flex items-end justify-between flex-wrap gap-4 pb-4 border-b border-gray-800">
+        <div>
+            <h1 class="text-2xl font-bold text-white">Aulas Experimentais</h1>
+            <p class="text-sm text-gray-400 mt-1">Gerencie as aulas experimentais marcadas</p>
         </div>
-        <a href="{{ route('professor.aulas-exp.create') }}" class="bg-gradient-blue text-white px-5 py-3 rounded-lg font-medium hover:opacity-95 transition w-full sm:w-auto text-center">
-            + Nova Aula EXP
+        <a href="{{ route('professor.aulas-exp.create') }}"
+           style="background-color: #2563eb; color: #ffffff;"
+           onmouseover="this.style.backgroundColor='#1d4ed8'"
+           onmouseout="this.style.backgroundColor='#2563eb'"
+           class="inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-md transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Nova Aula EXP
         </a>
     </div>
 
-    <!-- Lista -->
-    <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
-        @if($aulas->isEmpty())
-            <div class="text-center py-12 text-gray-300">Nenhuma aula experimental cadastrada ainda.</div>
-        @else
-            <div class="space-y-4">
-                @foreach($aulas as $aula)
-                    @php
-                        $passada = $aula->data->lt(\Illuminate\Support\Carbon::today());
-                    @endphp
-                    <div class="border border-gray-600 rounded-lg p-5 bg-gray-800/40 {{ $passada ? 'opacity-60' : '' }}">
-                        <div class="flex items-start justify-between gap-4 flex-col sm:flex-row">
-                            <div class="min-w-0 w-full sm:w-auto">
-                                <div class="flex items-center gap-3 flex-wrap">
-                                    <h3 class="text-lg font-semibold text-white">{{ $aula->nome }}</h3>
-                                    @if($passada)
-                                        <span class="px-2 py-1 text-xs rounded bg-gray-600 text-gray-100">Passada</span>
-                                    @elseif($aula->data->isToday())
-                                        <span class="px-2 py-1 text-xs rounded bg-green-700 text-green-100">Hoje</span>
-                                    @else
-                                        <span class="px-2 py-1 text-xs rounded bg-blue-700 text-blue-100">Agendada</span>
-                                    @endif
-                                </div>
-                                <div class="mt-2 space-y-1">
-                                    <div class="text-gray-300 text-sm">
-                                        📅 {{ $aula->data->format('d/m/Y') }} ({{ $aula->dia_semana_label }})
+    {{-- Lista --}}
+    <div class="bg-gray-900/60 border border-gray-800 rounded-lg overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-800 flex items-center gap-3">
+            <div class="w-9 h-9 rounded-md bg-blue-500/10 flex items-center justify-center">
+                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <div>
+                <h3 class="text-base font-semibold text-white">Agendamentos</h3>
+                <p class="text-xs text-gray-400">Todas as aulas experimentais</p>
+            </div>
+        </div>
+
+        <div class="p-6">
+            @if($aulas->isEmpty())
+                <div class="text-center py-12 text-sm text-gray-500">Nenhuma aula experimental cadastrada ainda.</div>
+            @else
+                <div class="space-y-3">
+                    @foreach($aulas as $aula)
+                        @php
+                            $passada = $aula->data->lt(\Illuminate\Support\Carbon::today());
+                            $hoje    = $aula->data->isToday();
+                        @endphp
+                        <div class="bg-gray-800/40 border border-gray-700 rounded-lg p-4 {{ $passada ? 'opacity-60' : '' }}">
+                            <div class="flex items-start justify-between gap-4 flex-col sm:flex-row">
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex items-center gap-2 flex-wrap mb-2">
+                                        <h3 class="text-base font-semibold text-white">{{ $aula->nome }}</h3>
+                                        @if($passada)
+                                            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-gray-700 text-gray-300">Passada</span>
+                                        @elseif($hoje)
+                                            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-green-500/20 text-green-300">Hoje</span>
+                                        @else
+                                            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-500/20 text-blue-300">Agendada</span>
+                                        @endif
                                     </div>
-                                    <div class="text-gray-300 text-sm">
-                                        ⏰ {{ \Illuminate\Support\Carbon::parse($aula->horario)->format('H:i') }}
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+                                        <div>
+                                            <div class="text-xs text-gray-500 uppercase tracking-wider">Data</div>
+                                            <div class="text-gray-200 mt-0.5">{{ $aula->data->format('d/m/Y') }} ({{ $aula->dia_semana_label }})</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs text-gray-500 uppercase tracking-wider">Horário</div>
+                                            <div class="text-gray-200 mt-0.5">{{ \Illuminate\Support\Carbon::parse($aula->horario)->format('H:i') }}</div>
+                                        </div>
+                                        @if($aula->numero)
+                                            <div>
+                                                <div class="text-xs text-gray-500 uppercase tracking-wider">Telefone</div>
+                                                <div class="text-gray-200 mt-0.5">{{ $aula->numero }}</div>
+                                            </div>
+                                        @endif
                                     </div>
-                                    @if($aula->numero)
-                                        <div class="text-gray-300 text-sm">📞 {{ $aula->numero }}</div>
-                                    @endif
                                     @if($aula->observacao)
-                                        <div class="text-gray-400 text-sm mt-1 whitespace-pre-line">{{ $aula->observacao }}</div>
+                                        <div class="mt-3 bg-gray-900/40 border border-gray-700 rounded-md p-3">
+                                            <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Observação</div>
+                                            <div class="text-sm text-gray-300 whitespace-pre-line">{{ $aula->observacao }}</div>
+                                        </div>
                                     @endif
                                 </div>
-                            </div>
-                            <div class="flex items-center gap-2 flex-shrink-0 mt-3 sm:mt-0">
-                                <a href="{{ route('professor.aulas-exp.edit', $aula) }}" class="px-3 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-sm">Editar</a>
-                                <form method="POST" action="{{ route('professor.aulas-exp.destroy', $aula) }}" onsubmit="return confirm('Tem certeza que deseja excluir esta aula EXP?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="px-3 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white text-sm">Excluir</button>
-                                </form>
+                                <div class="flex items-center gap-2 shrink-0">
+                                    <a href="{{ route('professor.aulas-exp.edit', $aula) }}"
+                                       style="background-color: #2563eb; color: #ffffff;"
+                                       onmouseover="this.style.backgroundColor='#1d4ed8'"
+                                       onmouseout="this.style.backgroundColor='#2563eb'"
+                                       class="text-xs font-medium px-3 py-1.5 rounded-md transition-colors">
+                                        Editar
+                                    </a>
+                                    <form method="POST" action="{{ route('professor.aulas-exp.destroy', $aula) }}" onsubmit="return confirm('Tem certeza que deseja excluir esta aula EXP?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                                style="background-color: #dc2626; color: #ffffff;"
+                                                onmouseover="this.style.backgroundColor='#b91c1c'"
+                                                onmouseout="this.style.backgroundColor='#dc2626'"
+                                                class="text-xs font-medium px-3 py-1.5 rounded-md transition-colors">
+                                            Excluir
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
-        @endif
+                    @endforeach
+                </div>
+            @endif
+        </div>
     </div>
 </div>
 @endsection

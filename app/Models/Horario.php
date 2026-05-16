@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 
 class Horario extends Model
 {
@@ -58,11 +59,24 @@ class Horario extends Model
     }
 
     /**
+     * Aulas experimentais futuras reservadas neste horario.
+     */
+    public function getAulasExperimentaisFuturasCountAttribute(): int
+    {
+        return AulaExp::where('dia_semana', $this->dia_semana)
+            ->where('horario', Carbon::parse($this->hora_inicio)->format('H:i:s'))
+            ->whereDate('data', '>=', Carbon::today())
+            ->count();
+    }
+
+    /**
      * Vagas disponíveis (considerando somente aprovados).
      */
     public function getVagasDisponiveisAttribute(): int
     {
         $ocupadas = $this->alunos()->wherePivot('aprovado', true)->count();
+        $ocupadas += $this->aulas_experimentais_futuras_count;
+
         return max(0, $this->limite_alunos - $ocupadas);
     }
 

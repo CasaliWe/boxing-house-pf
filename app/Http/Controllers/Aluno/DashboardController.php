@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Aluno;
 
 use App\Http\Controllers\Controller;
 use App\Models\AulaSequencia;
+use App\Models\Configuracao;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -76,7 +77,10 @@ class DashboardController extends Controller
                 'proximoTreino' => $proximo,
                 'totalAulas' => $totalAulas,
                 'aprendizados' => $aprendizados,
-                'vencimentoMensalidade' => $user->vencimento_at,
+                'aulasContratadas' => (int) ($user->aulas_contratadas ?? 0),
+                'aulasRestantes' => (int) ($user->aulas_restantes ?? 0),
+                'valorProximaAula' => (float) ($user->valor_aula ?? 0),
+                'config' => Configuracao::first(),
             ]);
 
         } catch (\Exception $e) {

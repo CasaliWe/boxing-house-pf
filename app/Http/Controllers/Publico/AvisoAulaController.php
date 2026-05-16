@@ -54,6 +54,10 @@ class AvisoAulaController extends Controller
                 $alunosAtivos = $horario->alunos()
                     ->wherePivot('aprovado', true)
                     ->where('status', 'ativo')
+                    ->where(function ($q) {
+                        $q->whereNull('aulas_contratadas')
+                          ->orWhere('aulas_restantes', '>', 0);
+                    })
                     ->whereNotNull('whatsapp')
                     ->get();
 

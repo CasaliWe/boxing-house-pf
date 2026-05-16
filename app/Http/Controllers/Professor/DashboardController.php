@@ -34,6 +34,10 @@ class DashboardController extends Controller
             $horarios = Horario::with(['alunos' => function ($q) {
                 $q->where('role', 'aluno')
                   ->where('status', 'ativo')
+                  ->where(function ($saldo) {
+                      $saldo->whereNull('aulas_contratadas')
+                            ->orWhere('aulas_restantes', '>', 0);
+                  })
                   ->wherePivot('aprovado', true);
             }])->get();
             $now = Carbon::now();
@@ -72,6 +76,10 @@ class DashboardController extends Controller
                 $alunos = $proximaAula['horario']->alunos()
                     ->wherePivot('aprovado', true)
                     ->where('status', 'ativo')
+                    ->where(function ($saldo) {
+                        $saldo->whereNull('aulas_contratadas')
+                              ->orWhere('aulas_restantes', '>', 0);
+                    })
                     ->orderBy('name')
                     ->get();
                 foreach ($alunos as $aluno) {

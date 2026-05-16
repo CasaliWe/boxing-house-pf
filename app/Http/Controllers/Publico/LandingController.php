@@ -25,8 +25,8 @@ class LandingController extends Controller
         // Fotos do centro de treinamento (campo ativo existe)
         $fotosCentro = FotoCentro::where('ativo', true)->orderBy('ordem')->orderBy('id')->get();
         
-        // Valores dos planos (sem campo ativo)
-        $valores = ValorPlano::orderBy('vezes_semana')->get();
+        // Valores dos pacotes por aulas.
+        $valores = ValorPlano::pacotes()->orderBy('aulas_mes')->get();
         
         // Horários disponíveis agrupados por dia (sem campo ativo, sem função FIELD no SQLite)
         $horarios = Horario::orderBy('dia_semana')
@@ -62,8 +62,9 @@ class LandingController extends Controller
     public function precos()
     {
         $config = Configuracao::first();
-        $valores = ValorPlano::orderBy('vezes_semana')->get();
+        $valores = ValorPlano::pacotes()->orderBy('aulas_mes')->get();
+        $valorExperimental = ValorPlano::experimental()->first();
 
-        return view('public.precos', compact('config', 'valores'));
+        return view('public.precos', compact('config', 'valores', 'valorExperimental'));
     }
 }

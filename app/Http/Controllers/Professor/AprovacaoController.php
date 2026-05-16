@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Mail\CredenciaisAlunoMail;
 use App\Models\Horario;
 use App\Models\User;
+use App\Models\ValorPlano;
 use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -28,8 +28,9 @@ class AprovacaoController extends Controller
 
         // Lista de horários para uso no modal de atualização
         $horarios = Horario::orderBy('dia_semana')->orderBy('hora_inicio')->get();
+        $pacotes = ValorPlano::pacotes()->orderBy('aulas_mes')->get();
 
-        return view('professor.aprovacoes.index', compact('pendentes', 'horarios'));
+        return view('professor.aprovacoes.index', compact('pendentes', 'horarios', 'pacotes'));
     }
 
     public function aprovar(Request $request, User $user)
@@ -56,8 +57,15 @@ class AprovacaoController extends Controller
         $plain = $base.'123';
         $user->password = Hash::make($plain);
         $user->status = 'ativo';
-        $user->vencimento_at = $user->vencimento_at ?: Carbon::now()->addDays(30)->toDateString();
+        $user->vencimento_at = null;
         $user->save();
+
+        // Registra a entrada financeira referente ao pacote contratado pelo aluno
+        $aulasContratadas = (int) ($user->aulas_contratadas ?? 0);
+        $valorAula        = (float) ($user->valor_aula ?? 0);
+        if ($aulasContratadas > 0 && $valorAula > 0) {
+            MovimentacaoController::registrarEntradaPacote($user, $aulasContratadas, $valorAula, 'aprovação de cadastro');
+        }
 
         // Aprovar horários (agora já garantimos disponibilidade acima)
         $aprovados = [];

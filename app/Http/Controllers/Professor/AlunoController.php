@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Professor;
 use App\Http\Controllers\Controller;
 use App\Models\Horario;
 use App\Models\User;
+use App\Models\ValorPlano;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -13,19 +14,20 @@ class AlunoController extends Controller
 {
     public function index(Request $request)
     {
-        $status = $request->query('status'); // opcional: ativo, inativo, pendente
-        $query = User::where('role', 'aluno')->with(['horarios' => function($q){
+        $status = $request->query('status');
+        $query = User::where('role', 'aluno')->with(['horarios' => function ($q) {
             $q->orderBy('dia_semana')->orderBy('hora_inicio');
         }]);
-        if (in_array($status, ['ativo','inativo','pendente'])) {
+
+        if (in_array($status, ['ativo', 'inativo', 'pendente'])) {
             $query->where('status', $status);
         }
+
         $alunos = $query->orderBy('name')->paginate(20)->withQueryString();
-
-        // Lista de horários disponíveis para edição no modal
         $horarios = Horario::orderBy('dia_semana')->orderBy('hora_inicio')->get();
+        $pacotes = ValorPlano::pacotes()->orderBy('aulas_mes')->get();
 
-        return view('professor.alunos.index', compact('alunos', 'status', 'horarios'));
+        return view('professor.alunos.index', compact('alunos', 'status', 'horarios', 'pacotes'));
     }
 
     public function alterarSenha(Request $request, User $user)
@@ -50,28 +52,36 @@ class AlunoController extends Controller
             return back()->with('error', 'Ação inválida.');
         }
 
-        // Remove vínculos para manter integridade
         $user->horarios()->detach();
         $user->delete();
 
         return back()->with('success', 'Aluno removido.');
     }
 
-    // Helper para status de vencimento - pode ser usado na view via closure
     public static function vencimentoStatus(?string $date): string
     {
-        if(!$date) return 'desconhecido';
-        $v = Carbon::parse($date)->startOfDay();
+        if (!$date) {
+            return 'desconhecido';
+        }
+
+        $vencimento = Carbon::parse($date)->startOfDay();
         $hoje = Carbon::today();
-        if ($hoje->gt($v)) return 'vencida';
-        $dias = $hoje->diffInDays($v, false);
-        if ($dias <= 2) return 'vencendo';
+
+        if ($hoje->gt($vencimento)) {
+            return 'vencida';
+        }
+
+        $dias = $hoje->diffInDays($vencimento, false);
+
+        if ($dias <= 2) {
+            return 'vencendo';
+        }
+
         return 'ok';
     }
 
     /**
-     * Atualiza os horários vinculados ao aluno.
-     * Aprova automaticamente quando há vagas disponíveis.
+     * Atualiza pacote de aulas e horarios vinculados ao aluno.
      */
     public function atualizarHorarios(Request $request, User $user)
     {
@@ -80,54 +90,65 @@ class AlunoController extends Controller
         }
 
         $data = $request->validate([
-            'plano_vezes' => ['nullable', 'integer', 'min:1', 'max:4'],
+            'aulas_contratadas' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'aulas_restantes' => ['nullable', 'integer', 'min:0', 'max:100'],
+            'valor_aula' => ['nullable', 'numeric', 'min:0'],
             'horarios' => ['array'],
             'horarios.*' => ['integer', 'exists:horarios,id'],
         ]);
 
-        // Atualiza o plano de vezes por semana se informado
-        if (isset($data['plano_vezes'])) {
-            $user->plano_vezes = $data['plano_vezes'];
-            $user->save();
+        if (isset($data['aulas_contratadas'])) {
+            $aulas = (int) $data['aulas_contratadas'];
+            $pacote = ValorPlano::pacoteParaQuantidade($aulas);
+            $valorAula = isset($data['valor_aula'])
+                ? (float) $data['valor_aula']
+                : (float) ($pacote?->valor_aula ?? 0);
+            $restantes = isset($data['aulas_restantes'])
+                ? min((int) $data['aulas_restantes'], $aulas)
+                : $aulas;
+
+            $user->registrarPacoteAulas($aulas, $valorAula, $restantes);
+            $user->refresh();
         }
 
-        $selecionados = collect($data['horarios'] ?? []);
+        $selecionados = collect($data['horarios'] ?? [])->unique()->values();
+        $max = (int) ($user->limite_horarios ?? 0);
 
-        // Respeitar limite do plano (se definido)
-        $max = (int)($user->plano_vezes ?? 0);
         if ($max > 0 && $selecionados->count() > $max) {
-            return back()->withErrors(['horarios' => 'Você só pode selecionar '.$max.' horário(s) conforme o plano.'])->withInput();
+            return back()->withErrors([
+                'horarios' => 'Você só pode selecionar ' . $max . ' horário(s) conforme o pacote de aulas.',
+            ])->withInput();
         }
 
-        // Aprovação conforme vagas (similar à lógica do aluno)
         $atuais = $user->horarios()->get()->keyBy('id');
         $syncData = [];
-        foreach (Horario::whereIn('id', $selecionados)->get() as $h) {
-            $aprovadoAtual = $atuais->has($h->id) ? (bool)($atuais[$h->id]->pivot->aprovado) : false;
-            $ocupadas = $h->alunos()->wherePivot('aprovado', true)
-                ->when($atuais->has($h->id) && $aprovadoAtual, function($q) use ($user){
+
+        foreach (Horario::whereIn('id', $selecionados)->get() as $horario) {
+            $aprovadoAtual = $atuais->has($horario->id) ? (bool) ($atuais[$horario->id]->pivot->aprovado) : false;
+            $ocupadas = $horario->alunos()->wherePivot('aprovado', true)
+                ->when($atuais->has($horario->id) && $aprovadoAtual, function ($q) use ($user) {
                     $q->where('users.id', '!=', $user->id);
                 })
                 ->count();
-            $syncData[$h->id] = ['aprovado' => $ocupadas < $h->limite_alunos];
+
+            $syncData[$horario->id] = ['aprovado' => $ocupadas < $horario->limite_alunos];
         }
 
         $user->horarios()->sync($syncData);
 
-        // Mensagem com possível lista sem vagas
         $semVaga = [];
-        foreach ($syncData as $hid => $pivot) {
+        foreach ($syncData as $horarioId => $pivot) {
             if (!$pivot['aprovado']) {
-                $h = $atuais->get($hid) ?: Horario::find($hid);
-                if ($h) {
-                    $semVaga[] = $h->dia_semana_label.' '.Carbon::parse($h->hora_inicio)->format('H:i');
+                $horario = $atuais->get($horarioId) ?: Horario::find($horarioId);
+                if ($horario) {
+                    $semVaga[] = $horario->dia_semana_label . ' ' . Carbon::parse($horario->hora_inicio)->format('H:i');
                 }
             }
         }
 
-        $msg = 'Horários do aluno atualizados.';
+        $msg = 'Dados do aluno atualizados.';
         if (!empty($semVaga)) {
-            $msg .= ' Sem vagas em: '.implode(', ', $semVaga).'.';
+            $msg .= ' Sem vagas em: ' . implode(', ', $semVaga) . '.';
         }
 
         return back()->with('success', $msg);

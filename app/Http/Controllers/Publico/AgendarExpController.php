@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AulaExp;
 use App\Models\Configuracao;
 use App\Models\Horario;
+use App\Models\ValorPlano;
 use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -21,18 +22,15 @@ class AgendarExpController extends Controller
     }
 
     /**
-     * Exibe o formulário público de agendamento de aula experimental.
+     * Exibe o formulario publico de agendamento de aula experimental.
      */
     public function index()
     {
         $config = Configuracao::first();
+        $horarios = Horario::orderBy('dia_semana')->orderBy('hora_inicio')->get();
+        $valorExperimental = ValorPlano::experimental()->first();
 
-        // Horários disponíveis agrupados por dia
-        $horarios = Horario::orderBy('dia_semana')
-            ->orderBy('hora_inicio')
-            ->get();
-
-        return view('public.agendar-exp', compact('config', 'horarios'));
+        return view('public.agendar-exp', compact('config', 'horarios', 'valorExperimental'));
     }
 
     /**
@@ -47,14 +45,17 @@ class AgendarExpController extends Controller
             'observacao' => ['nullable', 'string', 'max:500'],
         ], [
             'nome.required' => 'Informe seu nome.',
-            'horario_id.required' => 'Selecione um horário.',
-            'horario_id.exists' => 'Horário inválido.',
+            'horario_id.required' => 'Selecione um horario.',
+            'horario_id.exists' => 'Horario invalido.',
         ]);
 
-        // Busca o horário selecionado para preencher data e dia_semana
         $horario = Horario::findOrFail($dados['horario_id']);
+        if (!$horario->tem_vaga) {
+            return back()
+                ->withErrors(['horario_id' => 'Este horario acabou de ficar lotado. Escolha outro horario disponivel.'])
+                ->withInput();
+        }
 
-        // Calcula a próxima data do dia da semana selecionado
         $proximaData = $this->calcularProximaData($horario->dia_semana);
 
         $aulaExp = AulaExp::create([
@@ -66,16 +67,15 @@ class AgendarExpController extends Controller
             'observacao' => $dados['observacao'],
         ]);
 
-        // Enviar notificação WhatsApp para o professor
         $this->enviarNotificacaoAulaExp($aulaExp, $horario);
 
         return redirect()
             ->route('agendar.exp')
-            ->with('success', 'Aula experimental agendada com sucesso! Aguarde a confirmação.');
+            ->with('success', 'Aula experimental agendada com sucesso! Aguarde a confirmacao.');
     }
 
     /**
-     * Calcula a próxima data a partir do dia da semana (1=Segunda...7=Domingo).
+     * Calcula a proxima data a partir do dia da semana (1=Segunda...7=Domingo).
      */
     private function calcularProximaData(int $diaSemana): Carbon
     {
@@ -93,42 +93,47 @@ class AgendarExpController extends Controller
     }
 
     /**
-     * Envia notificação WhatsApp para o professor sobre nova aula exp agendada.
+     * Envia notificacao WhatsApp para o professor sobre nova aula experimental.
      */
     private function enviarNotificacaoAulaExp(AulaExp $aula, Horario $horario): void
     {
         try {
             $numeroWeslei = '5554991538488';
+            $valorExperimental = ValorPlano::experimental()->first();
 
-            $mensagem = "🥊 *BOXING HOUSE PF* - Nova Aula EXP Agendada\n\n" .
-                       "Olá Weslei! 👋\n\n" .
-                       "📋 *Um aluno agendou uma aula experimental pelo site!*\n\n" .
-                       "👤 *Nome:* {$aula->nome}\n" .
-                       "📞 *Telefone:* " . ($aula->numero ?: 'Não informado') . "\n" .
-                       "📅 *Data:* {$aula->data->format('d/m/Y')} ({$horario->dia_semana_label})\n" .
-                       "⏰ *Horário:* " . Carbon::parse($aula->horario)->format('H:i') . "\n";
+            $mensagem = "🥊 *BOXING HOUSE PF* - Nova Aula Experimental\n\n" .
+                "Olá Weslei! 👋\n\n" .
+                "📋 *Um aluno agendou uma aula experimental pelo site!*\n\n" .
+                "👤 *Nome:* {$aula->nome}\n" .
+                "📞 *Telefone:* " . ($aula->numero ?: 'Não informado') . "\n" .
+                "📅 *Data:* {$aula->data->format('d/m/Y')} ({$horario->dia_semana_label})\n" .
+                "⏰ *Horário:* " . Carbon::parse($aula->horario)->format('H:i') . "\n";
+
+            if ($valorExperimental) {
+                $mensagem .= "💰 *Valor:* R$ " . number_format((float) $valorExperimental->valor_aula, 2, ',', '.') . "\n";
+            }
 
             if ($aula->observacao) {
                 $mensagem .= "📝 *Obs:* {$aula->observacao}\n";
             }
 
             $mensagem .= "\n📈 Acesse o painel para gerenciar as aulas experimentais.\n\n" .
-                         "_Notificação automática do sistema_";
+                "_Notificação automática do sistema_";
 
             $resultado = $this->whatsAppService->enviarMensagem($numeroWeslei, $mensagem);
 
             if ($resultado === true) {
-                Log::info('Notificação de aula EXP agendada enviada', ['nome' => $aula->nome]);
+                Log::info('Notificacao de aula experimental agendada enviada', ['nome' => $aula->nome]);
             } else {
-                Log::error('Falha ao enviar notificação de aula EXP', [
+                Log::error('Falha ao enviar notificacao de aula experimental', [
                     'nome' => $aula->nome,
-                    'erro' => is_array($resultado) ? $resultado['erro'] : 'Erro desconhecido'
+                    'erro' => is_array($resultado) ? $resultado['erro'] : 'Erro desconhecido',
                 ]);
             }
         } catch (\Exception $e) {
-            Log::error('Exceção ao enviar notificação de aula EXP', [
+            Log::error('Excecao ao enviar notificacao de aula experimental', [
                 'nome' => $aula->nome ?? 'Desconhecido',
-                'erro' => $e->getMessage()
+                'erro' => $e->getMessage(),
             ]);
         }
     }

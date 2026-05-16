@@ -1,4 +1,5 @@
 @php
+    // Dias da semana usados pelo select
     $dias = [
         1 => 'Segunda-feira',
         2 => 'Terça-feira',
@@ -10,99 +11,100 @@
     ];
 @endphp
 
-<div class="space-y-6">
+<div class="p-6 space-y-5">
     <div>
-        <label for="nome" class="block text-sm font-medium text-gray-300 mb-2">Nome da Pessoa</label>
-        <input type="text" id="nome" name="nome" value="{{ old('nome', $aula->nome ?? '') }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Nome de quem marcou a aula">
-        @error('nome')
-            <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
-        @enderror
+        <label for="nome" class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Nome da pessoa</label>
+        <input type="text" id="nome" name="nome" value="{{ old('nome', $aula->nome ?? '') }}"
+               placeholder="Nome de quem marcou a aula"
+               class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        @error('nome')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-            <label for="data" class="block text-sm font-medium text-gray-300 mb-2">Data</label>
-            <input type="date" id="data" name="data" value="{{ old('data', isset($aula) ? $aula->data->format('Y-m-d') : '') }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-            @error('data')
-                <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
-            @enderror
+            <label for="data" class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Data</label>
+            <input type="date" id="data" name="data" value="{{ old('data', isset($aula) ? $aula->data->format('Y-m-d') : '') }}"
+                   class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            @error('data')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
         </div>
         <div>
-            <label for="dia_semana" class="block text-sm font-medium text-gray-300 mb-2">Dia da Semana</label>
-            <select id="dia_semana" name="dia_semana" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <label for="dia_semana" class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Dia da semana</label>
+            <select id="dia_semana" name="dia_semana"
+                    class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                 <option value="">Selecione...</option>
                 @foreach($dias as $valor => $label)
                     <option value="{{ $valor }}" {{ (old('dia_semana', $aula->dia_semana ?? '') == $valor) ? 'selected' : '' }}>{{ $label }}</option>
                 @endforeach
             </select>
-            @error('dia_semana')
-                <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
-            @enderror
+            @error('dia_semana')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
         </div>
         <div>
-            <label for="horario" class="block text-sm font-medium text-gray-300 mb-2">Horário</label>
-            <input type="time" id="horario" name="horario" value="{{ old('horario', isset($aula) ? \Illuminate\Support\Str::of($aula->horario)->substr(0,5) : '') }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-            @error('horario')
-                <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
-            @enderror
+            <label for="horario" class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Horário</label>
+            <input type="time" id="horario" name="horario" value="{{ old('horario', isset($aula) ? \Illuminate\Support\Str::of($aula->horario)->substr(0,5) : '') }}"
+                   class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            @error('horario')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
         </div>
     </div>
 
     <div>
-        <label for="numero" class="block text-sm font-medium text-gray-300 mb-2">Número / Telefone (opcional)</label>
-        <input type="text" id="numero" name="numero" value="{{ old('numero', $aula->numero ?? '') }}" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="(54) 9 9999-9999">
-        @error('numero')
-            <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
-        @enderror
+        <label for="numero" class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Telefone <span class="text-gray-500 normal-case font-normal">(opcional)</span></label>
+        <input type="text" id="numero" name="numero" value="{{ old('numero', $aula->numero ?? '') }}" placeholder="(54) 9 9999-9999"
+               class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        @error('numero')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
     </div>
 
     <div>
-        <label for="observacao" class="block text-sm font-medium text-gray-300 mb-2">Observação (opcional)</label>
-        <textarea id="observacao" name="observacao" rows="3" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Alguma observação sobre esta aula...">{{ old('observacao', $aula->observacao ?? '') }}</textarea>
-        @error('observacao')
-            <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
-        @enderror
+        <label for="observacao" class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Observação <span class="text-gray-500 normal-case font-normal">(opcional)</span></label>
+        <textarea id="observacao" name="observacao" rows="3" placeholder="Alguma observação sobre esta aula..."
+                  class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none">{{ old('observacao', $aula->observacao ?? '') }}</textarea>
+        @error('observacao')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
     </div>
+</div>
 
-    <div class="flex items-center justify-end gap-3">
-        <a href="{{ route('professor.aulas-exp.index') }}" class="px-4 py-2 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700">Cancelar</a>
-        <button id="btnSalvarAulaExp" type="submit" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white">
-            <span class="btn-spin inline-block align-middle w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin mr-2" style="display:none"></span>
-            <span class="btn-text">{{ isset($aula) ? 'Atualizar' : 'Salvar' }}</span>
-        </button>
-    </div>
+<div class="flex items-center justify-end gap-2 px-6 py-4 border-t border-gray-800">
+    <a href="{{ route('professor.aulas-exp.index') }}"
+       class="text-sm font-medium px-4 py-2 rounded-md border border-gray-700 text-gray-300 hover:bg-gray-800 transition-colors">
+        Cancelar
+    </a>
+    <button id="btnSalvarAulaExp" type="submit"
+            style="background-color: #2563eb; color: #ffffff;"
+            onmouseover="this.style.backgroundColor='#1d4ed8'"
+            onmouseout="this.style.backgroundColor='#2563eb'"
+            class="inline-flex items-center text-sm font-medium px-4 py-2 rounded-md transition-colors">
+        <span class="btn-spin inline-block align-middle w-3.5 h-3.5 border-2 border-white/60 border-t-transparent rounded-full animate-spin mr-2" style="display:none"></span>
+        <span class="btn-text">{{ isset($aula) ? 'Atualizar' : 'Salvar' }}</span>
+    </button>
+</div>
 
-    <script>
+<script>
     document.addEventListener('DOMContentLoaded', function(){
-        // Auto-preencher dia da semana ao selecionar data
+        // Ao escolher uma data, preenche o dia da semana automaticamente
         const dataInput = document.getElementById('data');
         const diaSelect = document.getElementById('dia_semana');
-        if(dataInput && diaSelect){
+        if (dataInput && diaSelect) {
             dataInput.addEventListener('change', function(){
-                if(this.value){
+                if (this.value) {
                     const d = new Date(this.value + 'T12:00:00');
-                    // getDay: 0=Domingo, 1=Segunda... converter para 1=Segunda, 7=Domingo
-                    let dia = d.getDay();
-                    dia = dia === 0 ? 7 : dia;
+                    let dia = d.getDay();           // 0=Domingo .. 6=Sábado
+                    dia = dia === 0 ? 7 : dia;      // converte para 1=Seg .. 7=Dom
                     diaSelect.value = dia;
                 }
             });
         }
 
-        // Loading no botão
+        // Loading no botão de salvar
         const btn = document.getElementById('btnSalvarAulaExp');
-        let form = btn;
-        while(form && form.tagName !== 'FORM'){ form = form.parentElement; }
-        if(form && btn){
+        let form  = btn;
+        while (form && form.tagName !== 'FORM') { form = form.parentElement; }
+        if (form && btn) {
             form.addEventListener('submit', function(){
                 btn.disabled = true;
                 btn.classList.add('opacity-70','cursor-not-allowed');
                 const txt = btn.querySelector('.btn-text');
                 const spn = btn.querySelector('.btn-spin');
-                if(txt) txt.textContent = '{{ isset($aula) ? 'Atualizando...' : 'Salvando...' }}';
-                if(spn) spn.style.display = 'inline-block';
+                if (txt) txt.textContent = '{{ isset($aula) ? 'Atualizando...' : 'Salvando...' }}';
+                if (spn) spn.style.display = 'inline-block';
             }, { once: true });
         }
     });
-    </script>
-</div>
+</script>

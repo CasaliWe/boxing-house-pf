@@ -3,14 +3,17 @@
 @section('title', 'Novo Valor')
 
 @section('content')
-<div class="space-y-8">
-    <div>
-        <h1 class="text-3xl font-bold text-blue-400">➕ Novo Valor</h1>
-        <p class="text-gray-400">Cadastre o preço conforme a quantidade de treinos semanais.</p>
+<div class="max-w-3xl mx-auto space-y-6">
+    <div class="flex items-end justify-between flex-wrap gap-4 pb-4 border-b border-gray-800">
+        <div>
+            <h1 class="text-2xl font-bold text-white">Novo valor</h1>
+            <p class="text-sm text-gray-400 mt-1">Cadastre o preço por aula conforme a quantidade mensal</p>
+        </div>
+        <a href="{{ route('professor.valores.index') }}" class="text-sm text-gray-400 hover:text-blue-400">← Voltar</a>
     </div>
 
-    <div class="bg-gradient-card border border-gray-600 rounded-xl p-6">
-        <form method="POST" action="{{ route('professor.valores.store') }}" class="space-y-6">
+    <div class="bg-gray-900/60 border border-gray-800 rounded-lg overflow-hidden">
+        <form method="POST" action="{{ route('professor.valores.store') }}">
             @csrf
             @include('professor.valores._form')
         </form>

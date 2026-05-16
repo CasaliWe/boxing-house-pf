@@ -27,12 +27,12 @@ use App\Http\Controllers\Publico\AgendarExpController;
 use App\Http\Controllers\Aluno\AnotacoesController as AlunoAnotacoesController;
 use App\Http\Controllers\Aluno\TreinosController as AlunoTreinosController;
 use App\Http\Controllers\Aluno\AvaliarController;
-use App\Http\Controllers\Professor\VideoController;
-use App\Http\Controllers\Aluno\AprendizadoController;
 use App\Http\Controllers\Aluno\MensalidadeVencidaController;
 use App\Http\Controllers\Professor\MensalidadeController;
 use App\Http\Controllers\Professor\IdeiaExercicioController;
 use App\Http\Controllers\Professor\AulaExpController;
+use App\Http\Controllers\Professor\MovimentacaoController;
+use App\Http\Controllers\Professor\TarefaController;
 use App\Http\Controllers\Publico\AnalyticsController;
 
 /*
@@ -153,15 +153,6 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
     // Mensalidades (gerenciar alunos inativos)
     Route::get('mensalidades', [MensalidadeController::class, 'index'])->name('mensalidades.index');
     Route::post('mensalidades/{user}/reativar', [MensalidadeController::class, 'reativar'])->name('mensalidades.reativar');
-    Route::post('mensalidades/verificar', function() {
-        try {
-            \Artisan::call('mensalidade:verificar');
-            $output = \Artisan::output();
-            return response()->json(['success' => true, 'message' => 'Verificação executada com sucesso!']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
-        }
-    })->name('mensalidades.verificar');
     Route::put('app', [AppController::class, 'update'])->name('app.update');
     Route::post('app/remover-imagem', [AppController::class, 'removerImagem'])->name('app.remover-imagem');
 
@@ -170,14 +161,6 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
     Route::post('avaliacoes/{avaliacao}/aprovar', [AvaliacaoController::class, 'aprovar'])->name('avaliacoes.aprovar');
     Route::post('avaliacoes/{avaliacao}/reprovar', [AvaliacaoController::class, 'reprovar'])->name('avaliacoes.reprovar');
     Route::delete('avaliacoes/{avaliacao}', [AvaliacaoController::class, 'destroy'])->name('avaliacoes.destroy');
-
-    // Vídeos EAD
-    Route::resource('videos', VideoController::class)->parameters(['videos' => 'modulo']);
-    Route::get('videos/{modulo}/add-video', [VideoController::class, 'addVideo'])->name('videos.add-video');
-    Route::post('videos/{modulo}/store-video', [VideoController::class, 'storeVideo'])->name('videos.store-video');
-    Route::get('videos/{modulo}/videos/{video}/edit', [VideoController::class, 'editVideo'])->name('videos.edit-video');
-    Route::put('videos/{modulo}/videos/{video}', [VideoController::class, 'updateVideo'])->name('videos.update-video');
-    Route::delete('videos/{modulo}/videos/{video}', [VideoController::class, 'destroyVideo'])->name('videos.destroy-video');
 
     // Ideias de Exercícios (CRUD)
     Route::resource('ideias-exercicios', IdeiaExercicioController::class)->parameters([
@@ -188,6 +171,19 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
     Route::resource('aulas-exp', AulaExpController::class)->parameters([
         'aulas-exp' => 'aula_exp'
     ]);
+
+    // Movimentações financeiras (entradas e saídas)
+    Route::resource('movimentacoes', MovimentacaoController::class)->except(['show']);
+    Route::post('movimentacoes/{movimentaco}/pago', [MovimentacaoController::class, 'marcarPago'])
+        ->name('movimentacoes.pago');
+
+    // Tarefas (TODO: fazer / fazendo / feito)
+    Route::get('tarefas',  [TarefaController::class, 'index'])->name('tarefas.index');
+    Route::post('tarefas', [TarefaController::class, 'store'])->name('tarefas.store');
+    Route::put('tarefas/{tarefa}', [TarefaController::class, 'update'])->name('tarefas.update');
+    Route::delete('tarefas/{tarefa}', [TarefaController::class, 'destroy'])->name('tarefas.destroy');
+    Route::post('tarefas/{tarefa}/avancar', [TarefaController::class, 'avancar'])->name('tarefas.avancar');
+    Route::post('tarefas/{tarefa}/retroceder', [TarefaController::class, 'retroceder'])->name('tarefas.retroceder');
 });
 
 /*
@@ -229,26 +225,10 @@ Route::middleware(['auth', 'role:aluno', 'aluno.ativo'])->prefix('aluno')->name(
     Route::get('avaliar', [AvaliarController::class, 'index'])->name('avaliar.index');
     Route::post('avaliar', [AvaliarController::class, 'store'])->name('avaliar.store');
     Route::post('avaliar/remover-foto', [AvaliarController::class, 'removerFoto'])->name('avaliar.remover-foto');
-
-    // Aprendizado EAD
-    Route::get('aprendizado', [AprendizadoController::class, 'index'])->name('aprendizado.index');
-    Route::get('aprendizado/{modulo}', [AprendizadoController::class, 'show'])->name('aprendizado.show');
-    Route::get('aprendizado/{modulo}/video/{video}', [AprendizadoController::class, 'video'])->name('aprendizado.video');
 });
 
 // Rota para avisos automáticos de aulas (cron job)
 Route::get('/avisar', [\App\Http\Controllers\Publico\AvisoAulaController::class, 'avisar'])->name('avisar.aulas');
-
-// Rota para verificar mensalidades (cron job)
-Route::get('/mensalidades', function () {
-    try {
-        \Artisan::call('mensalidade:verificar');
-        $output = \Artisan::output();
-        return response("<pre>$output</pre>");
-    } catch (\Exception $e) {
-        return response("Erro: " . $e->getMessage(), 500);
-    }
-});
 
 // Rota para parabéns de aniversário (cron job)
 Route::get('/aniversario', function () {

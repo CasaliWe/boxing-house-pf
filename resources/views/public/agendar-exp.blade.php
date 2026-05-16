@@ -31,6 +31,11 @@
                 <p class="text-lg text-gray-300">
                     Preencha o formulário abaixo e agende sua aula experimental. Venha conhecer a Boxing House PF!
                 </p>
+                @if($valorExperimental)
+                    <div class="mt-4 inline-flex items-center justify-center px-4 py-2 rounded-lg border border-blue-600 bg-blue-950/40 text-blue-100">
+                        Aula experimental: <strong class="ml-2">R$ {{ number_format($valorExperimental->valor_aula, 2, ',', '.') }}</strong>
+                    </div>
+                @endif
             </div>
 
             <!-- Mensagem de sucesso -->
