@@ -91,10 +91,39 @@
             #sidebar {
                 transform: translateX(-100%);
             }
-            
+
             #sidebar:not(.-translate-x-full) {
                 transform: translateX(0);
             }
+        }
+
+        /* Evita overflow horizontal causado pelo min-width intrínseco
+           de inputs type=date/time/file/number em iOS Safari e alguns Androids. */
+        input,
+        textarea,
+        select {
+            min-width: 0;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        /* Inputs de arquivo precisam de tratamento extra para não estourar
+           — o botão nativo "Choose file" tem largura intrínseca. */
+        input[type="file"] {
+            width: 100%;
+        }
+        /* iOS Safari aumenta o min-width interno de date/time. Força a respeitar
+           a largura do container, mesmo dentro de modais e grids. */
+        input[type="date"],
+        input[type="time"],
+        input[type="datetime-local"],
+        input[type="month"],
+        input[type="week"] {
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        /* Previne shrink indesejado em grids/flex com inputs */
+        main {
+            min-width: 0;
         }
     </style>
 </head>
@@ -125,7 +154,7 @@
                 @endif
 
                 @if (session('success'))
-                    <div class="bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-4 rounded-lg mb-6">
+                    <div class="bg-linear-to-r from-green-600 to-green-700 text-white px-6 py-4 rounded-lg mb-6">
                         {{ session('success') }}
                     </div>
                 @endif

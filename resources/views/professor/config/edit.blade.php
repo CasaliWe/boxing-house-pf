@@ -159,20 +159,20 @@
             </div>
         </div>
 
-        <div class="p-6">
+        <div class="p-4 sm:p-6">
             @if($config->video_apresentacao)
-                <div class="flex flex-col sm:flex-row items-start gap-6">
+                <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
                     <div class="w-full sm:w-48 shrink-0">
                         <video controls class="w-full rounded-md border border-gray-700" style="max-height: 340px;">
                             <source src="{{ asset($config->video_apresentacao) }}" type="video/mp4">
                         </video>
                     </div>
-                    <div class="flex-1 space-y-3">
+                    <div class="flex-1 min-w-0 w-full space-y-3">
                         <form method="POST" action="{{ route('professor.config.video.store') }}" enctype="multipart/form-data" class="space-y-3">
                             @csrf
                             <label class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Substituir vídeo</label>
                             <input type="file" name="video_apresentacao" accept="video/*"
-                                   class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white file:mr-3 file:border-0 file:bg-blue-600 file:text-white file:rounded file:px-3 file:py-1 file:text-xs file:font-medium hover:file:bg-blue-700">
+                                   class="block w-full min-w-0 max-w-full box-border bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white file:mr-3 file:border-0 file:bg-blue-600 file:text-white file:rounded file:px-3 file:py-1 file:text-xs file:font-medium hover:file:bg-blue-700">
                             @error('video_apresentacao')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
                             <button type="submit"
                                     style="background-color: #2563eb; color: #ffffff;"
@@ -196,11 +196,11 @@
                     </div>
                 </div>
             @else
-                <form method="POST" action="{{ route('professor.config.video.store') }}" enctype="multipart/form-data" class="text-center py-10 border-2 border-dashed border-gray-700 rounded-lg">
+                <form method="POST" action="{{ route('professor.config.video.store') }}" enctype="multipart/form-data" class="text-center py-8 sm:py-10 px-3 sm:px-6 border-2 border-dashed border-gray-700 rounded-lg">
                     @csrf
                     <p class="text-sm text-gray-400 mb-3">Envie um vídeo vertical (formato reels) apresentando sua academia.</p>
                     <input type="file" name="video_apresentacao" accept="video/*" required
-                           class="mx-auto bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white file:mr-3 file:border-0 file:bg-blue-600 file:text-white file:rounded file:px-3 file:py-1 file:text-xs file:font-medium hover:file:bg-blue-700">
+                           class="block w-full min-w-0 max-w-full box-border bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white file:mr-3 file:border-0 file:bg-blue-600 file:text-white file:rounded file:px-3 file:py-1 file:text-xs file:font-medium hover:file:bg-blue-700">
                     @error('video_apresentacao')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
                     <div class="mt-3">
                         <button type="submit"

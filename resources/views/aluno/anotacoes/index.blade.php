@@ -135,7 +135,7 @@
 <div id="modalAnotacao" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden">
     <div class="absolute inset-0 flex items-center justify-center p-4">
         <div class="bg-gray-900 border border-gray-700 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-auto">
-            <div class="flex justify-between items-center px-6 py-4 border-b border-gray-800">
+            <div class="flex justify-between items-center px-4 sm:px-6 py-4 border-b border-gray-800">
                 <h3 id="tituloModal" class="text-lg font-semibold text-white">Nova Anotação</h3>
                 <button onclick="fecharModal()" class="text-gray-400 hover:text-white text-xl leading-none">✕</button>
             </div>
@@ -144,7 +144,7 @@
                 @csrf
                 <input type="hidden" id="metodoPut" name="_method" value="">
 
-                <div class="px-6 py-5 space-y-4">
+                <div class="px-4 sm:px-6 py-5 space-y-4">
                     <div>
                         <label class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Título</label>
                         <input type="text" id="titulo" name="titulo" required
@@ -164,7 +164,7 @@
                     </div>
                 </div>
 
-                <div class="flex justify-end gap-2 px-6 py-4 border-t border-gray-800">
+                <div class="flex justify-end gap-2 px-4 sm:px-6 py-4 border-t border-gray-800">
                     <button type="button" onclick="fecharModal()"
                             class="text-sm font-medium px-4 py-2 rounded-md border border-gray-700 text-gray-300 hover:bg-gray-800 transition-colors">
                         Cancelar
@@ -187,16 +187,16 @@
 <div id="modalExclusao" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden">
     <div class="absolute inset-0 flex items-center justify-center p-4">
         <div class="bg-gray-900 border border-gray-700 rounded-xl shadow-2xl w-full max-w-md">
-            <div class="px-6 py-4 border-b border-gray-800">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-800">
                 <h3 class="text-lg font-semibold text-white">Confirmar exclusão</h3>
             </div>
-            <div class="px-6 py-5">
+            <div class="px-4 sm:px-6 py-5">
                 <p class="text-sm text-gray-300">
                     Tem certeza que deseja excluir a anotação <span id="nomeExclusao" class="font-semibold text-white"></span>?
                 </p>
                 <p class="text-xs text-red-400 mt-2">Esta ação não pode ser desfeita.</p>
             </div>
-            <div class="flex justify-end gap-2 px-6 py-4 border-t border-gray-800">
+            <div class="flex justify-end gap-2 px-4 sm:px-6 py-4 border-t border-gray-800">
                 <button onclick="fecharModalExclusao()"
                         class="text-sm font-medium px-4 py-2 rounded-md border border-gray-700 text-gray-300 hover:bg-gray-800 transition-colors">
                     Cancelar

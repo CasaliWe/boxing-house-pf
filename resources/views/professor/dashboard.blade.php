@@ -6,14 +6,18 @@
 <div class="max-w-7xl mx-auto space-y-6">
 
     {{-- Cabeçalho da página --}}
-    <div class="flex items-end justify-between flex-wrap gap-4 pb-4 border-b border-gray-800">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-3 pb-4 border-b border-gray-800">
         <div>
-            <h1 class="text-2xl font-bold text-white">Dashboard</h1>
-            <p class="text-sm text-gray-400 mt-1">Visão geral da Boxing House PF</p>
+            <h1 class="text-xl md:text-2xl font-bold text-white">Dashboard</h1>
+            <p class="text-xs md:text-sm text-gray-400 mt-1">Visão geral da Boxing House PF</p>
         </div>
-        <div class="text-right">
-            <div class="text-xs text-gray-500 uppercase tracking-wider">Hoje</div>
-            <div class="text-sm text-gray-300 font-medium">{{ \Carbon\Carbon::now()->translatedFormat('l, d \d\e F') }}</div>
+        <div class="inline-flex items-center gap-2 self-start md:self-auto bg-gray-900/60 border border-gray-800 rounded-md px-3 py-1.5">
+            <svg class="w-4 h-4 text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v11a2 2 0 002 2z"/>
+            </svg>
+            <span class="text-xs md:text-sm text-gray-300 font-medium capitalize">
+                {{ \Carbon\Carbon::now()->locale('pt_BR')->isoFormat('dddd, D [de] MMMM') }}
+            </span>
         </div>
     </div>
 

@@ -11,11 +11,11 @@
     ];
 @endphp
 
-<div class="p-6 space-y-5">
-    <div>
+<div class="p-4 sm:p-6 space-y-5">
+    <div class="min-w-0">
         <label for="dia_semana" class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Dia da semana</label>
         <select id="dia_semana" name="dia_semana"
-                class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                class="w-full min-w-0 box-border bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
             <option value="">Selecione...</option>
             @foreach($dias as $valor => $label)
                 <option value="{{ $valor }}" {{ (old('dia_semana', $horario->dia_semana ?? '') == $valor) ? 'selected' : '' }}>{{ $label }}</option>
@@ -24,25 +24,25 @@
         @error('dia_semana')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="min-w-0">
             <label for="hora_inicio" class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Hora de início</label>
             <input type="time" id="hora_inicio" name="hora_inicio" value="{{ old('hora_inicio', isset($horario) ? \Illuminate\Support\Str::of($horario->hora_inicio)->substr(0,5) : '') }}"
-                   class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                   class="w-full min-w-0 box-border bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
             @error('hora_inicio')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
         </div>
-        <div>
+        <div class="min-w-0">
             <label for="hora_fim" class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Hora de fim</label>
             <input type="time" id="hora_fim" name="hora_fim" value="{{ old('hora_fim', isset($horario) ? \Illuminate\Support\Str::of($horario->hora_fim)->substr(0,5) : '') }}"
-                   class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                   class="w-full min-w-0 box-border bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
             @error('hora_fim')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
         </div>
     </div>
 
-    <div>
+    <div class="min-w-0">
         <label for="vagas" class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Vagas</label>
         <input type="number" id="vagas" name="vagas" min="1" max="10" value="{{ old('vagas', $horario->vagas ?? 3) }}" placeholder="3"
-               class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+               class="w-full min-w-0 box-border bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
         <p class="text-xs text-gray-500 mt-1.5">Quantidade máxima de alunos neste horário (1 a 10).</p>
         @error('vagas')<div class="text-xs text-red-400 mt-1.5">{{ $message }}</div>@enderror
     </div>

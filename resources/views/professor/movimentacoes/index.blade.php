@@ -67,20 +67,20 @@
         </div>
 
         <div class="bg-gray-900/60 border border-gray-800 rounded-lg p-5">
-            <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center justify-between mb-3">
                 <span class="text-xs text-gray-400 uppercase tracking-wider">Pendências</span>
                 <div class="w-8 h-8 rounded-md bg-yellow-500/10 flex items-center justify-center">
                     <svg class="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
             </div>
-            <div class="grid grid-cols-2 gap-3">
-                <div>
-                    <div class="text-xs text-green-300/80">A receber</div>
-                    <div class="text-sm font-semibold text-green-400">R$ {{ number_format($aReceberMes, 2, ',', '.') }}</div>
+            <div class="space-y-2">
+                <div class="flex items-center justify-between gap-2">
+                    <span class="text-xs text-green-300/80">A receber</span>
+                    <span class="text-sm font-semibold text-green-400 whitespace-nowrap">R$ {{ number_format($aReceberMes, 2, ',', '.') }}</span>
                 </div>
-                <div>
-                    <div class="text-xs text-red-300/80">A pagar</div>
-                    <div class="text-sm font-semibold text-red-400">R$ {{ number_format($aPagarMes, 2, ',', '.') }}</div>
+                <div class="flex items-center justify-between gap-2">
+                    <span class="text-xs text-red-300/80">A pagar</span>
+                    <span class="text-sm font-semibold text-red-400 whitespace-nowrap">R$ {{ number_format($aPagarMes, 2, ',', '.') }}</span>
                 </div>
             </div>
         </div>
@@ -88,15 +88,15 @@
 
     {{-- Filtros --}}
     <form method="GET" action="{{ route('professor.movimentacoes.index') }}" class="bg-gray-900/60 border border-gray-800 rounded-lg p-4">
-        <div class="flex flex-wrap items-end gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
                 <label class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Mês</label>
                 <input type="month" name="mes" value="{{ $mesFiltro }}"
-                       class="bg-gray-800 border border-gray-700 rounded-md px-3 py-1.5 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                       class="w-full h-9 bg-gray-800 border border-gray-700 rounded-md px-3 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
             </div>
             <div>
                 <label class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Tipo</label>
-                <select name="tipo" class="bg-gray-800 border border-gray-700 rounded-md px-3 py-1.5 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <select name="tipo" class="w-full h-9 bg-gray-800 border border-gray-700 rounded-md px-3 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     <option value="">Todos</option>
                     <option value="entrada" {{ $tipoFiltro === 'entrada' ? 'selected' : '' }}>Entradas</option>
                     <option value="saida"   {{ $tipoFiltro === 'saida'   ? 'selected' : '' }}>Saídas</option>
@@ -104,28 +104,28 @@
             </div>
             <div>
                 <label class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Status</label>
-                <select name="status" class="bg-gray-800 border border-gray-700 rounded-md px-3 py-1.5 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <select name="status" class="w-full h-9 bg-gray-800 border border-gray-700 rounded-md px-3 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     <option value="">Todos</option>
                     <option value="aberto" {{ $statusFiltro === 'aberto' ? 'selected' : '' }}>Em aberto</option>
                     <option value="atraso" {{ $statusFiltro === 'atraso' ? 'selected' : '' }}>Em atraso</option>
                     <option value="pago"   {{ $statusFiltro === 'pago'   ? 'selected' : '' }}>Pago</option>
                 </select>
             </div>
-            <div class="flex items-center gap-2">
-                <button type="submit"
-                        style="background-color: #2563eb; color: #ffffff;"
-                        onmouseover="this.style.backgroundColor='#1d4ed8'"
-                        onmouseout="this.style.backgroundColor='#2563eb'"
-                        class="text-xs font-medium px-4 py-1.5 rounded-md transition-colors">
-                    Filtrar
-                </button>
-                @if($tipoFiltro || $statusFiltro)
-                    <a href="{{ route('professor.movimentacoes.index', ['mes' => $mesFiltro]) }}"
-                       class="text-xs font-medium px-4 py-1.5 rounded-md border border-gray-700 text-gray-300 hover:bg-gray-800 transition-colors">
-                        Limpar
-                    </a>
-                @endif
-            </div>
+        </div>
+        <div class="flex items-center gap-2 mt-3">
+            <button type="submit"
+                    style="background-color: #2563eb; color: #ffffff;"
+                    onmouseover="this.style.backgroundColor='#1d4ed8'"
+                    onmouseout="this.style.backgroundColor='#2563eb'"
+                    class="flex-1 sm:flex-initial text-xs font-medium h-9 px-4 rounded-md transition-colors">
+                Filtrar
+            </button>
+            @if($tipoFiltro || $statusFiltro)
+                <a href="{{ route('professor.movimentacoes.index', ['mes' => $mesFiltro]) }}"
+                   class="flex-1 sm:flex-initial text-xs font-medium h-9 px-4 rounded-md border border-gray-700 text-gray-300 hover:bg-gray-800 transition-colors inline-flex items-center justify-center">
+                    Limpar
+                </a>
+            @endif
         </div>
     </form>
 

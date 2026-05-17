@@ -59,9 +59,9 @@
             @foreach($abas as $status => $info)
                 @php $ativa = $aba === $status; @endphp
                 <a href="{{ route('professor.tarefas.index', ['aba' => $status]) }}"
-                   class="flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors {{ $ativa ? 'border-blue-500 ' . $info['cor_label'] : 'border-transparent text-gray-400 hover:text-gray-200 hover:bg-gray-800/40' }}">
+                   class="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-2 py-3 text-xs sm:text-sm font-medium border-b-2 transition-colors {{ $ativa ? 'border-blue-500 ' . $info['cor_label'] : 'border-transparent text-gray-400 hover:text-gray-200 hover:bg-gray-800/40' }}">
                     <span>{{ $info['label'] }}</span>
-                    <span class="inline-block whitespace-nowrap text-xs font-semibold px-2 py-0.5 rounded-full {{ $info['cor_chip'] }}">
+                    <span class="inline-block whitespace-nowrap text-[10px] sm:text-xs font-semibold px-1.5 sm:px-2 py-0.5 rounded-full {{ $info['cor_chip'] }}">
                         {{ $totais[$status] }}
                     </span>
                 </a>
@@ -86,72 +86,81 @@
                         @php
                             $podeAvancar    = (bool) $tarefa->proximoStatus();
                             $podeRetroceder = (bool) $tarefa->statusAnterior();
+                            $isFeito        = $tarefa->status === \App\Models\Tarefa::STATUS_FEITO;
                         @endphp
-                        <div class="bg-gray-800/40 border border-gray-700 hover:border-blue-500/40 rounded-lg p-3 transition-all flex items-start gap-2"
+                        <div class="bg-gray-800/40 border border-gray-700 hover:border-blue-500/40 rounded-lg transition-all overflow-hidden"
                              id="tarefa-{{ $tarefa->id }}">
 
-                            {{-- Botão de retroceder --}}
-                            @if($podeRetroceder)
-                                <form method="POST" action="{{ route('professor.tarefas.retroceder', $tarefa) }}" class="shrink-0">
-                                    @csrf
-                                    <button type="submit" title="Voltar para o status anterior"
-                                            class="w-8 h-8 rounded-md border border-gray-700 text-gray-400 hover:text-white hover:bg-gray-700 transition-colors flex items-center justify-center">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                                    </button>
-                                </form>
-                            @else
-                                <div class="w-8 h-8 shrink-0"></div>
-                            @endif
+                            {{-- Linha principal: retroceder + corpo + ações --}}
+                            <div class="flex items-stretch min-w-0">
+                                {{-- Botão de retroceder (full-height na esquerda) --}}
+                                @if($podeRetroceder)
+                                    <form method="POST" action="{{ route('professor.tarefas.retroceder', $tarefa) }}" class="shrink-0 flex">
+                                        @csrf
+                                        <button type="submit" title="Voltar para o status anterior"
+                                                class="px-2.5 sm:px-3 border-r border-gray-700 text-gray-400 hover:text-white hover:bg-gray-700/60 transition-colors flex items-center justify-center">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                                        </button>
+                                    </form>
+                                @endif
 
-                            {{-- Corpo do card (click = avançar) --}}
-                            @if($podeAvancar)
-                                <form method="POST" action="{{ route('professor.tarefas.avancar', $tarefa) }}" class="flex-1">
-                                    @csrf
-                                    <button type="submit" title="Avançar para o próximo status"
-                                            class="text-left w-full block hover:bg-gray-700/30 rounded-md px-2 py-1 transition-colors">
-                                        <div class="text-sm font-medium text-white {{ $tarefa->status === \App\Models\Tarefa::STATUS_FEITO ? 'line-through text-gray-400' : '' }}">
+                                {{-- Corpo (click = avançar) --}}
+                                @if($podeAvancar)
+                                    <form method="POST" action="{{ route('professor.tarefas.avancar', $tarefa) }}" class="flex-1 min-w-0">
+                                        @csrf
+                                        <button type="submit" title="Avançar para o próximo status"
+                                                class="text-left w-full block hover:bg-gray-700/30 transition-colors px-3 py-2.5">
+                                            <div class="text-sm font-medium text-white break-words {{ $isFeito ? 'line-through text-gray-400' : '' }}">
+                                                {{ $tarefa->titulo }}
+                                            </div>
+                                            @if($tarefa->descricao)
+                                                <div class="text-xs text-gray-400 mt-1 whitespace-pre-line break-words">{{ $tarefa->descricao }}</div>
+                                            @endif
+                                            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1.5">
+                                                Atualizada {{ $tarefa->updated_at?->diffForHumans() }}
+                                            </div>
+                                        </button>
+                                    </form>
+                                @else
+                                    <div class="flex-1 min-w-0 px-3 py-2.5">
+                                        <div class="text-sm font-medium text-white break-words {{ $isFeito ? 'line-through text-gray-400' : '' }}">
                                             {{ $tarefa->titulo }}
                                         </div>
                                         @if($tarefa->descricao)
-                                            <div class="text-xs text-gray-400 mt-1 whitespace-pre-line">{{ $tarefa->descricao }}</div>
+                                            <div class="text-xs text-gray-400 mt-1 whitespace-pre-line break-words">{{ $tarefa->descricao }}</div>
                                         @endif
                                         <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1.5">
                                             Atualizada {{ $tarefa->updated_at?->diffForHumans() }}
                                         </div>
-                                    </button>
-                                </form>
-                            @else
-                                <div class="flex-1 px-2 py-1">
-                                    <div class="text-sm font-medium text-white {{ $tarefa->status === \App\Models\Tarefa::STATUS_FEITO ? 'line-through text-gray-400' : '' }}">
-                                        {{ $tarefa->titulo }}
                                     </div>
-                                    @if($tarefa->descricao)
-                                        <div class="text-xs text-gray-400 mt-1 whitespace-pre-line">{{ $tarefa->descricao }}</div>
-                                    @endif
-                                    <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1.5">
-                                        Atualizada {{ $tarefa->updated_at?->diffForHumans() }}
-                                    </div>
-                                </div>
-                            @endif
+                                @endif
+                            </div>
 
-                            {{-- Ações: editar e excluir --}}
-                            <div class="flex items-center gap-1 shrink-0">
-                                <button type="button" title="Editar"
-                                        onclick="abrirModalEditar({{ $tarefa->id }}, '{{ addslashes($tarefa->titulo) }}', `{{ addslashes($tarefa->descricao ?? '') }}`)"
-                                        class="w-8 h-8 rounded-md border border-gray-700 text-gray-400 hover:text-white hover:bg-gray-700 transition-colors flex items-center justify-center">
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                                </button>
-                                <form method="POST" action="{{ route('professor.tarefas.destroy', $tarefa) }}" onsubmit="return confirm('Excluir esta tarefa?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" title="Excluir"
-                                            style="background-color: #dc2626; color: #ffffff;"
-                                            onmouseover="this.style.backgroundColor='#b91c1c'"
-                                            onmouseout="this.style.backgroundColor='#dc2626'"
-                                            class="w-8 h-8 rounded-md transition-colors flex items-center justify-center">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                            {{-- Barra de ações inferior --}}
+                            <div class="flex items-center justify-between gap-2 px-3 py-2 border-t border-gray-700/60 bg-gray-900/40">
+                                <span class="text-[10px] uppercase tracking-wider font-semibold {{ $cfgAba['cor_label'] }}">
+                                    {{ $cfgAba['label'] }}
+                                </span>
+                                <div class="flex items-center gap-1.5">
+                                    <button type="button" title="Editar"
+                                            onclick="abrirModalEditar({{ $tarefa->id }}, '{{ addslashes($tarefa->titulo) }}', `{{ addslashes($tarefa->descricao ?? '') }}`)"
+                                            class="text-xs font-medium px-2.5 py-1 rounded border border-gray-700 text-gray-300 hover:bg-gray-800 transition-colors inline-flex items-center gap-1">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                        Editar
                                     </button>
-                                </form>
+                                    <form method="POST" action="{{ route('professor.tarefas.destroy', $tarefa) }}" onsubmit="return confirm('Excluir esta tarefa?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" title="Excluir"
+                                                style="background-color: #dc2626; color: #ffffff;"
+                                                onmouseover="this.style.backgroundColor='#b91c1c'"
+                                                onmouseout="this.style.backgroundColor='#dc2626'"
+                                                class="text-xs font-medium px-2.5 py-1 rounded transition-colors inline-flex items-center gap-1">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                            Excluir
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     @endforeach
