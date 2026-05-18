@@ -31,6 +31,7 @@ use App\Http\Controllers\Aluno\MensalidadeVencidaController;
 use App\Http\Controllers\Professor\MensalidadeController;
 use App\Http\Controllers\Professor\IdeiaExercicioController;
 use App\Http\Controllers\Professor\AulaExpController;
+use App\Http\Controllers\Professor\AcessoController;
 use App\Http\Controllers\Professor\MovimentacaoController;
 use App\Http\Controllers\Professor\PostController;
 use App\Http\Controllers\Professor\TarefaController;
@@ -188,6 +189,9 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
 
     // Posts planejados para Instagram
     Route::resource('posts', PostController::class)->except(['show']);
+
+    // Senhas e acessos
+    Route::resource('acessos', AcessoController::class)->except(['show']);
 });
 
 /*

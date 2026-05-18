@@ -184,6 +184,13 @@
                     </svg>
                     Configurações
                 </a>
+                <a href="{{ route('professor.acessos.index') }}"
+                   class="nav-item {{ request()->routeIs('professor.acessos.*') ? 'active' : '' }}">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H3v-4.586l5.257-5.257A6 6 0 1121 9z" />
+                    </svg>
+                    Senhas e Acessos
+                </a>
                 <a href="{{ route('professor.professor.edit') }}"
                    class="nav-item {{ request()->routeIs('professor.professor.*') ? 'active' : '' }}">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
