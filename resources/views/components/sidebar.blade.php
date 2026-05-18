@@ -151,6 +151,13 @@
                     </svg>
                     Ideias de Exercícios
                 </a>
+                <a href="{{ route('professor.posts.index') }}"
+                   class="nav-item {{ request()->routeIs('professor.posts.*') ? 'active' : '' }}">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4h10a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2zm3 4h4m-4 4h6m-6 4h3" />
+                    </svg>
+                    Posts
+                </a>
                 <a href="{{ route('professor.avaliacoes.index') }}"
                    class="nav-item {{ request()->routeIs('professor.avaliacoes.*') ? 'active' : '' }}">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">

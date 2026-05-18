@@ -32,6 +32,7 @@ use App\Http\Controllers\Professor\MensalidadeController;
 use App\Http\Controllers\Professor\IdeiaExercicioController;
 use App\Http\Controllers\Professor\AulaExpController;
 use App\Http\Controllers\Professor\MovimentacaoController;
+use App\Http\Controllers\Professor\PostController;
 use App\Http\Controllers\Professor\TarefaController;
 use App\Http\Controllers\Publico\AnalyticsController;
 
@@ -184,6 +185,9 @@ Route::middleware(['auth', 'role:professor'])->prefix('professor')->name('profes
     Route::delete('tarefas/{tarefa}', [TarefaController::class, 'destroy'])->name('tarefas.destroy');
     Route::post('tarefas/{tarefa}/avancar', [TarefaController::class, 'avancar'])->name('tarefas.avancar');
     Route::post('tarefas/{tarefa}/retroceder', [TarefaController::class, 'retroceder'])->name('tarefas.retroceder');
+
+    // Posts planejados para Instagram
+    Route::resource('posts', PostController::class)->except(['show']);
 });
 
 /*
