@@ -18,7 +18,7 @@ class HorarioController extends Controller
                 $q->wherePivot('aprovado', true)->orderBy('name');
             }])
             ->withCount(['alunos as alunos_aprovados_count' => function ($q) {
-                $q->wherePivot('aprovado', true);
+                $q->where('horario_user.aprovado', true);
             }])
             ->orderBy('dia_semana')
             ->orderBy('hora_inicio')

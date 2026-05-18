@@ -5,9 +5,9 @@
 @endphp
 
 <div class="p-6 space-y-5">
-    {{-- Data + checkbox especial --}}
+    {{-- Data e opcoes --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="md:col-span-2">
+        <div>
             <label class="block text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Data do treino</label>
             <input type="date" name="data" value="{{ old('data', isset($treino) ? $treino->data->format('Y-m-d') : '') }}" required
                    class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
@@ -16,6 +16,10 @@
         <label class="flex items-center gap-2.5 bg-gray-800/40 border border-gray-700 rounded-md px-3 py-2 cursor-pointer self-end">
             <input type="checkbox" name="especial" value="1" {{ old('especial', isset($treino) && $treino->especial ? 'checked' : '') }} class="rounded bg-gray-900 border-gray-700 text-blue-600 focus:ring-blue-500">
             <span class="text-sm text-gray-200">Treino especial</span>
+        </label>
+        <label class="flex items-center gap-2.5 bg-gray-800/40 border border-gray-700 rounded-md px-3 py-2 cursor-pointer self-end">
+            <input type="checkbox" name="avisar_whatsapp" value="1" {{ old('avisar_whatsapp') ? 'checked' : '' }} class="rounded bg-gray-900 border-gray-700 text-blue-600 focus:ring-blue-500">
+            <span class="text-sm text-gray-200">Avisar alunos no WhatsApp</span>
         </label>
     </div>
 

@@ -13,20 +13,19 @@
 - /analytics - Joga os dados coletados para o whatsapp;
 
 ### IMPORTANTE:
+- Todos os arquivos ficam em /public/uploads;
 - Usando o email da freeladev no .env para disparar notificações;
-- Usando o sqlite para tudo, então o .env deve ficar padrão;
+- Usando o mysql para tudo, então o .env deve ficar padrão;
 - Usando o Uazapi para notificações no whatsapp;
 - Quando o aluno está em atraso ele consegue logar mas fica mostrando aviso de atraso apenas;
-- Quando colocar 5x na semana o valor é referente ao que aparece no site como aula avulsa;
 - Precisa aprovar as avaliações;
-- Precisa reativar o aluno depois que vence o plano pelo admin;
+- Precisa reativar o aluno depois que vence o plano pelo admin colocando crédito;
 
 ### NOTIFICAÇÕES PELO WHATSAPP:
 - Quando fazer novo cadastro;
 - Quando aprova cadastro vai a senha para o aluno;
 - Dia de treino do aluno;
-- Cron que verifica vencimento, envia também notificação;
-- Mensalidade regularizada, quando aprovo no admin envia a notificação avisando para o aluno;
+- Créditos de aula regularizada, quando aprovo no admin envia a notificação avisando para o aluno;
 - Quando o aluno atualiza o horário dele envia para mim avisando no whatsapp;
 - Quando aluno faz reserva de aula exp;
 

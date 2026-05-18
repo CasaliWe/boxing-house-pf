@@ -43,6 +43,7 @@ class TreinoController extends Controller
             'data' => ['required', 'date'],
             'foto' => ['required', 'image', 'max:4096'],
             'especial' => ['nullable', 'boolean'],
+            'avisar_whatsapp' => ['nullable', 'boolean'],
             'alunos' => ['nullable', 'array'],
             'alunos.*' => ['exists:users,id'],
         ]);
@@ -68,7 +69,7 @@ class TreinoController extends Controller
 
         $alunos = $dados['alunos'] ?? [];
         $treino->alunos()->sync($alunos);
-        $this->descontarAulas($alunos, $treino);
+        $this->descontarAulas($alunos, $treino, (bool) ($dados['avisar_whatsapp'] ?? false));
 
         return redirect()->route('professor.treinos.index')
             ->with('success', 'Treino criado com sucesso.');
@@ -108,6 +109,7 @@ class TreinoController extends Controller
             'data' => ['required', 'date'],
             'foto' => ['nullable', 'image', 'max:4096'],
             'especial' => ['nullable', 'boolean'],
+            'avisar_whatsapp' => ['nullable', 'boolean'],
             'alunos' => ['nullable', 'array'],
             'alunos.*' => ['exists:users,id'],
         ]);
@@ -144,7 +146,7 @@ class TreinoController extends Controller
 
         $alunosDepois = $dados['alunos'] ?? [];
         $treino->alunos()->sync($alunosDepois);
-        $this->sincronizarSaldoAulas($alunosAntes, $alunosDepois, $treino);
+        $this->sincronizarSaldoAulas($alunosAntes, $alunosDepois, $treino, (bool) ($dados['avisar_whatsapp'] ?? false));
 
         return redirect()->route('professor.treinos.index')
             ->with('success', 'Treino atualizado com sucesso.');
@@ -174,21 +176,24 @@ class TreinoController extends Controller
     /**
      * Ajusta saldo conforme inclusao/remocao de presencas.
      */
-    private function sincronizarSaldoAulas(array $alunosAntes, array $alunosDepois, Treino $treino): void
+    private function sincronizarSaldoAulas(array $alunosAntes, array $alunosDepois, Treino $treino, bool $avisarWhatsApp = false): void
     {
         $antes = collect($alunosAntes)->map(fn ($id) => (int) $id)->unique();
         $depois = collect($alunosDepois)->map(fn ($id) => (int) $id)->unique();
 
-        $this->descontarAulas($depois->diff($antes)->all(), $treino);
+        $this->descontarAulas($depois->diff($antes)->all(), $treino, $avisarWhatsApp);
         $this->devolverAulas($antes->diff($depois)->all());
     }
 
-    private function descontarAulas(array $alunosIds, Treino $treino): void
+    private function descontarAulas(array $alunosIds, Treino $treino, bool $avisarWhatsApp = false): void
     {
-        User::whereIn('id', $alunosIds)->where('role', 'aluno')->get()->each(function (User $aluno) use ($treino) {
+        User::whereIn('id', $alunosIds)->where('role', 'aluno')->get()->each(function (User $aluno) use ($treino, $avisarWhatsApp) {
             $aluno->consumirAulas();
             $aluno->refresh();
-            $this->enviarNotificacaoTreinoSalvo($aluno, $treino);
+
+            if ($avisarWhatsApp) {
+                $this->enviarNotificacaoTreinoSalvo($aluno, $treino);
+            }
         });
     }
 
