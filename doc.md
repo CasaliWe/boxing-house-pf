@@ -12,6 +12,7 @@
 - /aulas-exp-dia - Avisa sobre as aulas exp do dia;
 - /analytics - Joga os dados coletados para o whatsapp;
 
+
 ### IMPORTANTE:
 - Todos os arquivos ficam em /public/uploads;
 - Usando o email da freeladev no .env para disparar notificações;

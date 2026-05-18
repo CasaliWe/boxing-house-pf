@@ -1,0 +1,31 @@
+# Dispara automaticamente ao fazer push na main
+on:
+  push:
+    branches: [main]
+
+name: Deploy
+
+jobs:
+  deploy:
+    # Roda em um runner Ubuntu do GitHub
+    runs-on: ubuntu-latest
+
+    steps:
+      # Conecta no servidor via SSH com usuário e senha
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          # IP do servidor
+          host: ${{ secrets.SSH_HOST }}
+          # Usuário (root)
+          username: ${{ secrets.SSH_USER }}
+          # Senha do servidor
+          password: ${{ secrets.SSH_PASSWORD }}
+
+          script: |
+            # Entra na pasta do projeto
+            cd /home/boxinghouse/htdocs/boxinghouse.com.br
+
+            git pull origin main
+            chown -R boxinghouse:boxinghouse /home/boxinghouse/htdocs/boxinghouse.com.br
+            npm run build
