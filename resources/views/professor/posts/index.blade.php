@@ -55,8 +55,8 @@
                                 $ehImagem = in_array($extensao, ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg'], true);
                                 $ehVideo = in_array($extensao, ['mp4', 'mov', 'webm', 'avi', 'mkv'], true);
                             @endphp
-                            <a href="{{ asset($arquivo['caminho']) }}" target="_blank"
-                               class="group block bg-gray-800/60 border border-gray-700 hover:border-blue-500/50 rounded-md overflow-hidden">
+                            <div class="group bg-gray-800/60 border border-gray-700 hover:border-blue-500/50 rounded-md overflow-hidden">
+                                <a href="{{ asset($arquivo['caminho']) }}" target="_blank" class="block">
                                 <div class="aspect-square bg-gray-950 flex items-center justify-center">
                                     @if($ehImagem)
                                         <img src="{{ $urlArquivo }}" alt="{{ $nomeArquivo }}" class="w-full h-full object-cover">
@@ -69,13 +69,33 @@
                                 <div class="text-xs text-blue-300 px-2.5 py-1.5 truncate group-hover:text-blue-200">
                                     {{ $nomeArquivo }}
                                 </div>
-                            </a>
+                                </a>
+                                <div class="border-t border-gray-700/70 px-2 py-1.5 flex justify-end">
+                                    <a href="{{ $urlArquivo }}" download="{{ $nomeArquivo }}" title="Baixar arquivo"
+                                       class="inline-flex items-center justify-center w-8 h-8 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
                         @empty
                             <span class="text-xs text-gray-500">Sem arquivo anexado</span>
                         @endforelse
                     </div>
 
-                    <div class="flex items-center justify-end gap-2 pt-3 border-t border-gray-800">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pt-3 border-t border-gray-800">
+                        <button type="button"
+                                title="Copiar legenda"
+                                onclick="copiarLegendaPost(this, @js($post->legenda ?? ''))"
+                                class="inline-flex items-center justify-center gap-2 text-xs font-medium px-3 py-1.5 rounded border border-gray-700 text-gray-300 hover:bg-gray-800 transition-colors {{ $post->legenda ? '' : 'opacity-50 cursor-not-allowed' }}"
+                                {{ $post->legenda ? '' : 'disabled' }}>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16h8M8 12h8m-7 8h6a2 2 0 002-2V7.5L13.5 4H9a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Copiar legenda</span>
+                        </button>
+                        <div class="flex items-center justify-end gap-2">
                         <a href="{{ route('professor.posts.edit', $post) }}"
                            class="text-xs font-medium px-3 py-1.5 rounded border border-gray-700 text-gray-300 hover:bg-gray-800 transition-colors">
                             Editar
@@ -91,6 +111,7 @@
                                 Excluir
                             </button>
                         </form>
+                        </div>
                     </div>
                 </div>
             @endforeach
@@ -101,4 +122,22 @@
         </div>
     @endif
 </div>
+
+<script>
+    function copiarLegendaPost(botao, legenda) {
+        if (!legenda) return;
+
+        navigator.clipboard.writeText(legenda).then(() => {
+            const texto = botao.querySelector('span');
+            const original = texto.textContent;
+            texto.textContent = 'Copiado';
+            botao.classList.add('border-green-600', 'text-green-300');
+
+            setTimeout(() => {
+                texto.textContent = original;
+                botao.classList.remove('border-green-600', 'text-green-300');
+            }, 1500);
+        });
+    }
+</script>
 @endsection
